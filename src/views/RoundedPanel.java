@@ -1,3 +1,4 @@
+
 package views;
 
 import java.awt.*;
@@ -6,7 +7,7 @@ import javax.swing.*;
 
 public class RoundedPanel extends JPanel {
     private int radius;
-    private Image backgroundImage;
+    Image backgroundImage;
     private boolean hasGradient;
     private int gradientHeight;
     private Color gradientStartColor;
@@ -36,6 +37,7 @@ public class RoundedPanel extends JPanel {
         this.borderThickness = thickness;
         repaint();
     }
+
     public void removeBorder() {
         this.hasBorder = false;
         repaint();
