@@ -4,8 +4,10 @@ import controller.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
-import java.util.Timer;
+import java.util.Date;
 import javax.swing.*;
 import model.*;
 
@@ -37,6 +39,8 @@ public class CinemaApp extends JFrame implements ActionListener {
     public int x2 = -300;
     public int x2Velocity = 30;
     public JScrollPane scrollPane3, scrollPane4;
+    public Boolean isPanelVisible = false;
+    public LocalTime localTime;
 
     // decorative Panels ------------------------------------------------
     public TransparentPanel BlurPanel, BlurPanel2, BlurPanel3;
@@ -2509,9 +2513,460 @@ public class CinemaApp extends JFrame implements ActionListener {
         JPanel theaterDashboard = new JPanel();
         theaterDashboard.setLayout(null);
         theaterDashboard.setBounds(0, 0, 1400, 750);
-        theaterDashboard.setBackground(Color.red);
+        theaterDashboard.setBackground(new Color(30, 30, 30));
         MiddlePanel.add(theaterDashboard);
 
+        JLabel TheaterTitlePanellbl = new JLabel("Theater  Dashboard");
+        TheaterTitlePanellbl.setBounds(35, 26, 300, 30);
+        TheaterTitlePanellbl.setForeground(Color.WHITE);
+        TheaterTitlePanellbl.setFont(new Font("Bebas Neue", Font.BOLD, 23));
+        theaterDashboard.add(TheaterTitlePanellbl);
+
+        RoundedPanel UserPanelTheater = new RoundedPanel(50);
+        UserPanelTheater.setLayout(null);
+        UserPanelTheater.setBounds(650, 20, 90, 46);
+        UserPanelTheater.setBackground(Color.darkGray);
+        theaterDashboard.add(UserPanelTheater);
+
+        JLabel UserLabeltheater = new JLabel("User");
+        UserLabeltheater.setBounds(40, 3, 30, 30);
+        UserLabeltheater.setForeground(Color.WHITE);
+        UserLabeltheater.setFont(new Font("Segoe UI", Font.BOLD, 10));
+        UserPanelTheater.add(UserLabeltheater);
+
+        RoundedPanel UserPHOTOtheater = new RoundedPanel(80);
+        UserPHOTOtheater.setLayout(null);
+        UserPHOTOtheater.setBackgroundImage("Rayan\\bookingTICKET\\img\\UserIcon1.png");
+        UserPHOTOtheater.setBounds(5, 10, 30, 30);
+        UserPHOTOtheater.setBackground(Color.red);
+        UserPanelTheater.add(UserPHOTOtheater);
+
+        RoundedPanel SearchPaneltheater = new RoundedPanel(30);
+        SearchPaneltheater.setLayout(null);
+        SearchPaneltheater.setBounds(280, 100, 460, 35);
+        SearchPaneltheater.setBackground(new Color(30, 30, 30));
+        SearchPaneltheater.setRoundedBorder(Color.WHITE, 1);
+        theaterDashboard.add(SearchPaneltheater);
+
+        JTextField SearchFieldtheater = new JTextField("Search with Theater");
+        SearchFieldtheater.setBounds(10, 5, 400, 25);
+        SearchFieldtheater.setBackground(new Color(30, 30, 30));
+        SearchFieldtheater.setForeground(Color.WHITE);
+        SearchFieldtheater.setFont(new Font("Segoe UI", Font.PLAIN, 13));
+        SearchFieldtheater.setBorder(null);
+        TextfieldBehave(SearchFieldtheater, "Search with Theater");
+        SearchPaneltheater.add(SearchFieldtheater);
+
+        JLabel Selectlbltheater = new JLabel("Select");
+        Selectlbltheater.setBounds(30, 157, 200, 30);
+        Selectlbltheater.setForeground(Color.WHITE);
+        Selectlbltheater.setFont(new Font("Bebas Neue", Font.PLAIN, 13));
+        theaterDashboard.add(Selectlbltheater);
+
+        JLabel namelblTheater = new JLabel("Name");
+        namelblTheater.setBounds(200, 157, 200, 30);
+        namelblTheater.setForeground(Color.WHITE);
+        namelblTheater.setFont(new Font("Bebas Neue", Font.PLAIN, 13));
+        theaterDashboard.add(namelblTheater);
+
+        JLabel NormalSeatslbl = new JLabel("NORMAl Seats");
+        NormalSeatslbl.setBounds(420, 157, 200, 30);
+        NormalSeatslbl.setForeground(Color.WHITE);
+        NormalSeatslbl.setFont(new Font("Bebas Neue", Font.PLAIN, 13));
+        theaterDashboard.add(NormalSeatslbl);
+
+        JLabel Vipseatlbl = new JLabel("VIP Seats");
+        Vipseatlbl.setBounds(640, 157, 200, 30);
+        Vipseatlbl.setForeground(Color.WHITE);
+        Vipseatlbl.setFont(new Font("Bebas Neue", Font.PLAIN, 13));
+        theaterDashboard.add(Vipseatlbl);  
+
+
+        JSeparator separatorhorTheater = new JSeparator();
+        separatorhorTheater.setOrientation(SwingConstants.HORIZONTAL);
+        separatorhorTheater.setBackground(Color.white);
+        separatorhorTheater.setForeground(Color.white); 
+        separatorhorTheater.setBounds(21, 190, 720, 1);
+        theaterDashboard.add(separatorhorTheater);
+
+        JPanel TheaterPanelList = new JPanel();
+        TheaterPanelList.setLayout(null);
+        TheaterPanelList.setBounds(35, 200, 700, 440);
+        TheaterPanelList.setBackground(new Color(30, 30, 30));
+
+        JPanel contentPanelTheaterList = new JPanel();
+        contentPanelTheaterList.setLayout(null);
+        contentPanelTheaterList.setBackground(new Color(30, 30, 30));
+
+        int totalHeightTheaterList = clientManager.clients.size() * 50; 
+        contentPanelTheaterList.setPreferredSize(new Dimension(650, Math.max(500, totalHeightTheaterList)));
+
+        ArrayList<JCheckBox> checkBoxesTheaterList = new ArrayList<JCheckBox>();
+
+        for(int i = 0; i < theaterManager.theaters.size(); i++) {
+            JPanel TheaterListRow = new JPanel();
+            TheaterListRow.setLayout(null);
+            TheaterListRow.setBounds(0, i * 50, 700, 40);
+            TheaterListRow.setBackground(new Color(30, 30, 30));
+
+            
+            JLabel NameTheater = new JLabel(String.valueOf(theaterManager.theaters.get(i).NormalCapacity));
+            NameTheater.setBounds(165, 5, 200, 30);
+            NameTheater.setForeground(Color.white);
+            NameTheater.setFont(new Font("Bebas Neue", Font.PLAIN, 13));
+            TheaterListRow.add(NameTheater);
+
+        
+            JLabel Normalseats = new JLabel(String.valueOf(theaterManager.theaters.get(i).NormalCapacity));
+            Normalseats.setBounds(420, 5, 200, 30);
+            Normalseats.setForeground(Color.white);
+            Normalseats.setFont(new Font("Bebas Neue", Font.PLAIN, 13));
+            TheaterListRow.add(Normalseats);
+            
+            JLabel VIPSeatslbl = new JLabel(String.valueOf(theaterManager.theaters.get(i).VipCapacity));
+            VIPSeatslbl.setBounds(616, 5, 200, 30);
+            VIPSeatslbl.setForeground(Color.white);
+            VIPSeatslbl.setFont(new Font("Bebas Neue", Font.PLAIN, 13));
+            TheaterListRow.add(VIPSeatslbl);
+            
+
+            JCheckBox selectCheckBox = new JCheckBox();
+            selectCheckBox.setBounds(4, 5, 20, 20);
+            selectCheckBox.setBackground(new Color(30, 30, 30));
+            selectCheckBox.setForeground(Color.white);
+            selectCheckBox.setFont(new Font("Bebas Neue", Font.PLAIN, 13));
+            TheaterListRow.add(selectCheckBox);
+            checkBoxesTheaterList.add(selectCheckBox);
+
+            contentPanelTheaterList.add(TheaterListRow);
+        }
+
+        JScrollPane scrollPanelTheaterList = new JScrollPane(contentPanelTheaterList);
+        scrollPanelTheaterList.setBounds(35, 200, 700, 440);
+        scrollPanelTheaterList.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
+        scrollPanelTheaterList.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        scrollPanelTheaterList.setBorder(null);
+        scrollPanelTheaterList.getVerticalScrollBar().setUnitIncrement(16);
+        scrollPanelTheaterList.getViewport().setBackground(new Color(30, 30, 30));
+
+        contentPanelTheaterList.addMouseWheelListener(e -> {
+            JScrollBar verticalScrollBar = scrollPanelTheaterList.getVerticalScrollBar();
+            int notches = e.getWheelRotation();
+            int currentValue = verticalScrollBar.getValue();
+            int scrollAmount = 30; 
+            verticalScrollBar.setValue(currentValue + (notches * scrollAmount));
+        });
+
+        theaterDashboard.add(scrollPanelTheaterList);
+
+        RoundedButton UnSelectAllTheater = new RoundedButton("Unselected All" , 5);
+        UnSelectAllTheater.setBounds(64, 650, 97, 27);
+        UnSelectAllTheater.setForeground(Color.BLACK);
+        UnSelectAllTheater.setBackground(Color.white);
+        UnSelectAllTheater.addActionListener(e->{
+            for(JCheckBox checkBox : checkBoxesTheaterList) {
+                if(checkBox.isSelected()){
+                    checkBox.setSelected(false);
+                }
+                
+            }
+        });
+        theaterDashboard.add(UnSelectAllTheater);
+
+        int buttonwidth1 = 97 ;
+        int gap1 = 20 ;
+        RoundedButton selectAllTheaters = new RoundedButton("Selected All" , 5);
+        selectAllTheaters.setBounds(64 + buttonwidth1 + gap1, 650, 120, 27);
+        selectAllTheaters.setForeground(Color.BLACK);
+        selectAllTheaters.setBackground(Color.white);
+        selectAllTheaters.addActionListener(e->{
+            for(JCheckBox checkBox : checkBoxesTheaterList) {
+                if(!checkBox.isSelected()){
+                    checkBox.setSelected(true);
+                }
+            }
+        });
+        theaterDashboard.add(selectAllTheaters);
+
+        RoundedButton EditTheater = new RoundedButton("Edit" , 5);
+        EditTheater.setBounds(70 + buttonwidth1*2 + gap1*2, 650, 97, 27);
+        EditTheater.setForeground(Color.BLACK);
+        EditTheater.setBackground(Color.white);
+
+        theaterDashboard.add(EditTheater);
+
+        RoundedButton AddTheater = new RoundedButton("Add" , 5);
+        AddTheater.setBounds(64 + buttonwidth1*3 + gap1*3, 650, 97, 27);
+        AddTheater.setForeground(Color.BLACK);
+        AddTheater.setBackground(Color.white);
+        theaterDashboard.add(AddTheater);
+
+        RoundedButton Deletetheater = new RoundedButton("Delete" , 5);
+        Deletetheater.setBounds(64 + buttonwidth1*4 + gap1*4, 650, 97, 27);
+        Deletetheater.setForeground(Color.BLACK);
+        Deletetheater.setBackground(Color.white);
+        theaterDashboard.add(Deletetheater);
+
+        // slide panel 
+        JPanel EditTheaterpanel = new JPanel();
+        EditTheaterpanel.setLayout(null);
+        EditTheaterpanel.setBounds(1200,0, 270, 750);
+        EditTheaterpanel.setBackground(new Color(30,30,30));
+        theaterDashboard.add(EditTheaterpanel);
+
+        JLabel Edittheaterlbl = new JLabel("Edit Theater ");
+        Edittheaterlbl.setBounds(30 ,30 ,191,36);
+        Edittheaterlbl.setFont(new Font("Segoe UI" , Font.BOLD , 24));
+        Edittheaterlbl.setForeground(Color.white);
+        EditTheaterpanel.add(Edittheaterlbl); 
+
+        JLabel editJLabelTheaterName = new JLabel("Edit Theater Title");
+        editJLabelTheaterName.setBounds(20,120,130,24);
+        editJLabelTheaterName.setFont(new Font("Segoe UI" , Font.BOLD ,14));
+        editJLabelTheaterName.setForeground(Color.white);
+        EditTheaterpanel.add(editJLabelTheaterName);
+
+        JCheckBox CheckEditTheatername = new JCheckBox();
+        CheckEditTheatername.setBounds(160,123, 20, 20);
+        CheckEditTheatername.setBackground(new Color(30, 30, 30));
+        CheckEditTheatername.setForeground(Color.white);
+        CheckEditTheatername.setFont(new Font("Bebas Neue", Font.PLAIN, 13));
+        CheckEditTheatername.setSelected(true);
+        EditTheaterpanel.add(CheckEditTheatername);
+
+        JTextField editJTextFieldNameTheater = new JTextField(" Theater Name");
+        editJTextFieldNameTheater.setBounds(20,160,200,38);
+        editJTextFieldNameTheater.setFont(new Font("Segoe UI" , Font.PLAIN , 14));
+        editJTextFieldNameTheater.setForeground(Color.white);
+        editJTextFieldNameTheater.setBackground(new Color(30,30,30));
+        TextfieldBehave(editJTextFieldNameTheater, " Theater Name");
+        CheckEditTheatername.addItemListener(e -> {
+            if (CheckEditTheatername.isSelected()) {
+                editJTextFieldNameTheater.setEnabled(true);
+            } else {
+                editJTextFieldNameTheater.setEnabled(false);
+            }
+        });
+        EditTheaterpanel.add(editJTextFieldNameTheater);
+
+        JLabel editJLabelnbrseatsnrml = new JLabel("Number of Normal Seats ");
+        editJLabelnbrseatsnrml.setBounds(20,230,180,24);
+        editJLabelnbrseatsnrml.setFont(new Font("Segoe UI" , Font.BOLD ,14));
+        editJLabelnbrseatsnrml.setForeground(Color.white);
+        EditTheaterpanel.add(editJLabelnbrseatsnrml);
+
+        JCheckBox CheckEditNrmlseats = new JCheckBox();
+        CheckEditNrmlseats.setBounds(190,233, 20, 20);
+        CheckEditNrmlseats.setBackground(new Color(30, 30, 30));
+        CheckEditNrmlseats.setForeground(Color.white);
+        CheckEditNrmlseats.setFont(new Font("Bebas Neue", Font.PLAIN, 13));
+        CheckEditNrmlseats.setSelected(true);
+        EditTheaterpanel.add(CheckEditNrmlseats);
+
+        JTextField editJTextFieldnbrseatnrml = new JTextField();
+        editJTextFieldnbrseatnrml.setBounds(20,273,200,38);
+        editJTextFieldnbrseatnrml.setFont(new Font("Segoe UI" , Font.PLAIN , 14));
+        editJTextFieldnbrseatnrml.setForeground(Color.white);
+        editJTextFieldnbrseatnrml.setBackground(new Color(30,30,30));
+        //TextfieldBehave(editJTextFieldnbrseatnrml, " ");
+        CheckEditNrmlseats.addItemListener(e -> {
+            if (CheckEditNrmlseats.isSelected()) {
+                editJTextFieldnbrseatnrml.setEnabled(true);
+            } else {
+                editJTextFieldnbrseatnrml.setEnabled(false);
+            }
+        });
+        EditTheaterpanel.add(editJTextFieldnbrseatnrml);
+
+        JLabel editJLabelnbrseatsvip = new JLabel("Number of VIP Seats");
+        editJLabelnbrseatsvip.setBounds(20,343,150,24);
+        editJLabelnbrseatsvip.setFont(new Font("Segoe UI" , Font.BOLD ,14));
+        editJLabelnbrseatsvip.setForeground(Color.white);
+        EditTheaterpanel.add(editJLabelnbrseatsvip);
+
+        JCheckBox CheckEditnbrseatsvip = new JCheckBox();
+        CheckEditnbrseatsvip.setBounds(170,346, 20, 20);
+        CheckEditnbrseatsvip.setBackground(new Color(30, 30, 30));
+        CheckEditnbrseatsvip.setForeground(Color.white);
+        CheckEditnbrseatsvip.setFont(new Font("Bebas Neue", Font.PLAIN, 13));
+        CheckEditnbrseatsvip.setSelected(true);
+        EditTheaterpanel.add(CheckEditnbrseatsvip);
+
+        JTextField editJTextFieldnbrseatsvip = new JTextField();
+        editJTextFieldnbrseatsvip.setBounds(20,386,200,38);
+        editJTextFieldnbrseatsvip.setFont(new Font("Segoe UI" , Font.PLAIN , 14));
+        editJTextFieldnbrseatsvip.setForeground(Color.white);
+        editJTextFieldnbrseatsvip.setBackground(new Color(30,30,30));
+        //TextfieldBehave(editJTextFieldnbrseatsvip, " Title");
+        CheckEditnbrseatsvip.addItemListener(e -> {
+            if (CheckEditnbrseatsvip.isSelected()) {
+                editJTextFieldnbrseatsvip.setEnabled(true);
+            } else {
+                editJTextFieldnbrseatsvip.setEnabled(false);
+            }
+        });
+        EditTheaterpanel.add(editJTextFieldnbrseatsvip);
+
+        RoundedButton EditButtontheaterEdit = new RoundedButton("Edit ", 5);
+        EditButtontheaterEdit.setBounds(35, 550, 170, 36);
+        EditButtontheaterEdit.setBackground(Color.white);
+        EditTheaterpanel.add(EditButtontheaterEdit);
+
+        RoundedButton CancelButtonEdit = new RoundedButton("Cancel" , 5);
+        CancelButtonEdit.setBackground(Color.white);
+        CancelButtonEdit.setBounds(35, 600, 170, 36);
+        CancelButtonEdit.addActionListener(e -> {
+            if (isPanelVisible) {
+                slidePanel(EditTheaterpanel, 782, 1200, 0, 270, 750);
+                isPanelVisible = false;
+            }
+        });
+        EditTheaterpanel.add(CancelButtonEdit);
+
+        EditTheater.addActionListener(e->{
+            if (!isPanelVisible) {
+                slidePanel(EditTheaterpanel, 1200, 782, 0, 270, 750);
+                isPanelVisible = true;
+            }
+        });
+
+        //----------right Things
+
+
+        JSeparator separator1Theater = new JSeparator();
+        separator1Theater.setOrientation(SwingConstants.VERTICAL);
+        separator1Theater.setBackground(Color.white);
+        separator1Theater.setForeground(Color.white);
+        separator1Theater.setBounds(780, 00, 2, 750);
+        theaterDashboard.add(separator1Theater);
+
+
+        JLabel nbrtheater = new JLabel("Total Number of Theater");
+        nbrtheater.setBounds(800, 20, 200, 30);
+        nbrtheater.setForeground(Color.WHITE);
+        nbrtheater.setFont(new Font("Bebas Neue", Font.BOLD, 15));
+        theaterDashboard.add(nbrtheater);
+
+
+        RoundedPanel CircleTheater = new RoundedPanel(100);
+        CircleTheater.setLayout(null);
+        CircleTheater.setBounds(855, 80, 100, 100);
+        CircleTheater.setBackground( new Color(0, 0, 0, 0));
+        CircleTheater.setRoundedBorder(Color.WHITE, 2);
+        theaterDashboard.add(CircleTheater);
+
+        JLabel nbrUserLabelTheater = new JLabel();
+
+        if(theaterManager.theaters.size() < 10){
+            nbrUserLabelTheater.setBounds(40, 32, 100, 30);
+            nbrUserLabelTheater.setText(String.valueOf(theaterManager.theaters.size()));
+        }else{
+            nbrUserLabelTheater.setBounds(33, 32, 100, 30);
+            nbrUserLabelTheater.setText(String.valueOf(theaterManager.theaters.size()));
+        }
+
+        nbrUserLabelTheater.setForeground(Color.WHITE);
+        nbrUserLabelTheater.setFont(new Font("Bebas Neue", Font.BOLD, 30));
+        CircleTheater.add(nbrUserLabelTheater);
+
+        JSeparator separatorRght1Theater = new JSeparator();
+        separatorRght1Theater.setOrientation(SwingConstants.HORIZONTAL);
+        separatorRght1Theater.setBackground(Color.white);
+        separatorRght1Theater.setForeground(Color.white); 
+        separatorRght1Theater.setBounds(790, 240, 220, 1);
+        theaterDashboard.add(separatorRght1Theater);
+
+        JLabel TopWatchedtheater = new JLabel("Most Used Theater");
+        TopWatchedtheater.setBounds(830, 255, 250, 30);
+        TopWatchedtheater.setForeground(Color.WHITE);
+        TopWatchedtheater.setFont(new Font("Bebas Neue", Font.BOLD, 15));
+        theaterDashboard.add(TopWatchedtheater);
+
+        JLabel NameToptheater = new JLabel(); 
+        NameToptheater.setBounds(875, 300, 250, 30);
+        NameToptheater.setForeground(Color.WHITE);
+        NameToptheater.setFont(new Font("Roboto", Font.TYPE1_FONT, 13));
+
+        String mostFrequentusedtheater = null;
+        int maxCounttheater = 0;
+
+
+        for (int i = 0; i < theaterManager.theaters.size(); i++) {
+            String currentTheater = String.valueOf(theaterManager.theaters.get(i).TheaterId);
+            int currentCount = 0;
+
+            
+            for (int j = 0; j <  theaterManager.theaters.size(); j++) {
+                if (String.valueOf(theaterManager.theaters.get(j).TheaterId).equals(currentTheater)) {
+                    currentCount++;
+                }
+            }
+
+            
+            if (currentCount > maxCounttheater) {
+                maxCounttheater = currentCount;
+                mostFrequentusedtheater = currentTheater;
+            }
+        }
+        NameToptheater.setText(mostFrequentusedtheater);
+        theaterDashboard.add(NameToptheater);
+
+        JSeparator separatorRght2Theater = new JSeparator();
+        separatorRght2Theater.setOrientation(SwingConstants.HORIZONTAL);
+        separatorRght2Theater.setBackground(Color.white);
+        separatorRght2Theater.setForeground(Color.white);
+        separatorRght2Theater.setBounds(790, 400, 220, 1);
+        theaterDashboard.add(separatorRght2Theater);
+
+        JLabel totalnbrofseats = new JLabel("Total Seats Across All Theaters");
+        totalnbrofseats.setBounds(810, 415, 250, 30);
+        totalnbrofseats.setForeground(Color.WHITE);
+        totalnbrofseats.setFont(new Font("Bebas Neue", Font.BOLD, 13));
+        theaterDashboard.add(totalnbrofseats);
+
+        RoundedPanel CircleTheater2 = new RoundedPanel(100);
+        CircleTheater2.setLayout(null);
+        CircleTheater2.setBounds(855, 468, 100, 100);
+        CircleTheater2.setBackground( new Color(0, 0, 0, 0));
+        CircleTheater2.setRoundedBorder(Color.WHITE, 2);
+        theaterDashboard.add(CircleTheater2);
+
+        int ttlseats=0;
+        for(int i = 0; i < theaterManager.theaters.size(); i++) {
+            ttlseats += theaterManager.theaters.get(i).NormalCapacity + theaterManager.theaters.get(i).VipCapacity;
+        }
+
+        JLabel ttlnbrofseats = new JLabel();
+        if(theaterManager.theaters.size() < 10){
+            ttlnbrofseats.setBounds(40, 32, 100, 30);
+            ttlnbrofseats.setText(String.valueOf(ttlseats));
+        }else{
+            ttlnbrofseats.setBounds(33, 32, 100, 30);
+            ttlnbrofseats.setText(String.valueOf(ttlseats));
+        }
+
+        ttlnbrofseats.setForeground(Color.WHITE);
+        ttlnbrofseats.setFont(new Font("Bebas Neue", Font.BOLD, 13));
+        CircleTheater2.add(ttlnbrofseats);
+
+        JSeparator separatorRght3Theater = new JSeparator();
+        separatorRght3Theater.setOrientation(SwingConstants.HORIZONTAL);
+        separatorRght3Theater.setBackground(Color.white);
+        separatorRght3Theater.setForeground(Color.white);
+        separatorRght3Theater.setBounds(790, 660, 220, 1);
+        theaterDashboard.add(separatorRght3Theater);
+
+        JLabel Datetodaytheater = new JLabel("Date:");
+        Datetodaytheater.setBounds(840, 675, 200, 30);
+        Datetodaytheater.setForeground(Color.WHITE);
+        Datetodaytheater.setFont(new Font("Bebas Neue", Font.BOLD, 13));
+        theaterDashboard.add(Datetodaytheater);
+
+        JLabel datenowTheater = new JLabel(LocalDate.now().toString());
+        datenowTheater.setBounds(880, 675, 200, 30);
+        datenowTheater.setForeground(Color.WHITE);
+        datenowTheater.setFont(new Font("Bebas Neue", Font.BOLD, 13));
+        theaterDashboard.add(datenowTheater);
 //-------------------------------about Admins--------------------------------
         JPanel adminDashboard = new JPanel();
         adminDashboard.setLayout(null);
@@ -2709,10 +3164,186 @@ public class CinemaApp extends JFrame implements ActionListener {
         });
         BroadcastDashboard.add(selectAllBroad);
 
+        JPanel EditBroadcast = new JPanel();
+        EditBroadcast.setLayout(null);
+        EditBroadcast.setBounds(1200,0, 270, 750);
+        EditBroadcast.setBackground(new Color(30,30,30));
+        BroadcastDashboard.add(EditBroadcast);
+
+        JLabel LabelBroadcast = new JLabel("Edit Broadcast");
+        LabelBroadcast.setBounds(30 ,30 ,191,36);
+        LabelBroadcast.setFont(new Font("Segoe UI" , Font.BOLD , 24));
+        LabelBroadcast.setForeground(Color.white);
+        EditBroadcast.add(LabelBroadcast);  
+
+
+        JLabel editJLabelBroadcast = new JLabel("Edit Theater");
+        editJLabelBroadcast.setBounds(20,120,105,24);
+        editJLabelBroadcast.setFont(new Font("Segoe UI" , Font.BOLD ,14));
+        editJLabelBroadcast.setForeground(Color.white);
+        EditBroadcast.add(editJLabelBroadcast);
+        
+        JCheckBox CheckEditBroadcastHall = new JCheckBox();
+        CheckEditBroadcastHall.setBounds(146,123, 20, 20);
+        CheckEditBroadcastHall.setBackground(new Color(30, 30, 30));
+        CheckEditBroadcastHall.setForeground(Color.white);
+        CheckEditBroadcastHall.setFont(new Font("Bebas Neue", Font.PLAIN, 13));
+        CheckEditBroadcastHall.setSelected(true);
+        EditBroadcast.add(CheckEditBroadcastHall);
+
+
+        JTextField editJTextFieldBroadcastNamehall = new JTextField("Big Hall");
+        editJTextFieldBroadcastNamehall.setBounds(20,160,200,38);
+        editJTextFieldBroadcastNamehall.setFont(new Font("Segoe UI" , Font.PLAIN , 14));
+        editJTextFieldBroadcastNamehall.setForeground(Color.white);
+        editJTextFieldBroadcastNamehall.setBackground(new Color(30,30,30));
+        TextfieldBehave(editJTextFieldBroadcastNamehall, "Big Hall");
+        CheckEditBroadcastHall.addItemListener(e -> {
+            if (CheckEditBroadcastHall.isSelected()) {
+                editJTextFieldBroadcastNamehall.setEnabled(true);
+            } else {
+                editJTextFieldBroadcastNamehall.setEnabled(false);
+            }
+        });
+        EditBroadcast.add(editJTextFieldBroadcastNamehall);
+
+
+        JLabel edittime = new JLabel("Edit Time");
+        edittime.setBounds(20,270,105,24);
+        edittime.setFont(new Font("Segoe UI" , Font.BOLD ,14));
+        edittime.setForeground(Color.white);
+        EditBroadcast.add(edittime);
+
+        JCheckBox CheckEditBroadcastTime = new JCheckBox();
+        CheckEditBroadcastTime.setBounds(146,273, 20, 20);
+        CheckEditBroadcastTime.setBackground(new Color(30, 30, 30));
+        CheckEditBroadcastTime.setForeground(Color.white);
+        CheckEditBroadcastTime.setFont(new Font("Bebas Neue", Font.PLAIN, 13));
+        //inisialise the checkbox like not checked
+        CheckEditBroadcastTime.setSelected(true);
+
+        EditBroadcast.add(CheckEditBroadcastTime);
+
+        JDialog timeDialogBroadcast = new JDialog(this, "Select Time", true);
+        timeDialogBroadcast.setLayout(new BorderLayout());
+        timeDialogBroadcast.setSize(300, 200);
+        timeDialogBroadcast.setLocationRelativeTo(this);
+
+        
+
+
+        RoundedButton showTimeBtn = new RoundedButton(LocalDate.now().toString() , 7);
+        showTimeBtn.setBounds(20, 310, 200, 30);
+        showTimeBtn.setFont(new Font("Arial", Font.PLAIN, 14));
+        showTimeBtn.setForeground(Color.white);
+        showTimeBtn.setBackground(new Color(30,30,30));
+        showTimeBtn.setRoundedBorder(Color.white, 1);
+        CheckEditBroadcastTime.addItemListener(new ItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent e) {
+                if (CheckEditBroadcastTime.isSelected()) {
+                    showTimeBtn.setEnabled(true);
+                } else {
+                    showTimeBtn.setEnabled(false);
+                }
+            }
+        });
+        showTimeBtn.addActionListener(e -> {
+            timeDialogBroadcast.setVisible(true); 
+        });
+        EditBroadcast.add(showTimeBtn);
+
+        JPanel TimePanelBroadcast = new JPanel(new FlowLayout());
+        SpinnerDateModel timeModelbroad = new SpinnerDateModel();
+        JSpinner timeSpinnerbroad = new JSpinner(timeModelbroad);
+        JSpinner.DateEditor timeEditorbroad = new JSpinner.DateEditor(timeSpinnerbroad, "yyyy/MM/dd");//yyyy/MM/dd HH:mm
+        timeSpinnerbroad.setEditor(timeEditorbroad);
+        TimePanelBroadcast.add(new JLabel("Select Time: "));
+        TimePanelBroadcast.add(timeSpinnerbroad);
+
+        
+        JPanel buttonPanelbroad = new JPanel(new FlowLayout());
+        JButton okButtonbroad = new JButton("OK");
+        JButton cancelButtonbroad = new JButton("Cancel");
+        buttonPanelbroad.add(okButtonbroad);
+        buttonPanelbroad.add(cancelButtonbroad);
+
+        timeDialogBroadcast.add(TimePanelBroadcast, BorderLayout.CENTER);
+        timeDialogBroadcast.add(buttonPanelbroad, BorderLayout.SOUTH);
+      
+
+        
+        okButtonbroad.addActionListener(e -> {
+            Date selectedTime = (Date) timeSpinnerbroad.getValue();
+            localTime = selectedTime.toInstant()
+                .atZone(ZoneId.systemDefault())
+                .toLocalTime();
+            String formattedTime = selectedTime.toInstant()
+                .atZone(ZoneId.systemDefault())
+                .toLocalDateTime()
+                .format(java.time.format.DateTimeFormatter.ofPattern("yyyy/MM/dd"));
+           showTimeBtn.setText(formattedTime);
+            timeDialogBroadcast.dispose();
+        });
+
+
+        cancelButtonbroad.addActionListener(e -> {
+            
+            timeDialogBroadcast.dispose();
+        });
+
+        JLabel editmovie = new JLabel("Edit Movie");
+        editmovie.setBounds(20,410,105,24);
+        editmovie.setFont(new Font("Segoe UI" , Font.BOLD ,14));
+        editmovie.setForeground(Color.white);
+        EditBroadcast.add(editmovie);
+
+        JCheckBox CheckEditBroadcastMovie = new JCheckBox();
+        CheckEditBroadcastMovie.setBounds(146,413, 20, 20);
+        CheckEditBroadcastMovie.setBackground(new Color(30, 30, 30));
+        CheckEditBroadcastMovie.setForeground(Color.white);
+        CheckEditBroadcastMovie.setFont(new Font("Bebas Neue", Font.PLAIN, 13));
+        CheckEditBroadcastMovie.setSelected(true);
+        EditBroadcast.add(CheckEditBroadcastMovie);
+
+        JComboBox<String> Moviesbox = new JComboBox<>(movieManager.movies.stream().map(movie -> movie.Title).toArray(String[]::new));
+        Moviesbox.setBounds(20, 450, 200, 30);
+        Moviesbox.setForeground(Color.white);
+        Moviesbox.setFocusable(false);
+        Moviesbox.setBorder(BorderFactory.createEmptyBorder());
+        Moviesbox.setBackground(new Color(30,30,30));
+        Moviesbox.setFont(new Font("Arial", Font.PLAIN, 16));
+        EditBroadcast.add(Moviesbox);
+
+        RoundedButton EditButtonBroadcastEdit = new RoundedButton("Edit" , 5);
+        EditButtonBroadcastEdit.setBackground(Color.white);
+        EditButtonBroadcastEdit.setBounds(35, 520, 170, 36);
+        EditBroadcast.add(EditButtonBroadcastEdit);
+
+        RoundedButton CancelButtonBroadcastedit = new RoundedButton("Cancel" , 5);
+        CancelButtonBroadcastedit.setBackground(Color.white);
+        CancelButtonBroadcastedit.setBounds(35, 580, 170, 36);
+        CancelButtonBroadcastedit.addActionListener(e -> {
+            if (isPanelVisible) {
+                slidePanel(EditBroadcast, 782, 1200, 0, 270, 750);
+                isPanelVisible = false;
+            }
+        });
+        EditBroadcast.add(CancelButtonBroadcastedit);
+
+
+
         RoundedButton EditBroad = new RoundedButton("Edit" , 5);
         EditBroad.setBounds(64 + buttonwidth*2 + gap*2, 650, 97, 27);
         EditBroad.setForeground(Color.BLACK);
         EditBroad.setBackground(Color.white);
+        EditBroad.addActionListener(e->{
+            if (!isPanelVisible) {
+                slidePanel(EditBroadcast, 1200, 782, 0, 270, 750);
+                isPanelVisible = true;
+            }
+            
+        });
         BroadcastDashboard.add(EditBroad);
 
         RoundedButton AddBroad = new RoundedButton("Add" , 5);
@@ -3070,6 +3701,233 @@ public class CinemaApp extends JFrame implements ActionListener {
         DeleteMovie.setForeground(Color.BLACK);
         DeleteMovie.setBackground(Color.white);
         MoviesDashboard.add(DeleteMovie);
+
+        JPanel EditMoviepanel = new JPanel();
+        EditMoviepanel.setLayout(null);
+        EditMoviepanel.setBounds(1200,0, 270, 750);
+        EditMoviepanel.setBackground(new Color(30,30,30));
+        MoviesDashboard.add(EditMoviepanel);
+
+        EditMovie.addActionListener(e->{
+            if (!isPanelVisible) {
+                slidePanel(EditMoviepanel, 1200, 782, 0, 270, 750);
+                isPanelVisible = true;
+            }
+        });
+
+        JLabel EditMovielbl = new JLabel("Edit Movie ");
+        EditMovielbl.setBounds(30 ,30 ,191,36);
+        EditMovielbl.setFont(new Font("Segoe UI" , Font.BOLD , 24));
+        EditMovielbl.setForeground(Color.white);
+        EditMoviepanel.add(EditMovielbl); 
+
+        JLabel editJLabelMovietitle = new JLabel("Edit Movie Title");
+        editJLabelMovietitle.setBounds(20,120,105,24);
+        editJLabelMovietitle.setFont(new Font("Segoe UI" , Font.BOLD ,14));
+        editJLabelMovietitle.setForeground(Color.white);
+        EditMoviepanel.add(editJLabelMovietitle);
+        
+        JCheckBox CheckEditMovie = new JCheckBox();
+        CheckEditMovie.setBounds(146,123, 20, 20);
+        CheckEditMovie.setBackground(new Color(30, 30, 30));
+        CheckEditMovie.setForeground(Color.white);
+        CheckEditMovie.setFont(new Font("Bebas Neue", Font.PLAIN, 13));
+        CheckEditMovie.setSelected(true);
+        EditMoviepanel.add(CheckEditMovie);
+
+        JTextField editJTextFieldNameMovie = new JTextField(" Title");
+        editJTextFieldNameMovie.setBounds(20,160,200,38);
+        editJTextFieldNameMovie.setFont(new Font("Segoe UI" , Font.PLAIN , 14));
+        editJTextFieldNameMovie.setForeground(Color.white);
+        editJTextFieldNameMovie.setBackground(new Color(30,30,30));
+        TextfieldBehave(editJTextFieldNameMovie, " Title");
+        CheckEditMovie.addItemListener(e -> {
+            if (CheckEditMovie.isSelected()) {
+                editJTextFieldNameMovie.setEnabled(true);
+            } else {
+                editJTextFieldNameMovie.setEnabled(false);
+            }
+        });
+        EditMoviepanel.add(editJTextFieldNameMovie);
+
+
+
+        JLabel editJLabelGenreMovie = new JLabel("Edit Genre ");
+        editJLabelGenreMovie.setBounds(20,236,105,24);
+        editJLabelGenreMovie.setFont(new Font("Segoe UI" , Font.BOLD ,14));
+        editJLabelGenreMovie.setForeground(Color.white);
+        EditMoviepanel.add(editJLabelGenreMovie);
+        
+        JCheckBox CheckEditGenreMovie = new JCheckBox();
+        CheckEditGenreMovie.setBounds(146,239, 20, 20);
+        CheckEditGenreMovie.setBackground(new Color(30, 30, 30));
+        CheckEditGenreMovie.setForeground(Color.white);
+        CheckEditGenreMovie.setFont(new Font("Bebas Neue", Font.PLAIN, 13));
+        CheckEditGenreMovie.setSelected(true);
+        EditMoviepanel.add(CheckEditGenreMovie);
+
+        Movie.MovieGenre[] genres = Movie.MovieGenre.values(); 
+        JComboBox<Movie.MovieGenre> genreMovieComboBox = new JComboBox<>(genres);
+        genreMovieComboBox.setBounds(20, 280, 150, 30); 
+        genreMovieComboBox.setForeground(Color.white);
+        genreMovieComboBox.setFocusable(false);
+        genreMovieComboBox.setBackground(new Color(30,30,30));
+        genreMovieComboBox.setFont(new Font("Arial", Font.PLAIN, 16));
+        EditMoviepanel.add(genreMovieComboBox);
+
+        JLabel editJLabeleditrating = new JLabel("Edit Rating");
+        editJLabeleditrating.setBounds(20,330,105,24);
+        editJLabeleditrating.setFont(new Font("Segoe UI" , Font.BOLD ,14));
+        editJLabeleditrating.setForeground(Color.white);
+        EditMoviepanel.add(editJLabeleditrating);
+        
+        JCheckBox CheckEditrating = new JCheckBox();
+        CheckEditrating.setBounds(146,333, 20, 20);
+        CheckEditrating.setBackground(new Color(30, 30, 30));
+        CheckEditrating.setForeground(Color.white);
+        CheckEditrating.setFont(new Font("Bebas Neue", Font.PLAIN, 13));
+        CheckEditrating.setSelected(true);
+        EditMoviepanel.add(CheckEditrating);
+
+        JTextField editJTextFieldnewmovierating = new JTextField();
+        editJTextFieldnewmovierating.setBounds(20,373,200,38);
+        editJTextFieldnewmovierating.setFont(new Font("Segoe UI" , Font.PLAIN , 14));
+        editJTextFieldnewmovierating.setForeground(Color.white);
+        editJTextFieldnewmovierating.setBackground(new Color(30,30,30));
+        //TextfieldBehave(editJTextFieldnewmovierating, "Big Hall");
+        CheckEditrating.addItemListener(e -> {
+            if (CheckEditrating.isSelected()) {
+                editJTextFieldnewmovierating.setEnabled(true);
+            } else {
+                editJTextFieldnewmovierating.setEnabled(false);
+            }
+        });
+        EditMoviepanel.add(editJTextFieldnewmovierating);
+
+
+        JLabel editJLabelAgeRating = new JLabel("Edit Age Rating");
+        editJLabelAgeRating.setBounds(20,450,105,24);
+        editJLabelAgeRating.setFont(new Font("Segoe UI" , Font.BOLD ,14));
+        editJLabelAgeRating.setForeground(Color.white);
+        EditMoviepanel.add(editJLabelAgeRating);
+        
+        JCheckBox CheckEditAgeRating = new JCheckBox();
+        CheckEditAgeRating.setBounds(146,453, 20, 20);
+        CheckEditAgeRating.setBackground(new Color(30, 30, 30));
+        CheckEditAgeRating.setForeground(Color.white);
+        CheckEditAgeRating.setFont(new Font("Bebas Neue", Font.PLAIN, 13));
+        CheckEditAgeRating.setSelected(true);
+        EditMoviepanel.add(CheckEditAgeRating);
+
+        Movie.MovieAgeRating[] AgeRatingMovie = Movie.MovieAgeRating.values(); 
+        JComboBox<Movie.MovieAgeRating> AgeRatingMovieComboBox = new JComboBox<>(AgeRatingMovie);
+        AgeRatingMovieComboBox.setBounds(20, 490, 150, 30); 
+        AgeRatingMovieComboBox.setForeground(Color.white);
+        AgeRatingMovieComboBox.setFocusable(false);
+        AgeRatingMovieComboBox.setBackground(new Color(30,30,30));
+        AgeRatingMovieComboBox.setFont(new Font("Arial", Font.PLAIN, 16));
+        EditMoviepanel.add(AgeRatingMovieComboBox);
+
+
+        JLabel editJLabelreleasedate = new JLabel("Edit Date Release");
+        editJLabelreleasedate.setBounds(20,550,105,24);
+        editJLabelreleasedate.setFont(new Font("Segoe UI" , Font.BOLD ,14));
+        editJLabelreleasedate.setForeground(Color.white);
+        EditMoviepanel.add(editJLabelreleasedate);
+        
+        JCheckBox CheckEditreleasedate = new JCheckBox();
+        CheckEditreleasedate.setBounds(146,553, 20, 20);
+        CheckEditreleasedate.setBackground(new Color(30, 30, 30));
+        CheckEditreleasedate.setForeground(Color.white);
+        CheckEditreleasedate.setFont(new Font("Bebas Neue", Font.PLAIN, 13));
+        CheckEditreleasedate.setSelected(true);
+        EditMoviepanel.add(CheckEditreleasedate);
+
+        
+
+        JDialog timeDialogeditmovie = new JDialog(this, "Select Time", true);
+        timeDialogeditmovie.setLayout(new BorderLayout());
+        timeDialogeditmovie.setSize(300, 200);
+        timeDialogeditmovie.setLocationRelativeTo(this);
+
+        
+
+
+        RoundedButton showTimeBtnEditmovie = new RoundedButton(LocalDate.now().toString() , 7);
+        showTimeBtnEditmovie.setBounds(20, 580, 200, 30);
+        showTimeBtnEditmovie.setFont(new Font("Arial", Font.PLAIN, 14));
+        showTimeBtnEditmovie.setForeground(Color.white);
+        showTimeBtnEditmovie.setBackground(new Color(30,30,30));
+        showTimeBtnEditmovie.setRoundedBorder(Color.white, 1);
+        CheckEditBroadcastTime.addItemListener(new ItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent e) {
+                if (CheckEditBroadcastTime.isSelected()) {
+                    showTimeBtnEditmovie.setEnabled(true);
+                } else {
+                    showTimeBtnEditmovie.setEnabled(false);
+                }
+            }
+        });
+        showTimeBtnEditmovie.addActionListener(e -> {
+            timeDialogeditmovie.setVisible(true); 
+        });
+        EditMoviepanel.add(showTimeBtnEditmovie);
+
+        JPanel TimePanelMovieedit = new JPanel(new FlowLayout());
+        SpinnerDateModel timeModelMovie = new SpinnerDateModel();
+        JSpinner timeSpinnerMovie = new JSpinner(timeModelMovie);
+        JSpinner.DateEditor timeEditorMovie = new JSpinner.DateEditor(timeSpinnerMovie, "yyyy/MM/dd");//yyyy/MM/dd HH:mm
+        timeSpinnerMovie.setEditor(timeEditorMovie);
+        TimePanelMovieedit.add(new JLabel("Select Time: "));
+        TimePanelMovieedit.add(timeSpinnerMovie);
+
+        
+        JPanel buttonPanelMovie = new JPanel(new FlowLayout());
+        JButton okButtonMovie = new JButton("OK");
+        JButton cancelButtonMovie = new JButton("Cancel");
+        buttonPanelMovie.add(okButtonMovie);
+        buttonPanelMovie.add(cancelButtonMovie);
+
+        timeDialogeditmovie.add(TimePanelMovieedit, BorderLayout.CENTER);
+        timeDialogeditmovie.add(buttonPanelMovie, BorderLayout.SOUTH);
+      
+
+        
+        okButtonMovie.addActionListener(e -> {
+            Date selectedTime = (Date) timeSpinnerMovie.getValue();
+            localTime = selectedTime.toInstant()
+                .atZone(ZoneId.systemDefault())
+                .toLocalTime();
+            String formattedTime = selectedTime.toInstant()
+                .atZone(ZoneId.systemDefault())
+                .toLocalDateTime()
+                .format(java.time.format.DateTimeFormatter.ofPattern("yyyy/MM/dd"));
+           showTimeBtn.setText(formattedTime);
+            timeDialogeditmovie.dispose();
+        });
+
+
+        cancelButtonMovie.addActionListener(e -> {
+            
+            timeDialogeditmovie.dispose();
+        });
+
+        RoundedButton EditButtonmovieEdit = new RoundedButton("Edit ", 5);
+        EditButtonmovieEdit.setBounds(35, 620, 170, 36);
+        EditButtonmovieEdit.setBackground(Color.white);
+        EditMoviepanel.add(EditButtonmovieEdit);
+
+        RoundedButton CancelButtonMovieEdit = new RoundedButton("Cancel" , 5);
+        CancelButtonMovieEdit.setBackground(Color.white);
+        CancelButtonMovieEdit.setBounds(35, 670, 170, 36);
+        CancelButtonMovieEdit.addActionListener(e -> {
+            if (isPanelVisible) {
+                slidePanel(EditMoviepanel, 782, 1200, 0, 270, 750);
+                isPanelVisible = false;
+            }
+        });
+        EditMoviepanel.add(CancelButtonMovieEdit);
 
 
     //------------------------Right Things Movie------------
@@ -3800,7 +4658,10 @@ public class CinemaApp extends JFrame implements ActionListener {
         moviesButton.setBackground(new Color(0, 0, 0, 0));
         moviesButton.setContentAreaFilled(false);
         moviesButton.setFont(new Font("Segoe UI", Font.BOLD, 14));
-        moviesButton.addActionListener(e -> ((CardLayout) cardContainer.getLayout()).show(cardContainer, "movies"));
+        moviesButton.addActionListener(e -> {
+        isPanelVisible = false;
+        ((CardLayout) cardContainer.getLayout()).show(cardContainer, "movies");
+        });
         moviesButton.setHoverEffect(new Color(0, 0, 0 , 0), new Color(40, 40, 40));
         LeftPanel.add(moviesButton);
 
@@ -3817,7 +4678,10 @@ public class CinemaApp extends JFrame implements ActionListener {
         usersButton.setBackground(new Color(0, 0, 0, 0));
         usersButton.setContentAreaFilled(false);
         usersButton.setFont(new Font("Segoe UI", Font.BOLD, 14));
-        usersButton.addActionListener(e -> ((CardLayout) cardContainer.getLayout()).show(cardContainer, "users"));
+        usersButton.addActionListener(e -> {
+            isPanelVisible = false;
+            ((CardLayout) cardContainer.getLayout()).show(cardContainer, "users");
+        });
         usersButton.setHoverEffect(new Color(0, 0, 0 , 0), new Color(40, 40, 40));
         LeftPanel.add(usersButton);
 
@@ -3832,7 +4696,11 @@ public class CinemaApp extends JFrame implements ActionListener {
         Theaterbutton.setContentAreaFilled(false);
         Theaterbutton.setFont(new Font("Segoe UI", Font.BOLD, 14));
         Theaterbutton.setHoverEffect(new Color(0, 0, 0 , 0), new Color(40, 40, 40));
-        Theaterbutton.addActionListener(e -> ((CardLayout) cardContainer.getLayout()).show(cardContainer, "theater"));
+        Theaterbutton.addActionListener(e->{
+            isPanelVisible = false;
+            ((CardLayout) cardContainer.getLayout()).show(cardContainer, "theater");
+
+        });
         LeftPanel.add(Theaterbutton);
 
         JLabel TheaterButtonicon = new JLabel(resizedIcon("CINEMA\\img\\icon\\Theatericon.png", 20, 20));
@@ -3848,7 +4716,10 @@ public class CinemaApp extends JFrame implements ActionListener {
         broadcastButton.setContentAreaFilled(false);
         broadcastButton.setLayout(null);
         broadcastButton.setFont(new Font("Segoe UI", Font.BOLD, 14));
-        broadcastButton.addActionListener(e -> ((CardLayout) cardContainer.getLayout()).show(cardContainer, "broadcast"));
+        broadcastButton.addActionListener(e ->{
+            isPanelVisible = false;
+            ((CardLayout) cardContainer.getLayout()).show(cardContainer, "broadcast");
+        });
         broadcastButton.setHoverEffect(new Color(0, 0, 0 , 0), new Color(40, 40, 40));
         LeftPanel.add(broadcastButton);
 
@@ -3865,7 +4736,10 @@ public class CinemaApp extends JFrame implements ActionListener {
         Adminbutton.setContentAreaFilled(false);
         Adminbutton.setFont(new Font("Segoe UI", Font.BOLD, 14));
         Adminbutton.setHoverEffect(new Color(0, 0, 0 , 0), new Color(40, 40, 40));
-        Adminbutton.addActionListener(e -> ((CardLayout) cardContainer.getLayout()).show(cardContainer, "admin"));
+        Adminbutton.addActionListener(e -> {
+            isPanelVisible = false;
+            ((CardLayout) cardContainer.getLayout()).show(cardContainer, "admin");
+        });
         LeftPanel.add(Adminbutton);
 
         JLabel AdminButtonicon = new JLabel(resizedIcon("CINEMA\\img\\icon\\administrator 1.png", 20, 20));
@@ -4015,6 +4889,35 @@ public class CinemaApp extends JFrame implements ActionListener {
                 }
             }
         });
+    }
+
+    public void slidePanel(JPanel panel, int startX, int endX, int y, int width, int height) {
+        Timer timer = new Timer(10, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int currentX = panel.getX();
+                int step = 10; // Adjust the step size for smoother/faster animation
+    
+                if (startX < endX) {
+                    // Sliding to the right
+                    if (currentX + step >= endX) {
+                        panel.setBounds(endX, y, width, height);
+                        ((Timer) e.getSource()).stop();
+                    } else {
+                        panel.setBounds(currentX + step, y, width, height);
+                    }
+                } else {
+                    // Sliding to the left
+                    if (currentX - step <= endX) {
+                        panel.setBounds(endX, y, width, height);
+                        ((Timer) e.getSource()).stop();
+                    } else {
+                        panel.setBounds(currentX - step, y, width, height);
+                    }
+                }
+            }
+        });
+        timer.start();
     }
 
     public static void main(String[] args) {
