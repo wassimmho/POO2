@@ -9,6 +9,7 @@ import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
 import javax.swing.*;
+import javax.swing.Timer;
 import model.*;
 
 public class CinemaApp extends JFrame implements ActionListener {
