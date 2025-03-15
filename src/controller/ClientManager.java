@@ -108,7 +108,7 @@ public class ClientManager {
         }
     }
 
-    private static boolean isDuplicate(String username, String email, String password) {
+    public static boolean isDuplicate(String username, String email, String password) {
         String sql = "SELECT COUNT(*) FROM users WHERE username = ? OR Email = ? OR Password = ?";
 
         try (Connection conn = DatabaseConnection.connect();
@@ -120,7 +120,9 @@ public class ClientManager {
 
             ResultSet rs = pstmt.executeQuery();
             if (rs.next()) {
-                return rs.getInt(1) > 0;
+                if( rs.getInt(1) > 0){
+                    return true;
+                }
             }
 
         } catch (SQLException e) {
@@ -299,8 +301,6 @@ public class ClientManager {
             return null;
         }
 
-
-
         public static int numberofusers() {
             String sql = "SELECT COUNT(*) FROM users";
     
@@ -336,4 +336,119 @@ public class ClientManager {
     
             return 0;
         }
+
+
+        
+        public static int getuserid(String username){
+            String sql = "SELECT UserID FROM users WHERE username = ?";
+    
+            try (Connection conn = DatabaseConnection.connect();
+                 PreparedStatement pstmt = conn.prepareStatement(sql)) {
+    
+                pstmt.setString(1, username);
+    
+                ResultSet rs = pstmt.executeQuery();
+                if (rs.next()) {
+                    return rs.getInt(1);
+                }
+    
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+    
+            return 0;
+
+        }
+        
+        public static String getusersname(int userid) throws SQLException {
+            String sql = "SELECT Name FROM users WHERE UserID = ?";
+            try(Connection conn = DatabaseConnection.connect();
+                PreparedStatement pstm = conn.prepareStatement(sql)){
+                pstm.setInt(1, userid);
+                ResultSet rs = pstm.executeQuery();
+                if(rs.next()){
+                    return rs.getString(1);
+                }
+            }
+            return null;
+        }
+
+        public static String getuseremail(int userid) throws SQLException {
+            String sql = "SELECT Email FROM users WHERE UserID = ?";
+            try(Connection conn = DatabaseConnection.connect();
+                PreparedStatement pstm = conn.prepareStatement(sql)){
+                pstm.setInt(1, userid);
+                ResultSet rs = pstm.executeQuery();
+                if(rs.next()){
+                    return rs.getString(1);
+                }
+            }
+            return null;
+        }
+
+        public static int getuserage(int userid) throws SQLException {
+            String sql = "SELECT Age FROM users WHERE UserID = ?";
+            try(Connection conn = DatabaseConnection.connect();
+                PreparedStatement pstm = conn.prepareStatement(sql)){
+                pstm.setInt(1, userid);
+                ResultSet rs = pstm.executeQuery();
+                if(rs.next()){
+                    return rs.getInt(1);
+                }
+            }
+            return 0;
+        }
+
+        public static int getuserbalance(int userid) throws SQLException {
+            String sql = "SELECT Balance FROM users WHERE UserID = ?";
+            try(Connection conn = DatabaseConnection.connect();
+                PreparedStatement pstm = conn.prepareStatement(sql)){
+                pstm.setInt(1, userid);
+                ResultSet rs = pstm.executeQuery();
+                if(rs.next()){
+                    return rs.getInt(1);
+                }
+            }
+            return 0;
+        }
+
+        public static String getuserphone(int userid) throws SQLException {
+            String sql = "SELECT PhoneNumber FROM users WHERE UserID = ?";
+            try(Connection conn = DatabaseConnection.connect();
+                PreparedStatement pstm = conn.prepareStatement(sql)){
+                pstm.setInt(1, userid);
+                ResultSet rs = pstm.executeQuery();
+                if(rs.next()){
+                    return rs.getString(1);
+                }
+            }
+            return null;
+        }
+
+        public static String getuserfirstname(int userid) throws SQLException {
+            String sql = "SELECT Name FROM users WHERE UserID = ?";
+            try(Connection conn = DatabaseConnection.connect();
+                PreparedStatement pstm = conn.prepareStatement(sql)){
+                pstm.setInt(1, userid);
+                ResultSet rs = pstm.executeQuery();
+                if(rs.next()){
+                    return rs.getString(1);
+                }
+            }
+            return null;
+        }
+
+        public static String getuserlastname(int userid) throws SQLException {
+            String sql = "SELECT LastName FROM users WHERE UserID = ?";
+            try(Connection conn = DatabaseConnection.connect();
+                PreparedStatement pstm = conn.prepareStatement(sql)){
+                pstm.setInt(1, userid);
+                ResultSet rs = pstm.executeQuery();
+                if(rs.next()){
+                    return rs.getString(1);
+                }
+            }
+            return null;
+        }
+        
 }

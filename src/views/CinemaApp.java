@@ -3,6 +3,8 @@ package views;
 import controller.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.File;
+import java.sql.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.ZoneId;
@@ -50,6 +52,9 @@ public class CinemaApp extends JFrame implements ActionListener {
 
     // layout manager -----------------------------------------------------
     public CardLayout MainCardLayout;
+
+    // User ID ------------------------------------------------------------
+    public int USERID ;
 
     public CinemaApp() {
         // Initialize managers
@@ -135,7 +140,8 @@ public class CinemaApp extends JFrame implements ActionListener {
         JPanel BuyPanel = CreateBuyPanel(CurrentMovie);
 
         //profile panel 
-        JPanel ProfilePanel = createprofile();
+        
+        
 
         // add panels to the main panel ----------------------------------------
         MainPanel.add(WelcomePanel, "Welcome");
@@ -147,11 +153,11 @@ public class CinemaApp extends JFrame implements ActionListener {
         MainPanel.add(AccountPanel, "Account");
         MainPanel.add(AccountAdminPanel, "Account Admin");
         MainPanel.add(BuyPanel, "Buy");
-        MainPanel.add(ProfilePanel, "Profile");
+        
 
         // add the main panel to the JFrame ----------------------------------
         setContentPane(MainPanel);
-        MainCardLayout.show(MainPanel, "Client");
+        MainCardLayout.show(MainPanel, "SignIn");
 
         // Revalidate and repaint to ensure the SettingsPanel is displayed
         this.revalidate();
@@ -365,7 +371,12 @@ public class CinemaApp extends JFrame implements ActionListener {
                 }
     
                 if(ClientManager.userExists(username, email, password)){
+                    
                     JOptionPane.showMessageDialog(null, "User logged in successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
+                    USERID = ClientManager.getuserid(username);
+                    JPanel ProfilePanel = createprofile(USERID);
+                    MainPanel.add(ProfilePanel, "Profile");
+                    MainCardLayout.show(this.MainPanel, "Profile");
                     emailField.setText("");
                     passwordField.setText("");
                     UserField.setText("");
@@ -705,16 +716,21 @@ public class CinemaApp extends JFrame implements ActionListener {
                 String age = AgeField.getText();
                 String email = emailField.getText();
                 String password = new String(passwordField.getPassword());
-                ClientManager.addClient(user_name,lname,name, email, password, Integer.parseInt(age), 0);
-                if(ClientManager.addClient(user_name,lname,name, email, password, Integer.parseInt(age), 0)){
-                    JOptionPane.showMessageDialog(null, "User added successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
-                    emailField.setText("");
-                    passwordField.setText("");
-                    UserField.setText("");
-                    username.setText("");
-                    LastNameField.setText("");
-                    AgeField.setText("");
-                    MainCardLayout.show(this.MainPanel, "login");
+                if (ClientManager.isDuplicate(user_name, email, password)) {
+                    JOptionPane.showMessageDialog(null, "Account already exists!", "Error", JOptionPane.ERROR_MESSAGE);
+                } else {
+                    if (ClientManager.addClient(user_name, lname, name, email, password, Integer.parseInt(age), 0)) {
+                        JOptionPane.showMessageDialog(null, "User added successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
+                        emailField.setText("");
+                        passwordField.setText("");
+                        UserField.setText("");
+                        username.setText("");
+                        LastNameField.setText("");
+                        AgeField.setText("");
+                        MainCardLayout.show(this.MainPanel, "login");
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Failed to add user!", "Error", JOptionPane.ERROR_MESSAGE);
+                    }
                 }
                 
             });
@@ -738,8 +754,9 @@ public class CinemaApp extends JFrame implements ActionListener {
             return signUpPanel;
     }
 
-    public JPanel createprofile() {
+        public JPanel createprofile(int userid) {
 
+        System.out.println("Creating profile for USERID: " + userid); 
         Color bgcolor = new Color(0x121213);
         Color secondarycolor = new Color(0x151517);
 
@@ -775,7 +792,7 @@ public class CinemaApp extends JFrame implements ActionListener {
 
         RoundedPanel imageframe = new RoundedPanel(8);
         imageframe.setBounds(45, 110, 270, 260);
-        imageframe.setBackground(secondarycolor);
+        imageframe.setBackgroundImage("POO2\\Cinema\\img\\default.png");
         imageframe.setRoundedBorder(new Color(0x363030), 1);
         rightpanel.add(imageframe);
 
@@ -787,32 +804,68 @@ public class CinemaApp extends JFrame implements ActionListener {
         rightpanel.add(infoframe);
 
         JLabel name = new JLabel("");
+        try {
+            name.setText(ClientManager.getuserfirstname(userid) + " " + ClientManager.getuserlastname(userid));
+        } catch (SQLException e) {
+            e.printStackTrace();
+            name.setText("Error retrieving name");
+        }
         name.setFont(new Font("Poppins", Font.BOLD, 20));
         name.setBounds(33, 12, 200, 50);
         name.setForeground(Color.white);
         infoframe.add(name);
 
         JLabel username = new JLabel("Username :");
+        try {
+            username.setText(ClientManager.getusersname(userid) + " ");
+        } catch (SQLException e) {
+            e.printStackTrace();
+            username.setText("Error retrieving user's name");
+        }
         username.setBounds(33, 59, 100, 50);
         username.setForeground(Color.white);
         infoframe.add(username);
 
         JLabel email = new JLabel("Email :");
+        try {
+            email.setText(ClientManager.getuseremail(userid) + " ");
+        } catch (SQLException e) {
+            e.printStackTrace();
+            email.setText("Error retrieving email");
+        }
         email.setBounds(33, 97, 100, 50);
         email.setForeground(Color.white);
         infoframe.add(email);
 
         JLabel age = new JLabel("Age :");
+        try {
+            age.setText(ClientManager.getuserage(userid) + " ");
+        } catch (SQLException e) {
+            e.printStackTrace();
+            age.setText("Error retrieving age");
+        }
         age.setBounds(33, 135, 100, 50);
         age.setForeground(Color.white);
         infoframe.add(age);
 
         JLabel phonenum = new JLabel("Phone Number :");
-        phonenum.setBounds(33, 173, 100, 50);
+        try {
+            phonenum.setText(ClientManager.getuserphone(userid) + " ");
+        } catch (SQLException e) {
+            e.printStackTrace();
+            phonenum.setText("Error retrieving phone number");
+        }
+        phonenum.setBounds(33, 173, 300, 50);
         phonenum.setForeground(Color.white);
         infoframe.add(phonenum);
 
         JLabel curbalance = new JLabel("Current Balance :");
+        try {
+            curbalance.setText(ClientManager.getuserbalance(userid) + " ");
+        } catch (SQLException e) {
+            e.printStackTrace();
+            curbalance.setText("Error retrieving balance");
+        }
         curbalance.setBounds(33, 211, 100, 50);
         curbalance.setForeground(Color.white);
         infoframe.add(curbalance);
@@ -859,6 +912,19 @@ public class CinemaApp extends JFrame implements ActionListener {
         changeimg.setFocusPainted(false);
         changeimg.setBackground(Color.white);
         changeimg.setForeground(Color.black);
+        changeimg.addActionListener(e -> {
+            JFileChooser fileChooser = new JFileChooser();
+            fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+            fileChooser.setAcceptAllFileFilterUsed(false);
+            fileChooser.addChoosableFileFilter(new javax.swing.filechooser.FileNameExtensionFilter("Image files", "jpg", "jpeg", "png", "gif"));
+
+            int returnValue = fileChooser.showOpenDialog(null);
+            if (returnValue == JFileChooser.APPROVE_OPTION) {
+            File selectedFile = fileChooser.getSelectedFile();
+            String imagePath = selectedFile.getAbsolutePath();
+            imageframe.setBackgroundImage(imagePath);
+            }
+        });
         actions.add(changeimg);
 
         JButton removeimg = new JButton("Remove Image");
@@ -867,6 +933,9 @@ public class CinemaApp extends JFrame implements ActionListener {
         removeimg.setFocusPainted(false);
         removeimg.setBackground(Color.white);
         removeimg.setForeground(Color.black);
+        removeimg.addActionListener(e -> {
+            imageframe.setBackgroundImage("POO2\\Cinema\\img\\default.png");
+        });
         actions.add(removeimg);
 
         JButton Editebalance = new JButton("Edit Balance");
@@ -897,6 +966,15 @@ public class CinemaApp extends JFrame implements ActionListener {
         DeleteAcc.setFocusPainted(false);
         DeleteAcc.setBackground(Color.RED);
         DeleteAcc.setForeground(Color.white);
+        DeleteAcc.addActionListener(e ->{
+            int dialogResult = JOptionPane.showConfirmDialog(null, "Are you sure you want to delete your account?", "Warning", JOptionPane.YES_NO_OPTION);
+            if(dialogResult == JOptionPane.YES_OPTION){
+                
+                ClientManager.removeClient(userid);
+                MainCardLayout.show(MainPanel, "SignIn");
+                
+            }
+        });
         Accountpanel.add(DeleteAcc);
 
         //editpanel-------------------------------------------------
