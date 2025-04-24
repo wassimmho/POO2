@@ -3731,32 +3731,34 @@ public class CinemaApp extends JFrame implements ActionListener {
 
         ArrayList<JCheckBox> checkBoxesTheaterList = new ArrayList<JCheckBox>();
 
-        for(int i = 0; i < theaterManager.theaters.size(); i++) {
+            try (Connection conn = DatabaseConnection.connect();
+        Statement stmt = conn.createStatement();
+        ResultSet rs = stmt.executeQuery("SELECT * FROM theaters")) {
+
+        int rowIndex = 0;
+        while (rs.next()) {
             JPanel TheaterListRow = new JPanel();
             TheaterListRow.setLayout(null);
-            TheaterListRow.setBounds(0, i * 50, 700, 40);
+            TheaterListRow.setBounds(0, rowIndex * 50, 700, 40);
             TheaterListRow.setBackground(new Color(30, 30, 30));
 
-            
-            JLabel NameTheater = new JLabel(String.valueOf(theaterManager.theaters.get(i).NormalCapacity));
+            JLabel NameTheater = new JLabel(rs.getString("TheaterName"));
             NameTheater.setBounds(165, 5, 200, 30);
             NameTheater.setForeground(Color.white);
             NameTheater.setFont(new Font("Bebas Neue", Font.PLAIN, 13));
             TheaterListRow.add(NameTheater);
 
-        
-            JLabel Normalseats = new JLabel(String.valueOf(theaterManager.theaters.get(i).NormalCapacity));
-            Normalseats.setBounds(420, 5, 200, 30);
-            Normalseats.setForeground(Color.white);
-            Normalseats.setFont(new Font("Bebas Neue", Font.PLAIN, 13));
-            TheaterListRow.add(Normalseats);
-            
-            JLabel VIPSeatslbl = new JLabel(String.valueOf(theaterManager.theaters.get(i).VipCapacity));
-            VIPSeatslbl.setBounds(616, 5, 200, 30);
-            VIPSeatslbl.setForeground(Color.white);
-            VIPSeatslbl.setFont(new Font("Bebas Neue", Font.PLAIN, 13));
-            TheaterListRow.add(VIPSeatslbl);
-            
+            JLabel NormalSeats = new JLabel(String.valueOf(rs.getInt("NormalSeats")));
+            NormalSeats.setBounds(420, 5, 200, 30);
+            NormalSeats.setForeground(Color.white);
+            NormalSeats.setFont(new Font("Bebas Neue", Font.PLAIN, 13));
+            TheaterListRow.add(NormalSeats);
+
+            JLabel VIPSeats = new JLabel(String.valueOf(rs.getInt("VipSeats")));
+            VIPSeats.setBounds(616, 5, 200, 30);
+            VIPSeats.setForeground(Color.white);
+            VIPSeats.setFont(new Font("Bebas Neue", Font.PLAIN, 13));
+            TheaterListRow.add(VIPSeats);
 
             JCheckBox selectCheckBox = new JCheckBox();
             selectCheckBox.setBounds(4, 5, 20, 20);
@@ -3767,7 +3769,18 @@ public class CinemaApp extends JFrame implements ActionListener {
             checkBoxesTheaterList.add(selectCheckBox);
 
             contentPanelTheaterList.add(TheaterListRow);
+            rowIndex++;
         }
+
+        // Update the preferred size of the content panel based on the number of rows
+        contentPanelTheaterList.setPreferredSize(new Dimension(650, Math.max(500, rowIndex * 50)));
+        contentPanelTheaterList.revalidate();
+        contentPanelTheaterList.repaint();
+
+    } catch (SQLException e) {
+        e.printStackTrace();
+        JOptionPane.showMessageDialog(null, "Error fetching theater data from the database!", "Error", JOptionPane.ERROR_MESSAGE);
+    }
 
         JScrollPane scrollPanelTheaterList = new JScrollPane(contentPanelTheaterList);
         scrollPanelTheaterList.setBounds(35, 200, 700, 440);
@@ -5422,45 +5435,47 @@ public class CinemaApp extends JFrame implements ActionListener {
 
         ArrayList<JCheckBox> checkBoxesUserList = new ArrayList<JCheckBox>();
 
-        for(int i = 0; i < clientManager.clients.size(); i++) {
+
+            try (Connection conn = DatabaseConnection.connect();
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT * FROM users")) {
+
+            int rowIndex = 0;
+            while (rs.next()) {
             JPanel UserListRow = new JPanel();
             UserListRow.setLayout(null);
-            UserListRow.setBounds(0, i * 50, 700, 40);
+            UserListRow.setBounds(0, rowIndex * 50, 700, 40);
             UserListRow.setBackground(new Color(30, 30, 30));
 
-            
-            JLabel NameUser = new JLabel(clientManager.clients.get(i).username);
+            JLabel NameUser = new JLabel(rs.getString("Name"));
             NameUser.setBounds(67, 5, 200, 30);
             NameUser.setForeground(Color.white);
             NameUser.setFont(new Font("Bebas Neue", Font.PLAIN, 13));
             UserListRow.add(NameUser);
 
-          
-            JLabel EmailUser = new JLabel(clientManager.clients.get(i).Email);
+            JLabel EmailUser = new JLabel(rs.getString("Email"));
             EmailUser.setBounds(190, 5, 200, 30);
             EmailUser.setForeground(Color.white);
             EmailUser.setFont(new Font("Bebas Neue", Font.PLAIN, 13));
             UserListRow.add(EmailUser);
-            
-            JLabel PhonenumberUser = new JLabel(String.valueOf(clientManager.clients.get(i).PhoneNumber));
+
+            JLabel PhonenumberUser = new JLabel(rs.getString("PhoneNumber"));
             PhonenumberUser.setBounds(370, 5, 200, 30);
             PhonenumberUser.setForeground(Color.white);
             PhonenumberUser.setFont(new Font("Bebas Neue", Font.PLAIN, 13));
             UserListRow.add(PhonenumberUser);
-            
-            JLabel AgeUser = new JLabel(String.valueOf(clientManager.clients.get(i).Age));
+
+            JLabel AgeUser = new JLabel(String.valueOf(rs.getInt("Age")));
             AgeUser.setBounds(540, 5, 200, 30);
             AgeUser.setForeground(Color.white);
             AgeUser.setFont(new Font("Bebas Neue", Font.PLAIN, 13));
             UserListRow.add(AgeUser);
-            
-            
-            JLabel BalanceUser = new JLabel(String.valueOf(clientManager.clients.get(i).Balance));
+
+            JLabel BalanceUser = new JLabel(String.valueOf(rs.getInt("Balance")));
             BalanceUser.setBounds(635, 5, 400, 30);
             BalanceUser.setForeground(Color.white);
             BalanceUser.setFont(new Font("Bebas Neue", Font.PLAIN, 13));
             UserListRow.add(BalanceUser);
-
 
             JCheckBox selectCheckBox = new JCheckBox();
             selectCheckBox.setBounds(4, 5, 20, 20);
@@ -5471,7 +5486,16 @@ public class CinemaApp extends JFrame implements ActionListener {
             checkBoxesUserList.add(selectCheckBox);
 
             contentPanelUserList.add(UserListRow);
-        }
+            rowIndex++;
+            }
+
+            // Update the preferred size of the content panel based on the number of rows
+            contentPanelUserList.setPreferredSize(new Dimension(650, Math.max(500, rowIndex * 50)));
+
+            } catch (SQLException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Error fetching user data from the database!", "Error", JOptionPane.ERROR_MESSAGE);
+            }
 
         JScrollPane scrollPanelUserList = new JScrollPane(contentPanelUserList);
         scrollPanelUserList.setBounds(35, 200, 700, 440);
