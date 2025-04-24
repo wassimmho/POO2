@@ -16,6 +16,7 @@ import javax.swing.border.EmptyBorder;
 import java.util.Timer;
 import model.*;
 
+
 public class CinemaApp extends JFrame implements ActionListener {
     // Manager elements ------------------------------------------------
     public static MovieManager movieManager;
@@ -217,9 +218,9 @@ public class CinemaApp extends JFrame implements ActionListener {
             cardPanel.add(imagPanel);
     
             String[] imagePaths = {
-                "POO2\\Cinema\\img\\logmovies\\image1.png",
-                "POO2\\Cinema\\img\\logmovies\\image2.png",
-                "POO2\\Cinema\\img\\logmovies\\image3.png",
+                "img\\logmovies\\image1.png",
+                "img\\logmovies\\image2.png",
+                "img\\logmovies\\image3.png",
             };
     
             // Timer to change images
@@ -458,9 +459,9 @@ public class CinemaApp extends JFrame implements ActionListener {
             cardPanel.add(imagPanel);
     
              String[] imagePaths = {
-                "POO2\\Cinema\\img\\logmovies\\image1.png",
-                "POO2\\Cinema\\img\\logmovies\\image2.png",
-                "POO2\\Cinema\\img\\logmovies\\image3.png",
+                "img\\logmovies\\image1.png",
+                "img\\logmovies\\image2.png",
+                "img\\logmovies\\image3.png",
             };
     
             // Timer to change images
@@ -792,7 +793,7 @@ public class CinemaApp extends JFrame implements ActionListener {
 
         RoundedPanel imageframe = new RoundedPanel(8);
         imageframe.setBounds(45, 110, 270, 260);
-        imageframe.setBackgroundImage("POO2\\Cinema\\img\\default.png");
+        imageframe.setBackgroundImage("img\\default.png");
         imageframe.setRoundedBorder(new Color(0x363030), 1);
         rightpanel.add(imageframe);
 
@@ -934,7 +935,7 @@ public class CinemaApp extends JFrame implements ActionListener {
         removeimg.setBackground(Color.white);
         removeimg.setForeground(Color.black);
         removeimg.addActionListener(e -> {
-            imageframe.setBackgroundImage("POO2\\Cinema\\img\\default.png");
+            imageframe.setBackgroundImage("img\\default.png");
         });
         actions.add(removeimg);
 
@@ -5903,7 +5904,7 @@ public class CinemaApp extends JFrame implements ActionListener {
         Logoutbutton.setFont(new Font("Segoe UI", Font.BOLD, 14));
         Logoutbutton.setHoverEffect(new Color(0, 0, 0 , 0), new Color(40, 40, 40));
         Logoutbutton.addActionListener(e ->{
-            MainCardLayout.show(MainPanel, "Welcome");
+            MainCardLayout.show(MainPanel, "LogIn");
         });
         LeftPanel.add(Logoutbutton);
 
