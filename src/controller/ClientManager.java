@@ -279,6 +279,27 @@ public class ClientManager {
             }
         }
 
+        public static void updateClientImage(int userID, String imgPath) {
+            String sql = "UPDATE users SET imgpath = ? WHERE UserID = ?";
+        
+            try (Connection conn = DatabaseConnection.connect();
+                 PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        
+                pstmt.setString(1, imgPath);
+                pstmt.setInt(2, userID);
+        
+                int rowsUpdated = pstmt.executeUpdate();
+        
+                if (rowsUpdated > 0) {
+                    System.out.println("User image updated successfully!");
+                } else {
+                    System.out.println("User not found. No update performed.");
+                }
+        
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
 
         public static boolean userExists(String username, String email, String password) {
             String sql = "SELECT COUNT(*) FROM users WHERE username = ? AND Email = ? AND Password = ?";
@@ -487,4 +508,16 @@ public class ClientManager {
             return null;
         }
         
+        public static String getUserImagePath(int userID) throws SQLException {
+            String sql = "SELECT imgpath FROM users WHERE UserID = ?";
+            try (Connection conn = DatabaseConnection.connect();
+                 PreparedStatement pstm = conn.prepareStatement(sql)) {
+                pstm.setInt(1, userID);
+                ResultSet rs = pstm.executeQuery();
+                if (rs.next()) {
+                    return rs.getString(1);
+                }
+            }
+            return "img\\default.png"; // Return default image path if no image is found
+        }
 }

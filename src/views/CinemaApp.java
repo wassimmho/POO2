@@ -797,7 +797,13 @@ public class CinemaApp extends JFrame implements ActionListener {
 
         RoundedPanel imageframe = new RoundedPanel(8);
         imageframe.setBounds(45, 110, 270, 260);
-        imageframe.setBackgroundImage("img\\default.png");
+        String imagePath = "img\\default.png";
+        try {
+            imagePath = ClientManager.getUserImagePath(userid);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        imageframe.setBackgroundImage(imagePath);
         imageframe.setRoundedBorder(new Color(0x363030), 1);
         rightpanel.add(imageframe);
 
@@ -926,8 +932,12 @@ public class CinemaApp extends JFrame implements ActionListener {
             int returnValue = fileChooser.showOpenDialog(null);
             if (returnValue == JFileChooser.APPROVE_OPTION) {
             File selectedFile = fileChooser.getSelectedFile();
-            String imagePath = selectedFile.getAbsolutePath();
-            imageframe.setBackgroundImage(imagePath);
+            String imagePathupdate = selectedFile.getAbsolutePath();
+            imageframe.setBackgroundImage(imagePathupdate);
+
+            // Update the user's image in the database
+            ClientManager.updateClientImage(userid, imagePathupdate);
+            JOptionPane.showMessageDialog(null, "Profile image updated successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
             }
         });
         actions.add(changeimg);
@@ -984,23 +994,117 @@ public class CinemaApp extends JFrame implements ActionListener {
 
         //editpanel-------------------------------------------------
         JLabel editlabel = new JLabel("Edit Profile");
-        editlabel.setBounds(23, 44, 200, 50);
+        editlabel.setBounds(23, 20, 200, 50);
         editlabel.setForeground(Color.white);
         editlabel.setFont(new Font("Poppins", Font.BOLD, 20));
         editpanel.add(editlabel);
 
+        JLabel editFirstName = new JLabel("First Name");
+        editFirstName.setBounds(23, 70, 150, 30);
+        editFirstName.setForeground(Color.white);
+        editpanel.add(editFirstName);
+
+        JCheckBox editFirstNameBox = new JCheckBox();
+        editFirstNameBox.setBounds(246, 80, 20, 20);
+        editFirstNameBox.setBackground(secondarycolor);
+        editpanel.add(editFirstNameBox);
+
+        JTextField editFirstNameText = new JTextField();
+        editFirstNameText.setBounds(23, 105, 245, 40);
+        editFirstNameText.setBackground(secondarycolor);
+        editFirstNameText.setForeground(Color.white);
+        editFirstNameText.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.white, 1), new EmptyBorder(0, 10, 0, 0)));
+        editFirstNameText.setCaretColor(Color.white);
+        editFirstNameText.setText("Enter your First Name");
+        editFirstNameText.setForeground(Color.GRAY);
+        editFirstNameText.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+            if (editFirstNameText.getText().equals("Enter your First Name")) {
+                editFirstNameText.setText("");
+                editFirstNameText.setForeground(Color.WHITE);
+            }
+            }
+
+            public void focusLost(java.awt.event.FocusEvent evt) {
+            if (editFirstNameText.getText().isEmpty()) {
+                editFirstNameText.setText("Enter your First Name");
+                editFirstNameText.setForeground(Color.GRAY);
+            }
+            }
+        });
+        editpanel.add(editFirstNameText);
+
+        editFirstNameBox.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+            if (!editFirstNameBox.isSelected()) {
+                editFirstNameText.setEnabled(false);
+            } else {
+                editFirstNameText.setEnabled(true);
+            }
+            }
+        });
+        editFirstNameText.setEnabled(false);
+
+        JLabel editLastName = new JLabel("Last Name");
+        editLastName.setBounds(23, 140, 150, 30);
+        editLastName.setForeground(Color.white);
+        editpanel.add(editLastName);
+
+        JCheckBox editLastNameBox = new JCheckBox();
+        editLastNameBox.setBounds(246, 150, 20, 20);
+        editLastNameBox.setBackground(secondarycolor);
+        editpanel.add(editLastNameBox);
+
+        JTextField editLastNameText = new JTextField();
+        editLastNameText.setBounds(23, 175, 245, 40);
+        editLastNameText.setBackground(secondarycolor);
+        editLastNameText.setForeground(Color.white);
+        editLastNameText.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.white, 1), new EmptyBorder(0, 10, 0, 0)));
+        editLastNameText.setCaretColor(Color.white);
+        editLastNameText.setText("Enter your Last Name");
+        editLastNameText.setForeground(Color.GRAY);
+        editLastNameText.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+            if (editLastNameText.getText().equals("Enter your Last Name")) {
+                editLastNameText.setText("");
+                editLastNameText.setForeground(Color.WHITE);
+            }
+            }
+
+            public void focusLost(java.awt.event.FocusEvent evt) {
+            if (editLastNameText.getText().isEmpty()) {
+                editLastNameText.setText("Enter your Last Name");
+                editLastNameText.setForeground(Color.GRAY);
+            }
+            }
+        });
+        editpanel.add(editLastNameText);
+
+        editLastNameBox.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+            if (!editLastNameBox.isSelected()) {
+                editLastNameText.setEnabled(false);
+            } else {
+                editLastNameText.setEnabled(true);
+            }
+            }
+        });
+        editLastNameText.setEnabled(false);
+
         JLabel editusername = new JLabel("Username");
-        editusername.setBounds(23, 127, 150, 30);
+        editusername.setBounds(23, 210, 150, 30);
         editusername.setForeground(Color.white);
         editpanel.add(editusername);
 
         JCheckBox editusernamebox = new JCheckBox();
-        editusernamebox.setBounds(246, 137, 20, 20);
+        editusernamebox.setBounds(246, 220, 20, 20);
         editusernamebox.setBackground(secondarycolor);
         editpanel.add(editusernamebox);
 
         JTextField editusernametext = new JTextField();
-        editusernametext.setBounds(23, 163, 245, 40);
+        editusernametext.setBounds(23, 245, 245, 40);
         editusernametext.setBackground(secondarycolor);
         editusernametext.setForeground(Color.white);
         editusernametext.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.white, 1), new EmptyBorder(0, 10, 0, 0)));
@@ -1009,17 +1113,17 @@ public class CinemaApp extends JFrame implements ActionListener {
         editusernametext.setForeground(Color.GRAY);
         editusernametext.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
-                if (editusernametext.getText().equals("Enter your Username")) {
-                    editusernametext.setText("");
-                    editusernametext.setForeground(Color.WHITE);
-                }
+            if (editusernametext.getText().equals("Enter your Username")) {
+                editusernametext.setText("");
+                editusernametext.setForeground(Color.WHITE);
+            }
             }
 
             public void focusLost(java.awt.event.FocusEvent evt) {
-                if (editusernametext.getText().isEmpty()) {
-                    editusernametext.setText("Enter your Username");
-                    editusernametext.setForeground(Color.GRAY);
-                }
+            if (editusernametext.getText().isEmpty()) {
+                editusernametext.setText("Enter your Username");
+                editusernametext.setForeground(Color.GRAY);
+            }
             }
         });
         editpanel.add(editusernametext);
@@ -1027,28 +1131,28 @@ public class CinemaApp extends JFrame implements ActionListener {
         editusernamebox.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (!editusernamebox.isSelected()) {
-                    editusernametext.setEnabled(false);
-                } else {
-                    editusernametext.setEnabled(true);
-                }
+            if (!editusernamebox.isSelected()) {
+                editusernametext.setEnabled(false);
+            } else {
+                editusernametext.setEnabled(true);
+            }
             }
         });
 
         editusernametext.setEnabled(false);
 
         JLabel editEmail = new JLabel("Email");
-        editEmail.setBounds(23, 222, 150, 30);
+        editEmail.setBounds(23, 280, 150, 30);
         editEmail.setForeground(Color.white);
         editpanel.add(editEmail);
 
         JCheckBox editemailnamebox = new JCheckBox();
-        editemailnamebox.setBounds(246, 232, 20, 20);
+        editemailnamebox.setBounds(246, 290, 20, 20);
         editemailnamebox.setBackground(secondarycolor);
         editpanel.add(editemailnamebox);
 
         JTextField editemailtext = new JTextField();
-        editemailtext.setBounds(23, 260, 242, 40);
+        editemailtext.setBounds(23, 315, 245, 40);
         editemailtext.setBackground(secondarycolor);
         editemailtext.setForeground(Color.white);
         editemailtext.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.white, 1), new EmptyBorder(0, 10, 0, 0)));
@@ -1057,49 +1161,46 @@ public class CinemaApp extends JFrame implements ActionListener {
         editemailtext.setForeground(Color.GRAY);
         editemailtext.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
-                if (editemailtext.getText().equals("Enter your Email")) {
-                    editemailtext.setText("");
-                    editemailtext.setForeground(Color.WHITE);
-                }
+            if (editemailtext.getText().equals("Enter your Email")) {
+                editemailtext.setText("");
+                editemailtext.setForeground(Color.WHITE);
+            }
             }
 
             public void focusLost(java.awt.event.FocusEvent evt) {
-                if (editemailtext.getText().isEmpty()) {
-                    editemailtext.setText("Enter your Email");
-                    editemailtext.setForeground(Color.GRAY);
-                }
+            if (editemailtext.getText().isEmpty()) {
+                editemailtext.setText("Enter your Email");
+                editemailtext.setForeground(Color.GRAY);
+            }
             }
         });
         editpanel.add(editemailtext);
-        
+
         editemailnamebox.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (!editemailnamebox.isSelected()) {
-                    editemailtext.setEnabled(false);
-                } else {
-                    editemailtext.setEnabled(true);
-                }
+            if (!editemailnamebox.isSelected()) {
+                editemailtext.setEnabled(false);
+            } else {
+                editemailtext.setEnabled(true);
+            }
             }
         });
 
         editemailtext.setEnabled(false);
 
-
-
-
         JLabel editAge = new JLabel("Age");
-        editAge.setBounds(23, 315, 150, 30);
+        editAge.setBounds(23, 350, 150, 30);
         editAge.setForeground(Color.white);
         editpanel.add(editAge);
 
         JCheckBox editAgebox = new JCheckBox();
-        editAgebox.setBounds(246, 325, 20, 20);
+        editAgebox.setBounds(246, 360, 20, 20);
         editAgebox.setBackground(secondarycolor);
         editpanel.add(editAgebox);
 
         JTextField editAgetext = new JTextField();
-        editAgetext.setBounds(23, 351, 242, 40);
+        editAgetext.setBounds(23, 385, 245, 40);
         editAgetext.setBackground(secondarycolor);
         editAgetext.setForeground(Color.white);
         editAgetext.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.white, 1), new EmptyBorder(0, 10, 0, 0)));
@@ -1108,17 +1209,17 @@ public class CinemaApp extends JFrame implements ActionListener {
         editAgetext.setForeground(Color.GRAY);
         editAgetext.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
-                if (editAgetext.getText().equals("Enter your Age")) {
-                    editAgetext.setText("");
-                    editAgetext.setForeground(Color.WHITE);
-                }
+            if (editAgetext.getText().equals("Enter your Age")) {
+                editAgetext.setText("");
+                editAgetext.setForeground(Color.WHITE);
+            }
             }
 
             public void focusLost(java.awt.event.FocusEvent evt) {
-                if (editAgetext.getText().isEmpty()) {
-                    editAgetext.setText("Enter your Age");
-                    editAgetext.setForeground(Color.GRAY);
-                }
+            if (editAgetext.getText().isEmpty()) {
+                editAgetext.setText("Enter your Age");
+                editAgetext.setForeground(Color.GRAY);
+            }
             }
         });
         editpanel.add(editAgetext);
@@ -1126,29 +1227,29 @@ public class CinemaApp extends JFrame implements ActionListener {
         editAgebox.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (!editAgebox.isSelected()) {
-                    editAgetext.setEnabled(false);
-                } else {
-                    editAgetext.setEnabled(true);
-                }
+            if (!editAgebox.isSelected()) {
+                editAgetext.setEnabled(false);
+            } else {
+                editAgetext.setEnabled(true);
+            }
             }
         });
 
         editAgetext.setEnabled(false);
 
         JLabel editPhonenum = new JLabel("Phone Number");
-        editPhonenum.setBounds(23, 409, 150, 30);
+        editPhonenum.setBounds(23, 420, 150, 30);
         editPhonenum.setForeground(Color.white);
         editpanel.add(editPhonenum);
 
         JCheckBox editnumbox = new JCheckBox();
-        editnumbox.setBounds(246, 419, 20, 20);
+        editnumbox.setBounds(246, 440, 20, 20);
         editnumbox.setBackground(secondarycolor);
-        
+
         editpanel.add(editnumbox);
 
         JTextField editnumtext = new JTextField();
-        editnumtext.setBounds(23, 445, 242, 40);
+        editnumtext.setBounds(23, 465, 245, 40);
         editnumtext.setBackground(secondarycolor);
         editnumtext.setForeground(Color.white);
         editnumtext.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.white, 1), new EmptyBorder(0, 10, 0, 0)));
@@ -1157,37 +1258,36 @@ public class CinemaApp extends JFrame implements ActionListener {
         editnumtext.setForeground(Color.GRAY);
         editnumtext.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
-                if (editnumtext.getText().equals("Enter your Phone number")) {
-                    editnumtext.setText("");
-                    editnumtext.setForeground(Color.WHITE);
-                }
+            if (editnumtext.getText().equals("Enter your Phone number")) {
+                editnumtext.setText("");
+                editnumtext.setForeground(Color.WHITE);
+            }
             }
 
             public void focusLost(java.awt.event.FocusEvent evt) {
-                if (editnumtext.getText().isEmpty()) {
-                    editnumtext.setText("Enter your Phone number");
-                    editnumtext.setForeground(Color.GRAY);
-                }
+            if (editnumtext.getText().isEmpty()) {
+                editnumtext.setText("Enter your Phone number");
+                editnumtext.setForeground(Color.GRAY);
+            }
             }
         });
         editpanel.add(editnumtext);
         editnumbox.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (!editnumbox.isSelected()) {
-                    editnumtext.setEnabled(false);
-                } else {
-                    editnumtext.setEnabled(true);
-                }
+            if (!editnumbox.isSelected()) {
+                editnumtext.setEnabled(false);
+            } else {
+                editnumtext.setEnabled(true);
+            }
             }
         });
-        
+
         editnumtext.setEnabled(editnumbox.isSelected());
 
 
-
         JButton edit = new JButton("Edit Profile");
-        edit.setBounds(23, 520, 242, 40);
+        edit.setBounds(23, 550, 242, 40);
         edit.setBorder(null);
         edit.setFocusPainted(false);
         edit.setBackground(Color.white);
@@ -1195,26 +1295,42 @@ public class CinemaApp extends JFrame implements ActionListener {
         int userID = userid; // Assuming you have the user ID available
             edit.addActionListener(e -> {
                 // Check which fields are selected for editing
+                boolean isFirstNameSelected = editFirstNameBox.isSelected();
+                boolean isLastNameSelected = editLastNameBox.isSelected();
                 boolean isUsernameSelected = editusernamebox.isSelected();
                 boolean isEmailSelected = editemailnamebox.isSelected();
                 boolean isAgeSelected = editAgebox.isSelected();
                 boolean isPhoneNumberSelected = editnumbox.isSelected();
-            
+
                 // Update the selected fields
+                if (isFirstNameSelected) {
+                    String newFirstName = editFirstNameText.getText();
+                    if (!newFirstName.equals("Enter your First Name") && !newFirstName.isEmpty()) {
+                        ClientManager.updateClientName(userID, null, newFirstName); // Update first name
+                    }
+                }
+
+                if (isLastNameSelected) {
+                    String newLastName = editLastNameText.getText();
+                    if (!newLastName.equals("Enter your Last Name") && !newLastName.isEmpty()) {
+                        ClientManager.updateClientName(userID, newLastName, null); // Update last name
+                    }
+                }
+
                 if (isUsernameSelected) {
                     String newUsername = editusernametext.getText();
                     if (!newUsername.equals("Enter your Username") && !newUsername.isEmpty()) {
                         ClientManager.updateClientUsername(userID, newUsername); // Update username
                     }
                 }
-            
+
                 if (isEmailSelected) {
                     String newEmail = editemailtext.getText();
                     if (!newEmail.equals("Enter your Email") && !newEmail.isEmpty()) {
                         ClientManager.updateClientEmail(userID, newEmail); // Update email
                     }
                 }
-            
+
                 if (isAgeSelected) {
                     try {
                         int newAge = Integer.parseInt(editAgetext.getText());
@@ -1223,7 +1339,7 @@ public class CinemaApp extends JFrame implements ActionListener {
                         JOptionPane.showMessageDialog(null, "Invalid age entered!", "Error", JOptionPane.ERROR_MESSAGE);
                     }
                 }
-            
+
                 if (isPhoneNumberSelected) {
                     String newPhoneNumber = editnumtext.getText();
                     if (!newPhoneNumber.equals("Enter your Phone number") && !newPhoneNumber.isEmpty()) {
@@ -1274,7 +1390,7 @@ public class CinemaApp extends JFrame implements ActionListener {
         editpanel.add(edit);
 
         JButton cancel = new JButton("Cancel");
-        cancel.setBounds(23, 590, 242, 40);
+        cancel.setBounds(23, 620, 242, 40);
         cancel.setBorder(null);
         cancel.setFocusPainted(false);
         cancel.setBackground(Color.white);
