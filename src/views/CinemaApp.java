@@ -4217,41 +4217,59 @@ public class CinemaApp extends JFrame implements ActionListener {
 
         ArrayList<JCheckBox> checkBoxesBroadcast = new ArrayList<JCheckBox>();
 
-        for(int i = 0; i < broadcastManager.broadcasts.size(); i++) {
-            JPanel broadcastRow = new JPanel();
-            broadcastRow.setLayout(null);
-            broadcastRow.setBounds(0, i * 50, 650, 40);
-            broadcastRow.setBackground(new Color(30, 30, 30));
+                try (Connection conn = DatabaseConnection.connect();
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(
+                "SELECT broadcasts.BroadcastID, movies.Title AS MovieTitle, theaters.TheaterName AS TheaterName, " +
+                "broadcasts.Language, broadcasts.BroadcastDate " +
+                "FROM broadcasts " +
+                "JOIN movies ON broadcasts.MovieID = movies.MovieID " +
+                "JOIN theaters ON broadcasts.TheaterID = theaters.TheaterID")) {
 
-            
-            JLabel moviename = new JLabel(broadcastManager.broadcasts.get(i).movie.Title);
-            moviename.setBounds(150, 5, 200, 30);
-            moviename.setForeground(Color.white);
-            moviename.setFont(new Font("Bebas Neue", Font.PLAIN, 13));
-            broadcastRow.add(moviename);
+            int rowIndex = 0;
+            while (rs.next()) {
+                JPanel BroadcastRow = new JPanel();
+                BroadcastRow.setLayout(null);
+                BroadcastRow.setBounds(0, rowIndex * 50, 700, 40);
+                BroadcastRow.setBackground(new Color(30, 30, 30));
 
-          
-            JLabel theaterName = new JLabel(String.valueOf(broadcastManager.broadcasts.get(i).Room.TheaterId));
-            theaterName.setBounds(380, 5, 200, 30);
-            theaterName.setForeground(Color.white);
-            theaterName.setFont(new Font("Bebas Neue", Font.PLAIN, 13));
-            broadcastRow.add(theaterName);
+                JLabel MovieTitleLabel = new JLabel(rs.getString("MovieTitle"));
+                MovieTitleLabel.setBounds(67, 5, 200, 30);
+                MovieTitleLabel.setForeground(Color.white);
+                MovieTitleLabel.setFont(new Font("Bebas Neue", Font.PLAIN, 13));
+                BroadcastRow.add(MovieTitleLabel);
 
-            JLabel moviedate = new JLabel(broadcastManager.broadcasts.get(i).Date.toString());
-            moviedate.setBounds(580, 5, 200, 30);
-            moviedate.setForeground(Color.white);
-            moviedate.setFont(new Font("Bebas Neue", Font.PLAIN, 13));
-            broadcastRow.add(moviedate);
+                JLabel TheaterNameLabel = new JLabel(rs.getString("TheaterName"));
+                TheaterNameLabel.setBounds(190, 5, 200, 30);
+                TheaterNameLabel.setForeground(Color.white);
+                TheaterNameLabel.setFont(new Font("Bebas Neue", Font.PLAIN, 13));
+                BroadcastRow.add(TheaterNameLabel);
 
-            JCheckBox selectCheckBox = new JCheckBox();
-            selectCheckBox.setBounds(30, 5, 20, 20);
-            selectCheckBox.setBackground(new Color(30, 30, 30));
-            selectCheckBox.setForeground(Color.white);
-            selectCheckBox.setFont(new Font("Bebas Neue", Font.PLAIN, 13));
-            broadcastRow.add(selectCheckBox);
-            checkBoxesBroadcast.add(selectCheckBox);
 
-            contentPanelBroad.add(broadcastRow);
+                JLabel BroadcastDateLabel = new JLabel(rs.getDate("BroadcastDate").toString());
+                BroadcastDateLabel.setBounds(540, 5, 200, 30);
+                BroadcastDateLabel.setForeground(Color.white);
+                BroadcastDateLabel.setFont(new Font("Bebas Neue", Font.PLAIN, 13));
+                BroadcastRow.add(BroadcastDateLabel);
+
+                JCheckBox selectCheckBox = new JCheckBox();
+                selectCheckBox.setBounds(4, 5, 20, 20);
+                selectCheckBox.setBackground(new Color(30, 30, 30));
+                selectCheckBox.setForeground(Color.white);
+                selectCheckBox.setFont(new Font("Bebas Neue", Font.PLAIN, 13));
+                BroadcastRow.add(selectCheckBox);
+                checkBoxesBroadcast.add(selectCheckBox);
+
+                contentPanelBroad.add(BroadcastRow);
+                rowIndex++;
+            }
+
+            // Update the preferred size of the content panel based on the number of rows
+            contentPanelBroad.setPreferredSize(new Dimension(650, Math.max(500, rowIndex * 50)));
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Error fetching broadcast data from the database!", "Error", JOptionPane.ERROR_MESSAGE);
         }
 
       
@@ -4725,57 +4743,65 @@ public class CinemaApp extends JFrame implements ActionListener {
 
         ArrayList<JCheckBox> checkBoxesMovieList = new ArrayList<JCheckBox>();
 
-        for(int i = 0; i < movieManager.movies.size(); i++) {
-            JPanel MovieListRow = new JPanel();
-            MovieListRow.setLayout(null);
-            MovieListRow.setBounds(0, i * 50, 700, 40);
-            MovieListRow.setBackground(new Color(30, 30, 30));
+                try (Connection conn = DatabaseConnection.connect();
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT Title, Genre, Rating, AgeRating, ReleaseDate FROM movies")) {
 
-            JCheckBox selectCheckBox = new JCheckBox();
-            selectCheckBox.setBounds(4, 5, 20, 20);
-            selectCheckBox.setBackground(new Color(30, 30, 30));
-            selectCheckBox.setForeground(Color.white);
-            selectCheckBox.setFont(new Font("Bebas Neue", Font.PLAIN, 13));
-            MovieListRow.add(selectCheckBox);
-            checkBoxesMovieList.add(selectCheckBox);
+            int rowIndex = 0;
+            while (rs.next()) {
+                JPanel MovieListRow = new JPanel();
+                MovieListRow.setLayout(null);
+                MovieListRow.setBounds(0, rowIndex * 50, 700, 40);
+                MovieListRow.setBackground(new Color(30, 30, 30));
 
-            
-            JLabel MovieNamelbl = new JLabel(movieManager.movies.get(i).Title);
-            MovieNamelbl.setBounds(100, 5, 200, 30);
-            MovieNamelbl.setForeground(Color.white);
-            MovieNamelbl.setFont(new Font("Bebas Neue", Font.PLAIN, 13));
-            MovieListRow.add(MovieNamelbl);
+                JLabel TitleLabel = new JLabel(rs.getString("Title"));
+                TitleLabel.setBounds(67, 5, 200, 30);
+                TitleLabel.setForeground(Color.white);
+                TitleLabel.setFont(new Font("Bebas Neue", Font.PLAIN, 13));
+                MovieListRow.add(TitleLabel);
 
-          
-            JLabel GenreMovielbl = new JLabel(String.valueOf(movieManager.movies.get(i).Genre));
-            GenreMovielbl.setBounds(260, 5, 200, 30);
-            GenreMovielbl.setForeground(Color.white);
-            GenreMovielbl.setFont(new Font("Bebas Neue", Font.PLAIN, 13));
-            MovieListRow.add(GenreMovielbl);
-            
-            JLabel RatingMovielbl = new JLabel(String.valueOf(movieManager.movies.get(i).Rating));
-            RatingMovielbl.setBounds(370, 5, 200, 30);
-            RatingMovielbl.setForeground(Color.white);
-            RatingMovielbl.setFont(new Font("Bebas Neue", Font.PLAIN, 13));
-            MovieListRow.add(RatingMovielbl);
-            
-            JLabel AgeRatingMovielbl = new JLabel(String.valueOf(movieManager.movies.get(i).AgeRating));
-            AgeRatingMovielbl.setBounds(480, 5, 200, 30);
-            AgeRatingMovielbl.setForeground(Color.white);
-            AgeRatingMovielbl.setFont(new Font("Bebas Neue", Font.PLAIN, 13));
-            MovieListRow.add(AgeRatingMovielbl);
-            
-            
-            JLabel releaseDateMovielbl = new JLabel(movieManager.movies.get(i).ReleaseDate.toString());
-            releaseDateMovielbl.setBounds(600, 5, 400, 30);
-            releaseDateMovielbl.setForeground(Color.white);
-            releaseDateMovielbl.setFont(new Font("Bebas Neue", Font.PLAIN, 13));
-            MovieListRow.add(releaseDateMovielbl);
+                JLabel GenreLabel = new JLabel(rs.getString("Genre"));
+                GenreLabel.setBounds(190, 5, 200, 30);
+                GenreLabel.setForeground(Color.white);
+                GenreLabel.setFont(new Font("Bebas Neue", Font.PLAIN, 13));
+                MovieListRow.add(GenreLabel);
 
+                JLabel RatingLabel = new JLabel(String.valueOf(rs.getDouble("Rating")));
+                RatingLabel.setBounds(370, 5, 200, 30);
+                RatingLabel.setForeground(Color.white);
+                RatingLabel.setFont(new Font("Bebas Neue", Font.PLAIN, 13));
+                MovieListRow.add(RatingLabel);
 
+                JLabel AgeRatingLabel = new JLabel(rs.getString("AgeRating"));
+                AgeRatingLabel.setBounds(540, 5, 200, 30);
+                AgeRatingLabel.setForeground(Color.white);
+                AgeRatingLabel.setFont(new Font("Bebas Neue", Font.PLAIN, 13));
+                MovieListRow.add(AgeRatingLabel);
 
+                JLabel ReleaseDateLabel = new JLabel(rs.getDate("ReleaseDate").toString());
+                ReleaseDateLabel.setBounds(635, 5, 400, 30);
+                ReleaseDateLabel.setForeground(Color.white);
+                ReleaseDateLabel.setFont(new Font("Bebas Neue", Font.PLAIN, 13));
+                MovieListRow.add(ReleaseDateLabel);
 
-            contentPanelMovieList.add(MovieListRow);
+                JCheckBox selectCheckBox = new JCheckBox();
+                selectCheckBox.setBounds(4, 5, 20, 20);
+                selectCheckBox.setBackground(new Color(30, 30, 30));
+                selectCheckBox.setForeground(Color.white);
+                selectCheckBox.setFont(new Font("Bebas Neue", Font.PLAIN, 13));
+                MovieListRow.add(selectCheckBox);
+                checkBoxesMovieList.add(selectCheckBox);
+
+                contentPanelMovieList.add(MovieListRow);
+                rowIndex++;
+            }
+
+            // Update the preferred size of the content panel based on the number of rows
+            contentPanelMovieList.setPreferredSize(new Dimension(650, Math.max(500, rowIndex * 50)));
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Error fetching movie data from the database!", "Error", JOptionPane.ERROR_MESSAGE);
         }
 
         JScrollPane scrollPanelMovieList = new JScrollPane(contentPanelMovieList);
