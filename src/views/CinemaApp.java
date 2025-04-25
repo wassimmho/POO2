@@ -1,5 +1,6 @@
 package views;
 
+import com.sun.tools.javac.Main;
 import controller.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -100,9 +101,12 @@ public class CinemaApp extends JFrame implements ActionListener {
         // log in panel ---------------------------------------------------
         JPanel loginpanel = createLoginPanel();
 
-        // log in panel ----------------------------------------------------
+        // Sign in panel ----------------------------------------------------
         JPanel signInPanel = createSignUpPanel();
 
+        //profile admin panel
+        int userId = 0; // Replace with the actual user ID you want to use
+        JPanel ProfileAdminPanel = createprofile(userId);
         // forgot password panel --------------------------------------------
         ForgotPasswordPanel = new JPanel();
         ForgotPasswordPanel.setBounds(0, 0, 1200, 750);
@@ -154,7 +158,7 @@ public class CinemaApp extends JFrame implements ActionListener {
         MainPanel.add(AccountPanel, "Account");
         MainPanel.add(AccountAdminPanel, "Account Admin");
         MainPanel.add(BuyPanel, "Buy");
-        
+        MainPanel.add(ProfileAdminPanel, "ProfileAdminPanel");
 
         // add the main panel to the JFrame ----------------------------------
         setContentPane(MainPanel);
@@ -166,7 +170,7 @@ public class CinemaApp extends JFrame implements ActionListener {
 
     }
 
-    private JPanel createLoginPanel() {
+        private JPanel createLoginPanel() {
         // Colors
         Color bgcolor = new Color(0x121213);
         Color secondarycolor = new Color(0x151517);
@@ -818,7 +822,7 @@ public class CinemaApp extends JFrame implements ActionListener {
 
         JLabel username = new JLabel("Username :");
         try {
-            username.setText(ClientManager.getusersname(userid) + " ");
+            username.setText("Username : " + ClientManager.getusersname(userid));
         } catch (SQLException e) {
             e.printStackTrace();
             username.setText("Error retrieving user's name");
@@ -829,7 +833,7 @@ public class CinemaApp extends JFrame implements ActionListener {
 
         JLabel email = new JLabel("Email :");
         try {
-            email.setText(ClientManager.getuseremail(userid) + " ");
+            email.setText("Email : " + ClientManager.getuseremail(userid));
         } catch (SQLException e) {
             e.printStackTrace();
             email.setText("Error retrieving email");
@@ -838,9 +842,9 @@ public class CinemaApp extends JFrame implements ActionListener {
         email.setForeground(Color.white);
         infoframe.add(email);
 
-        JLabel age = new JLabel("Age :");
+        JLabel age = new JLabel("Age : ");
         try {
-            age.setText(ClientManager.getuserage(userid) + " ");
+            age.setText("Age : " + ClientManager.getuserage(userid) + " ");
         } catch (SQLException e) {
             e.printStackTrace();
             age.setText("Error retrieving age");
@@ -851,7 +855,7 @@ public class CinemaApp extends JFrame implements ActionListener {
 
         JLabel phonenum = new JLabel("Phone Number :");
         try {
-            phonenum.setText(ClientManager.getuserphone(userid) + " ");
+            phonenum.setText("Phone Number : " + ClientManager.getuserphone(userid));
         } catch (SQLException e) {
             e.printStackTrace();
             phonenum.setText("Error retrieving phone number");
@@ -862,12 +866,12 @@ public class CinemaApp extends JFrame implements ActionListener {
 
         JLabel curbalance = new JLabel("Current Balance :");
         try {
-            curbalance.setText(ClientManager.getuserbalance(userid) + " ");
+            curbalance.setText("Current Balance : " + ClientManager.getuserbalance(userid));
         } catch (SQLException e) {
             e.printStackTrace();
             curbalance.setText("Error retrieving balance");
         }
-        curbalance.setBounds(33, 211, 100, 50);
+        curbalance.setBounds(33, 211, 300, 50);
         curbalance.setForeground(Color.white);
         infoframe.add(curbalance);
 
@@ -1188,26 +1192,76 @@ public class CinemaApp extends JFrame implements ActionListener {
         edit.setFocusPainted(false);
         edit.setBackground(Color.white);
         edit.setForeground(Color.black);
-        edit.addActionListener(e -> {
-
+        int userID = userid; // Assuming you have the user ID available
+            edit.addActionListener(e -> {
+                // Check which fields are selected for editing
+                boolean isUsernameSelected = editusernamebox.isSelected();
+                boolean isEmailSelected = editemailnamebox.isSelected();
+                boolean isAgeSelected = editAgebox.isSelected();
+                boolean isPhoneNumberSelected = editnumbox.isSelected();
+            
+                // Update the selected fields
+                if (isUsernameSelected) {
+                    String newUsername = editusernametext.getText();
+                    if (!newUsername.equals("Enter your Username") && !newUsername.isEmpty()) {
+                        ClientManager.updateClientUsername(userID, newUsername); // Update username
+                    }
+                }
+            
+                if (isEmailSelected) {
+                    String newEmail = editemailtext.getText();
+                    if (!newEmail.equals("Enter your Email") && !newEmail.isEmpty()) {
+                        ClientManager.updateClientEmail(userID, newEmail); // Update email
+                    }
+                }
+            
+                if (isAgeSelected) {
+                    try {
+                        int newAge = Integer.parseInt(editAgetext.getText());
+                        ClientManager.updateClientAge(userID, newAge); // Update age
+                    } catch (NumberFormatException ex) {
+                        JOptionPane.showMessageDialog(null, "Invalid age entered!", "Error", JOptionPane.ERROR_MESSAGE);
+                    }
+                }
+            
+                if (isPhoneNumberSelected) {
+                    String newPhoneNumber = editnumtext.getText();
+                    if (!newPhoneNumber.equals("Enter your Phone number") && !newPhoneNumber.isEmpty()) {
+                        ClientManager.updateClientPhoneNumber(userID, newPhoneNumber); // Update phone number
+                    }
+                }
+            
+                // Refresh the profile panel
+                try {
+                    name.setText(ClientManager.getuserfirstname(userID) + " " + ClientManager.getuserlastname(userID));
+                    username.setText("Username: " + ClientManager.getusersname(userID));
+                    email.setText("Email: " + ClientManager.getuseremail(userID));
+                    age.setText("Age: " + ClientManager.getuserage(userID));
+                    phonenum.setText("Phone Number: " + ClientManager.getuserphone(userID));
+                    curbalance.setText("Current Balance: " + ClientManager.getuserbalance(userID));
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                    JOptionPane.showMessageDialog(null, "Error refreshing profile data!", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            
+                // Revalidate and repaint the panel
+                rightpanel.revalidate();
+                rightpanel.repaint();
             // Animation to slide the panel out
             javax.swing.Timer timer = new javax.swing.Timer(5, new ActionListener() {
                 int x = 694;
-
+        
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     if (x < 1200) {
                         x += 20;
                         editpanel.setBounds(x, 0, 291, 750);
-                        for (java.awt.event.MouseListener listener : DeleteAcc.getMouseListeners()) {
-                            DeleteAcc.addMouseListener(listener);
-                        }
-                        for (java.awt.event.MouseListener listener : removeimg.getMouseListeners()) {
-                            removeimg.addMouseListener(listener);
-                        }
-                        for (java.awt.event.MouseListener listener : Editebalance.getMouseListeners()) {
-                            Editebalance.addMouseListener(listener);
-                        }
+        
+                        DeleteAcc.setEnabled(true);
+                        removeimg.setEnabled(true);
+                        Editebalance.setEnabled(true);
+                        changeimg.setEnabled(true);
+        
                         rightpanel.revalidate();
                         rightpanel.repaint();
                     } else {
@@ -1236,15 +1290,13 @@ public class CinemaApp extends JFrame implements ActionListener {
                     if (x < 1200) {
                         x += 20;
                         editpanel.setBounds(x, 0, 291, 750);
-                        for (java.awt.event.MouseListener listener : DeleteAcc.getMouseListeners()) {
-                            DeleteAcc.addMouseListener(listener);
-                        }
-                        for (java.awt.event.MouseListener listener : removeimg.getMouseListeners()) {
-                            removeimg.addMouseListener(listener);
-                        }
-                        for (java.awt.event.MouseListener listener : Editebalance.getMouseListeners()) {
-                            Editebalance.addMouseListener(listener);
-                        }
+
+                        // Enable the buttons instead of adding listeners again
+                        DeleteAcc.setEnabled(true);
+                        removeimg.setEnabled(true);
+                        Editebalance.setEnabled(true);
+                        changeimg.setEnabled(true);
+                        
                         rightpanel.revalidate();
                         rightpanel.repaint();
                     } else {
@@ -1274,15 +1326,12 @@ public class CinemaApp extends JFrame implements ActionListener {
                     if (x > 694) {
                         x -= 20;
                         editpanel.setBounds(x, 0, 291, 750);
-                        for (java.awt.event.MouseListener listener : DeleteAcc.getMouseListeners()) {
-                            DeleteAcc.removeMouseListener(listener);
-                        }
-                        for (java.awt.event.MouseListener listener : removeimg.getMouseListeners()) {
-                            removeimg.removeMouseListener(listener);
-                        }
-                        for (java.awt.event.MouseListener listener : Editebalance.getMouseListeners()) {
-                            Editebalance.removeMouseListener(listener);
-                        }
+
+                        DeleteAcc.setEnabled(false);
+                        removeimg.setEnabled(false);
+                        Editebalance.setEnabled(false);
+                        changeimg.setEnabled(false);
+
                         rightpanel.revalidate();
                         rightpanel.repaint();
                     } else {
@@ -3982,120 +4031,95 @@ public class CinemaApp extends JFrame implements ActionListener {
         theaterDashboard.add(separator1Theater);
 
 
-        JLabel nbrtheater = new JLabel("Total Number of Theater");
-        nbrtheater.setBounds(800, 20, 200, 30);
-        nbrtheater.setForeground(Color.WHITE);
-        nbrtheater.setFont(new Font("Bebas Neue", Font.BOLD, 15));
-        theaterDashboard.add(nbrtheater);
-
+        // Right-Side Section: Total Number of Theaters
+        JLabel nbrTheaterLabel = new JLabel("Total Number of Theaters");
+        nbrTheaterLabel.setBounds(815, 20, 200, 30);
+        nbrTheaterLabel.setForeground(Color.WHITE);
+        nbrTheaterLabel.setFont(new Font("Bebas Neue", Font.BOLD, 15));
+        theaterDashboard.add(nbrTheaterLabel);
 
         RoundedPanel CircleTheater = new RoundedPanel(100);
         CircleTheater.setLayout(null);
         CircleTheater.setBounds(855, 80, 100, 100);
-        CircleTheater.setBackground( new Color(0, 0, 0, 0));
+        CircleTheater.setBackground(new Color(0, 0, 0, 0));
         CircleTheater.setRoundedBorder(Color.WHITE, 2);
         theaterDashboard.add(CircleTheater);
 
-        JLabel nbrUserLabelTheater = new JLabel();
+        // Fetch the total number of theaters
+        int totalTheaters = TheaterManager.numberOfTheaters();
 
-        if(theaterManager.theaters.size() < 10){
-            nbrUserLabelTheater.setBounds(40, 32, 100, 30);
-            nbrUserLabelTheater.setText(String.valueOf(theaterManager.theaters.size()));
-        }else{
-            nbrUserLabelTheater.setBounds(33, 32, 100, 30);
-            nbrUserLabelTheater.setText(String.valueOf(theaterManager.theaters.size()));
+        JLabel nbrTotalTheater = new JLabel();
+        if (totalTheaters < 10) {
+            nbrTotalTheater.setBounds(40, 32, 100, 30);
+            nbrTotalTheater.setText(String.valueOf(totalTheaters));
+        } else {
+            nbrTotalTheater.setBounds(33, 32, 100, 30);
+            nbrTotalTheater.setText(String.valueOf(totalTheaters));
         }
 
-        nbrUserLabelTheater.setForeground(Color.WHITE);
-        nbrUserLabelTheater.setFont(new Font("Bebas Neue", Font.BOLD, 30));
-        CircleTheater.add(nbrUserLabelTheater);
+        nbrTotalTheater.setForeground(Color.WHITE);
+        nbrTotalTheater.setFont(new Font("Bebas Neue", Font.BOLD, 30));
+        CircleTheater.add(nbrTotalTheater);
 
-        JSeparator separatorRght1Theater = new JSeparator();
-        separatorRght1Theater.setOrientation(SwingConstants.HORIZONTAL);
-        separatorRght1Theater.setBackground(Color.white);
-        separatorRght1Theater.setForeground(Color.white); 
-        separatorRght1Theater.setBounds(790, 240, 220, 1);
-        theaterDashboard.add(separatorRght1Theater);
+        // Right-Side Section: Total VIP Seats
+        JLabel nbrVIPSeatsLabel = new JLabel("Total VIP Seats");
+        nbrVIPSeatsLabel.setBounds(815, 200, 200, 30);
+        nbrVIPSeatsLabel.setForeground(Color.WHITE);
+        nbrVIPSeatsLabel.setFont(new Font("Bebas Neue", Font.BOLD, 15));
+        theaterDashboard.add(nbrVIPSeatsLabel);
 
-        JLabel TopWatchedtheater = new JLabel("Most Used Theater");
-        TopWatchedtheater.setBounds(830, 255, 250, 30);
-        TopWatchedtheater.setForeground(Color.WHITE);
-        TopWatchedtheater.setFont(new Font("Bebas Neue", Font.BOLD, 15));
-        theaterDashboard.add(TopWatchedtheater);
+        RoundedPanel CircleVIPSeats = new RoundedPanel(100);
+        CircleVIPSeats.setLayout(null);
+        CircleVIPSeats.setBounds(855, 260, 100, 100);
+        CircleVIPSeats.setBackground(new Color(0, 0, 0, 0));
+        CircleVIPSeats.setRoundedBorder(Color.WHITE, 2);
+        theaterDashboard.add(CircleVIPSeats);
 
-        JLabel NameToptheater = new JLabel(); 
-        NameToptheater.setBounds(875, 300, 250, 30);
-        NameToptheater.setForeground(Color.WHITE);
-        NameToptheater.setFont(new Font("Roboto", Font.TYPE1_FONT, 13));
+        // Fetch the total number of VIP seats
+        int totalVIPSeats = TheaterManager.totalVIPSeats();
 
-        String mostFrequentusedtheater = null;
-        int maxCounttheater = 0;
-
-
-        for (int i = 0; i < theaterManager.theaters.size(); i++) {
-            String currentTheater = String.valueOf(theaterManager.theaters.get(i).TheaterId);
-            int currentCount = 0;
-
-            
-            for (int j = 0; j <  theaterManager.theaters.size(); j++) {
-                if (String.valueOf(theaterManager.theaters.get(j).TheaterId).equals(currentTheater)) {
-                    currentCount++;
-                }
-            }
-
-            
-            if (currentCount > maxCounttheater) {
-                maxCounttheater = currentCount;
-                mostFrequentusedtheater = currentTheater;
-            }
-        }
-        NameToptheater.setText(mostFrequentusedtheater);
-        theaterDashboard.add(NameToptheater);
-
-        JSeparator separatorRght2Theater = new JSeparator();
-        separatorRght2Theater.setOrientation(SwingConstants.HORIZONTAL);
-        separatorRght2Theater.setBackground(Color.white);
-        separatorRght2Theater.setForeground(Color.white);
-        separatorRght2Theater.setBounds(790, 400, 220, 1);
-        theaterDashboard.add(separatorRght2Theater);
-
-        JLabel totalnbrofseats = new JLabel("Total Seats Across All Theaters");
-        totalnbrofseats.setBounds(810, 415, 250, 30);
-        totalnbrofseats.setForeground(Color.WHITE);
-        totalnbrofseats.setFont(new Font("Bebas Neue", Font.BOLD, 13));
-        theaterDashboard.add(totalnbrofseats);
-
-        RoundedPanel CircleTheater2 = new RoundedPanel(100);
-        CircleTheater2.setLayout(null);
-        CircleTheater2.setBounds(855, 468, 100, 100);
-        CircleTheater2.setBackground( new Color(0, 0, 0, 0));
-        CircleTheater2.setRoundedBorder(Color.WHITE, 2);
-        theaterDashboard.add(CircleTheater2);
-
-        int ttlseats=0;
-        for(int i = 0; i < theaterManager.theaters.size(); i++) {
-            ttlseats += theaterManager.theaters.get(i).NormalCapacity + theaterManager.theaters.get(i).VipCapacity;
+        JLabel nbrTotalVIPSeats = new JLabel();
+        if (totalVIPSeats < 10) {
+            nbrTotalVIPSeats.setBounds(40, 32, 100, 30);
+            nbrTotalVIPSeats.setText(String.valueOf(totalVIPSeats));
+        } else {
+            nbrTotalVIPSeats.setBounds(33, 32, 100, 30);
+            nbrTotalVIPSeats.setText(String.valueOf(totalVIPSeats));
         }
 
-        JLabel ttlnbrofseats = new JLabel();
-        if(theaterManager.theaters.size() < 10){
-            ttlnbrofseats.setBounds(40, 32, 100, 30);
-            ttlnbrofseats.setText(String.valueOf(ttlseats));
-        }else{
-            ttlnbrofseats.setBounds(33, 32, 100, 30);
-            ttlnbrofseats.setText(String.valueOf(ttlseats));
+        nbrTotalVIPSeats.setForeground(Color.WHITE);
+        nbrTotalVIPSeats.setFont(new Font("Bebas Neue", Font.BOLD, 30));
+        CircleVIPSeats.add(nbrTotalVIPSeats);
+
+        // Right-Side Section: Total Normal Seats
+        JLabel nbrNormalSeatsLabel = new JLabel("Total Normal Seats");
+        nbrNormalSeatsLabel.setBounds(815, 380, 200, 30);
+        nbrNormalSeatsLabel.setForeground(Color.WHITE);
+        nbrNormalSeatsLabel.setFont(new Font("Bebas Neue", Font.BOLD, 15));
+        theaterDashboard.add(nbrNormalSeatsLabel);
+
+        RoundedPanel CircleNormalSeats = new RoundedPanel(100);
+        CircleNormalSeats.setLayout(null);
+        CircleNormalSeats.setBounds(855, 440, 100, 100);
+        CircleNormalSeats.setBackground(new Color(0, 0, 0, 0));
+        CircleNormalSeats.setRoundedBorder(Color.WHITE, 2);
+        theaterDashboard.add(CircleNormalSeats);
+
+        // Fetch the total number of normal seats
+        int totalNormalSeats = TheaterManager.totalNormalSeats();
+
+        JLabel nbrTotalNormalSeats = new JLabel();
+        if (totalNormalSeats < 10) {
+            nbrTotalNormalSeats.setBounds(40, 32, 100, 30);
+            nbrTotalNormalSeats.setText(String.valueOf(totalNormalSeats));
+        } else {
+            nbrTotalNormalSeats.setBounds(33, 32, 100, 30);
+            nbrTotalNormalSeats.setText(String.valueOf(totalNormalSeats));
         }
 
-        ttlnbrofseats.setForeground(Color.WHITE);
-        ttlnbrofseats.setFont(new Font("Bebas Neue", Font.BOLD, 13));
-        CircleTheater2.add(ttlnbrofseats);
-
-        JSeparator separatorRght3Theater = new JSeparator();
-        separatorRght3Theater.setOrientation(SwingConstants.HORIZONTAL);
-        separatorRght3Theater.setBackground(Color.white);
-        separatorRght3Theater.setForeground(Color.white);
-        separatorRght3Theater.setBounds(790, 660, 220, 1);
-        theaterDashboard.add(separatorRght3Theater);
+        nbrTotalNormalSeats.setForeground(Color.WHITE);
+        nbrTotalNormalSeats.setFont(new Font("Bebas Neue", Font.BOLD, 30));
+        CircleNormalSeats.add(nbrTotalNormalSeats);
 
         JLabel Datetodaytheater = new JLabel("Date:");
         Datetodaytheater.setBounds(840, 675, 200, 30);
@@ -5283,32 +5307,35 @@ public class CinemaApp extends JFrame implements ActionListener {
     separator1Movie.setBounds(780, 00, 2, 750);
     MoviesDashboard.add(separator1Movie);
 
-    JLabel nbrmovie = new JLabel("Total Number of Movies");
-    nbrmovie.setBounds(815, 20, 200, 30);
-    nbrmovie.setForeground(Color.WHITE);
-    nbrmovie.setFont(new Font("Bebas Neue", Font.BOLD, 15));
-    MoviesDashboard.add(nbrmovie);
+    // right side number of movies
+        JLabel nbrmovie = new JLabel("Total Number of Movies");
+        nbrmovie.setBounds(815, 20, 200, 30);
+        nbrmovie.setForeground(Color.WHITE);
+        nbrmovie.setFont(new Font("Bebas Neue", Font.BOLD, 15));
+        MoviesDashboard.add(nbrmovie);
 
+        RoundedPanel CircleMovie = new RoundedPanel(100);
+        CircleMovie.setLayout(null);
+        CircleMovie.setBounds(855, 80, 100, 100);
+        CircleMovie.setBackground(new Color(0, 0, 0, 0));
+        CircleMovie.setRoundedBorder(Color.WHITE, 2);
+        MoviesDashboard.add(CircleMovie);
 
-    RoundedPanel CircleMovie = new RoundedPanel(100);
-    CircleMovie.setLayout(null);
-    CircleMovie.setBounds(855, 80, 100, 100);
-    CircleMovie.setBackground( new Color(0, 0, 0, 0));
-    CircleMovie.setRoundedBorder(Color.WHITE, 2);
-    MoviesDashboard.add(CircleMovie);
+        // Fetch the total number of movies using the method
+        int totalMovies = MovieManager.numberofmovies();
 
-    JLabel nbrTotalMovie = new JLabel();
-    if(movieManager.movies.size() < 10){
-        nbrTotalMovie.setBounds(40, 32, 100, 30);
-        nbrTotalMovie.setText(String.valueOf(movieManager.movies.size())); 
-        }else{
-        nbrTotalMovie.setBounds(33, 32, 100, 30);
-        nbrTotalMovie.setText(String.valueOf(movieManager.movies.size()));
-    }
-    
-    nbrTotalMovie.setForeground(Color.WHITE);
-    nbrTotalMovie.setFont(new Font("Bebas Neue", Font.BOLD, 30));
-    CircleMovie.add(nbrTotalMovie);
+        JLabel nbrTotalMovie = new JLabel();
+        if (totalMovies < 10) {
+            nbrTotalMovie.setBounds(40, 32, 100, 30);
+            nbrTotalMovie.setText(String.valueOf(totalMovies));
+        } else {
+            nbrTotalMovie.setBounds(33, 32, 100, 30);
+            nbrTotalMovie.setText(String.valueOf(totalMovies));
+        }
+
+        nbrTotalMovie.setForeground(Color.WHITE);
+        nbrTotalMovie.setFont(new Font("Bebas Neue", Font.BOLD, 30));
+        CircleMovie.add(nbrTotalMovie);
 
     JSeparator separatorRght1Movie = new JSeparator();
     separatorRght1Movie.setOrientation(SwingConstants.HORIZONTAL);
