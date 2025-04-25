@@ -950,6 +950,7 @@ public class CinemaApp extends JFrame implements ActionListener {
         removeimg.setForeground(Color.black);
         removeimg.addActionListener(e -> {
             imageframe.setBackgroundImage("img\\default.png");
+            ClientManager.updateClientImage(userid, "img\\default.png");
         });
         actions.add(removeimg);
 
@@ -1306,14 +1307,14 @@ public class CinemaApp extends JFrame implements ActionListener {
                 if (isFirstNameSelected) {
                     String newFirstName = editFirstNameText.getText();
                     if (!newFirstName.equals("Enter your First Name") && !newFirstName.isEmpty()) {
-                        ClientManager.updateClientName(userID, null, newFirstName); // Update first name
+                        ClientManager.updateClientFirstName(userID, newFirstName); // Update first name
                     }
                 }
 
                 if (isLastNameSelected) {
                     String newLastName = editLastNameText.getText();
                     if (!newLastName.equals("Enter your Last Name") && !newLastName.isEmpty()) {
-                        ClientManager.updateClientName(userID, newLastName, null); // Update last name
+                        ClientManager.updateClientLastName(userID, newLastName); // Update last name
                     }
                 }
 
@@ -6146,7 +6147,7 @@ public class CinemaApp extends JFrame implements ActionListener {
 
         LeftPanel.add(homebutton);
 
-        JLabel HomeButtonicon = new JLabel(resizedIcon("CINEMA\\img\\icon\\home 1.png", 20, 20));
+        JLabel HomeButtonicon = new JLabel(resizedIcon("img\\icon\\home 1.png", 20, 20));
         HomeButtonicon.setBounds(5, 11, 20, 20);
         homebutton.add(HomeButtonicon);
 
@@ -6164,7 +6165,7 @@ public class CinemaApp extends JFrame implements ActionListener {
         LeftPanel.add(moviesButton);
 
         
-        JLabel MovieButtonicon = new JLabel(resizedIcon("CINEMA\\img\\icon\\clapperboard.png", 20, 20));
+        JLabel MovieButtonicon = new JLabel(resizedIcon("img\\icon\\clapperboard.png", 20, 20));
         MovieButtonicon.setBounds(5, 11, 20, 20);
         moviesButton.add(MovieButtonicon);
 
@@ -6183,7 +6184,7 @@ public class CinemaApp extends JFrame implements ActionListener {
         usersButton.setHoverEffect(new Color(0, 0, 0 , 0), new Color(40, 40, 40));
         LeftPanel.add(usersButton);
 
-        JLabel usrButtonicon = new JLabel(resizedIcon("CINEMA\\img\\icon\\user1.png", 20, 20));
+        JLabel usrButtonicon = new JLabel(resizedIcon("img\\icon\\user1.png", 20, 20));
         usrButtonicon.setBounds(5, 11, 20, 20);
         usersButton.add(usrButtonicon);
 
@@ -6201,7 +6202,7 @@ public class CinemaApp extends JFrame implements ActionListener {
         });
         LeftPanel.add(Theaterbutton);
 
-        JLabel TheaterButtonicon = new JLabel(resizedIcon("CINEMA\\img\\icon\\Theatericon.png", 20, 20));
+        JLabel TheaterButtonicon = new JLabel(resizedIcon("img\\icon\\Theatericon.png", 20, 20));
         TheaterButtonicon.setBounds(5, 11, 20, 20);
         Theaterbutton.add(TheaterButtonicon);
 
@@ -6222,7 +6223,7 @@ public class CinemaApp extends JFrame implements ActionListener {
         LeftPanel.add(broadcastButton);
 
 
-        JLabel broadcastButtonicon = new JLabel(resizedIcon("CINEMA\\img\\icon\\Broadcasticon.png", 20, 20));
+        JLabel broadcastButtonicon = new JLabel(resizedIcon("img\\icon\\Broadcasticon.png", 20, 20));
         broadcastButtonicon.setBounds(5, 11, 20, 20);
         broadcastButton.add(broadcastButtonicon);
 
@@ -6240,7 +6241,7 @@ public class CinemaApp extends JFrame implements ActionListener {
         });
         LeftPanel.add(Adminbutton);
 
-        JLabel AdminButtonicon = new JLabel(resizedIcon("CINEMA\\img\\icon\\administrator 1.png", 20, 20));
+        JLabel AdminButtonicon = new JLabel(resizedIcon("img\\icon\\administrator 1.png", 20, 20));
         AdminButtonicon.setBounds(5, 11, 20, 20);
         Adminbutton.add(AdminButtonicon);
 
@@ -6261,7 +6262,7 @@ public class CinemaApp extends JFrame implements ActionListener {
         Statsbutton.addActionListener(e -> ((CardLayout) cardContainer.getLayout()).show(cardContainer, "stats"));
         LeftPanel.add(Statsbutton);
 
-        JLabel StatsButtonicon = new JLabel(resizedIcon("CINEMA\\img\\icon\\pie-chart 1.png", 20, 20));
+        JLabel StatsButtonicon = new JLabel(resizedIcon("img\\icon\\pie-chart 1.png", 20, 20));
         StatsButtonicon.setBounds(5, 11, 20, 20);
         Statsbutton.add(StatsButtonicon);
 
@@ -6274,11 +6275,20 @@ public class CinemaApp extends JFrame implements ActionListener {
         Logoutbutton.setFont(new Font("Segoe UI", Font.BOLD, 14));
         Logoutbutton.setHoverEffect(new Color(0, 0, 0 , 0), new Color(40, 40, 40));
         Logoutbutton.addActionListener(e ->{
+            int response = JOptionPane.showConfirmDialog(
+            null, 
+            "Are you sure you want to proceed?", 
+            "Confirmation", 
+            JOptionPane.YES_NO_OPTION
+        );
+        if (response == JOptionPane.YES_OPTION) {
             MainCardLayout.show(MainPanel, "LogIn");
+        }  
         });
+
         LeftPanel.add(Logoutbutton);
 
-        JLabel LogiutButtonicon = new JLabel(resizedIcon("CINEMA\\img\\icon\\logout 1.png", 20, 20));
+        JLabel LogiutButtonicon = new JLabel(resizedIcon("img\\icon\\logout 1.png", 20, 20));
         LogiutButtonicon.setBounds(5, 11, 20, 20);
         Logoutbutton.add(LogiutButtonicon);
 

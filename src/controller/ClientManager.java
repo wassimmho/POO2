@@ -155,30 +155,51 @@ public class ClientManager {
         }
     }
 
-    // Method to update the first name and last name
-    public static void updateClientName(int userID, String lname, String name) {
-        String sql = "UPDATE users SET LastName = ?, Name = ? WHERE UserID = ?";
+        // Method to update only the first name
+    public static void updateClientFirstName(int userID, String firstName) {
+            String sql = "UPDATE users SET Name = ? WHERE UserID = ?";
 
-        try (Connection conn = DatabaseConnection.connect();
-            PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            try (Connection conn = DatabaseConnection.connect();
+                PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
-            pstmt.setString(1, lname);
-            pstmt.setString(2, name);
-            pstmt.setInt(3, userID);
+                pstmt.setString(1, firstName);
+                pstmt.setInt(2, userID);
 
-            int rowsUpdated = pstmt.executeUpdate();
+                int rowsUpdated = pstmt.executeUpdate();
 
-            if (rowsUpdated > 0) {
-                System.out.println("First name and last name updated successfully!");
-            } else {
-                System.out.println("User not found. No update performed.");
+                if (rowsUpdated > 0) {
+                    System.out.println("First name updated successfully!");
+                } else {
+                    System.out.println("User not found. No update performed.");
+                }
+
+            } catch (SQLException e) {
+                e.printStackTrace();
             }
-
-        } catch (SQLException e) {
-            e.printStackTrace();
         }
-    }
 
+        // Method to update only the last name
+        public static void updateClientLastName(int userID, String lastName) {
+            String sql = "UPDATE users SET LastName = ? WHERE UserID = ?";
+
+            try (Connection conn = DatabaseConnection.connect();
+                PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+                pstmt.setString(1, lastName);
+                pstmt.setInt(2, userID);
+
+                int rowsUpdated = pstmt.executeUpdate();
+
+                if (rowsUpdated > 0) {
+                    System.out.println("Last name updated successfully!");
+                } else {
+                    System.out.println("User not found. No update performed.");
+                }
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
         public static void updateClientEmail(int userID, String email) {
         String sql = "UPDATE users SET Email = ? WHERE UserID = ?";
 
