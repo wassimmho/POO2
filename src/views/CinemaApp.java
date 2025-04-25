@@ -1,6 +1,5 @@
 package views;
 
-import com.sun.tools.javac.Main;
 import controller.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -5939,7 +5938,7 @@ public class CinemaApp extends JFrame implements ActionListener {
         RoundedPanel Circle2User = new RoundedPanel(100);
         Circle2User.setLayout(null);
         Circle2User.setBounds(855, 320, 100, 100);
-        Circle2User.setBackground( new Color(0, 0, 0, 0));
+        Circle2User.setBackground(new Color(0, 0, 0, 0));
         Circle2User.setRoundedBorder(Color.WHITE, 2);
         UserInsightsDashboard.add(Circle2User);
 
@@ -5950,26 +5949,18 @@ public class CinemaApp extends JFrame implements ActionListener {
         UserInsightsDashboard.add(AvgBalancelbl);
 
         JLabel AvgBalance = new JLabel();
-        int AvrgBalance;
-        int sumBalance = 0;
-        for (Client client : clientManager.clients) {
-            sumBalance += client.Balance;
-        }
-        AvrgBalance = sumBalance / clientManager.clients.size();
+        int AvrgBalance = ClientManager.averagebalance(); // Use the averagebalance method
 
-        if(AvrgBalance < 10){
-            AvgBalance.setBounds(43, 34, 100, 30);
+        if (AvrgBalance < 10) {
+            AvgBalance.setBounds(30, 34, 100, 30);
             AvgBalance.setFont(new Font("Bebas Neue", Font.BOLD, 24));
-            AvgBalance.setText(String.valueOf(AvrgBalance)+ "da");
-        }
-
-        if(AvrgBalance > 10 && AvrgBalance<1000 ) {
-            AvgBalance.setBounds(47, 32, 100, 30);
+            AvgBalance.setText(String.valueOf(AvrgBalance) + "da");
+        } else if (AvrgBalance > 10 && AvrgBalance < 1000) {
+            AvgBalance.setBounds(20, 32, 100, 30);
             AvgBalance.setFont(new Font("Bebas Neue", Font.BOLD, 24));
-            AvgBalance.setText(String.valueOf(AvrgBalance)+ "da");
-        }           
-        else if(AvrgBalance > 1000) {
-            AvgBalance.setBounds(17, 32, 100, 30);
+            AvgBalance.setText(String.valueOf(AvrgBalance) + "da");
+        } else if (AvrgBalance > 1000) {
+            AvgBalance.setBounds(15, 32, 100, 30);
             AvgBalance.setFont(new Font("Bebas Neue", Font.BOLD, 19));
             AvgBalance.setText(String.valueOf(AvrgBalance) + "da");
         }
