@@ -4108,12 +4108,189 @@ public class CinemaApp extends JFrame implements ActionListener {
         datenowTheater.setForeground(Color.WHITE);
         datenowTheater.setFont(new Font("Bebas Neue", Font.BOLD, 13));
         theaterDashboard.add(datenowTheater);
-//-------------------------------about Admins--------------------------------
+        //-------------------------------about Admins--------------------------------
         JPanel adminDashboard = new JPanel();
         adminDashboard.setLayout(null);
         adminDashboard.setBounds(0, 0, 1400, 750);
-        adminDashboard.setBackground(Color.green);
-        MiddlePanel.add(adminDashboard);
+        adminDashboard.setBackground(new Color(30, 30, 30));
+
+        // Title
+        JLabel adminTitle = new JLabel("Admin Dashboard");
+        adminTitle.setBounds(35, 26, 300, 30);
+        adminTitle.setForeground(Color.WHITE);
+        adminTitle.setFont(new Font("Bebas Neue", Font.BOLD, 23));
+        adminDashboard.add(adminTitle);
+
+        // Search Panel
+        RoundedPanel searchPanelAdmin = new RoundedPanel(30);
+        searchPanelAdmin.setLayout(null);
+        searchPanelAdmin.setBounds(280, 100, 460, 35);
+        searchPanelAdmin.setBackground(new Color(30, 30, 30));
+        searchPanelAdmin.setRoundedBorder(Color.WHITE, 1);
+        adminDashboard.add(searchPanelAdmin);
+
+        JTextField searchFieldAdmin = new JTextField("Search with Email");
+        searchFieldAdmin.setBounds(10, 5, 400, 25);
+        searchFieldAdmin.setBackground(new Color(30, 30, 30));
+        searchFieldAdmin.setForeground(Color.WHITE);
+        searchFieldAdmin.setFont(new Font("Segoe UI", Font.PLAIN, 13));
+        searchFieldAdmin.setBorder(null);
+        TextfieldBehave(searchFieldAdmin, "Search with Email");
+        searchPanelAdmin.add(searchFieldAdmin);
+
+        // Table Headers
+        JLabel selectedLblAdmin = new JLabel("Selected");
+        selectedLblAdmin.setBounds(30, 157, 60, 30);
+        selectedLblAdmin.setForeground(Color.WHITE);
+        selectedLblAdmin.setFont(new Font("Bebas Neue", Font.PLAIN, 13));
+        adminDashboard.add(selectedLblAdmin);
+
+        JLabel nameLblAdmin = new JLabel("Name");
+        nameLblAdmin.setBounds(110, 157, 60, 30);
+        nameLblAdmin.setForeground(Color.WHITE);
+        nameLblAdmin.setFont(new Font("Bebas Neue", Font.PLAIN, 13));
+        adminDashboard.add(nameLblAdmin);
+
+        JLabel emailLblAdmin = new JLabel("Email");
+        emailLblAdmin.setBounds(235, 157, 60, 30);
+        emailLblAdmin.setForeground(Color.WHITE);
+        emailLblAdmin.setFont(new Font("Bebas Neue", Font.PLAIN, 13));
+        adminDashboard.add(emailLblAdmin);
+
+        JLabel roleLblAdmin = new JLabel("Last Name");
+        roleLblAdmin.setBounds(380, 157, 80, 30);
+        roleLblAdmin.setForeground(Color.WHITE);
+        roleLblAdmin.setFont(new Font("Bebas Neue", Font.PLAIN, 13));
+        adminDashboard.add(roleLblAdmin);
+
+        JLabel statusLblAdmin = new JLabel("Status");
+        statusLblAdmin.setBounds(570, 157, 60, 30);
+        statusLblAdmin.setForeground(Color.WHITE);
+        statusLblAdmin.setFont(new Font("Bebas Neue", Font.PLAIN, 13));
+        adminDashboard.add(statusLblAdmin);
+
+        // Separator
+        JSeparator separatorHorAdmin = new JSeparator();
+        separatorHorAdmin.setOrientation(SwingConstants.HORIZONTAL);
+        separatorHorAdmin.setBackground(Color.WHITE);
+        separatorHorAdmin.setForeground(Color.WHITE);
+        separatorHorAdmin.setBounds(21, 190, 720, 1);
+        adminDashboard.add(separatorHorAdmin);
+
+        // Admin List Panel
+        JPanel adminPanelList = new JPanel();
+        adminPanelList.setLayout(null);
+        adminPanelList.setBounds(35, 200, 700, 440);
+        adminPanelList.setBackground(new Color(30, 30, 30));
+
+        JPanel contentPanelAdminList = new JPanel();
+        contentPanelAdminList.setLayout(null);
+        contentPanelAdminList.setBackground(new Color(30, 30, 30));
+
+        int totalHeightAdminList = adminManager.admins.size() * 50;
+        contentPanelAdminList.setPreferredSize(new Dimension(650, Math.max(500, totalHeightAdminList)));
+
+        ArrayList<JCheckBox> checkBoxesAdminList = new ArrayList<>();
+
+        try (Connection conn = DatabaseConnection.connect();
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT * FROM admins")) {
+
+            int rowIndex = 0;
+            while (rs.next()) {
+                JPanel adminListRow = new JPanel();
+                adminListRow.setLayout(null);
+                adminListRow.setBounds(0, rowIndex * 50, 700, 40);
+                adminListRow.setBackground(new Color(30, 30, 30));
+
+                JLabel nameAdmin = new JLabel(rs.getString("Name"));
+                nameAdmin.setBounds(67, 5, 200, 30);
+                nameAdmin.setForeground(Color.WHITE);
+                nameAdmin.setFont(new Font("Bebas Neue", Font.PLAIN, 13));
+                adminListRow.add(nameAdmin);
+
+                JLabel emailAdmin = new JLabel(rs.getString("Email"));
+                emailAdmin.setBounds(190, 5, 200, 30);
+                emailAdmin.setForeground(Color.WHITE);
+                emailAdmin.setFont(new Font("Bebas Neue", Font.PLAIN, 13));
+                adminListRow.add(emailAdmin);
+
+                JLabel roleAdmin = new JLabel(rs.getString("LastName"));
+                roleAdmin.setBounds(370, 5, 200, 30);
+                roleAdmin.setForeground(Color.WHITE);
+                roleAdmin.setFont(new Font("Bebas Neue", Font.PLAIN, 13));
+                adminListRow.add(roleAdmin);
+
+                JLabel statusAdmin = new JLabel(rs.getString("Status"));
+                statusAdmin.setBounds(540, 5, 200, 30);
+                statusAdmin.setForeground(Color.WHITE);
+                statusAdmin.setFont(new Font("Bebas Neue", Font.PLAIN, 13));
+                adminListRow.add(statusAdmin);
+
+                JCheckBox selectCheckBox = new JCheckBox();
+                selectCheckBox.setBounds(4, 5, 20, 20);
+                selectCheckBox.setBackground(new Color(30, 30, 30));
+                selectCheckBox.setForeground(Color.WHITE);
+                selectCheckBox.setFont(new Font("Bebas Neue", Font.PLAIN, 13));
+                adminListRow.add(selectCheckBox);
+                checkBoxesAdminList.add(selectCheckBox);
+
+                contentPanelAdminList.add(adminListRow);
+                rowIndex++;
+            }
+
+            // Update the preferred size of the content panel based on the number of rows
+            contentPanelAdminList.setPreferredSize(new Dimension(650, Math.max(500, rowIndex * 50)));
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Error fetching admin data from the database!", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+
+        JScrollPane scrollPanelAdminList = new JScrollPane(contentPanelAdminList);
+        scrollPanelAdminList.setBounds(35, 200, 700, 440);
+        scrollPanelAdminList.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
+        scrollPanelAdminList.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        scrollPanelAdminList.setBorder(null);
+        scrollPanelAdminList.getVerticalScrollBar().setUnitIncrement(16);
+        scrollPanelAdminList.getViewport().setBackground(new Color(30, 30, 30));
+
+        contentPanelAdminList.addMouseWheelListener(e -> {
+            JScrollBar verticalScrollBar = scrollPanelAdminList.getVerticalScrollBar();
+            int notches = e.getWheelRotation();
+            int currentValue = verticalScrollBar.getValue();
+            int scrollAmount = 30;
+            verticalScrollBar.setValue(currentValue + (notches * scrollAmount));
+        });
+
+        adminDashboard.add(scrollPanelAdminList);
+
+        // Buttons
+        RoundedButton unselectAllAdmin = new RoundedButton("Unselect All", 5);
+        unselectAllAdmin.setBounds(20, 650, 120, 30);
+        unselectAllAdmin.setForeground(Color.BLACK);
+        unselectAllAdmin.setBackground(Color.WHITE);
+        unselectAllAdmin.addActionListener(e -> {
+            for (JCheckBox checkBox : checkBoxesAdminList) {
+                if (checkBox.isSelected()) {
+                    checkBox.setSelected(false);
+                }
+            }
+        });
+        adminDashboard.add(unselectAllAdmin);
+
+        RoundedButton selectAllAdmin = new RoundedButton("Select All", 5);
+        selectAllAdmin.setBounds(180, 650, 120, 30);
+        selectAllAdmin.setForeground(Color.BLACK);
+        selectAllAdmin.setBackground(Color.WHITE);
+        selectAllAdmin.addActionListener(e -> {
+            for (JCheckBox checkBox : checkBoxesAdminList) {
+                if (!checkBox.isSelected()) {
+                    checkBox.setSelected(true);
+                }
+            }
+        });
+        adminDashboard.add(selectAllAdmin);
 //---------------------------------about Stats--------------------------------
         JPanel StatsDashboard = new JPanel();
         StatsDashboard.setLayout(null);
