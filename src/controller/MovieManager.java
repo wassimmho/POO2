@@ -1,11 +1,15 @@
 package controller;
 
+import controller.DatabaseConnection;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+
+import javax.swing.JOptionPane;
+
 import model.*;
 
 public class MovieManager {
@@ -217,21 +221,473 @@ public class MovieManager {
     }
 
     public static int numberofmovies() {
-            String sql = "SELECT COUNT(*) FROM movies";
-    
-            try (Connection conn = DatabaseConnection.connect();
-                 PreparedStatement pstmt = conn.prepareStatement(sql)) {
-    
-                ResultSet rs = pstmt.executeQuery();
-                if (rs.next()) {
-                    return rs.getInt(1);
-                }
-    
-            } catch (SQLException e) {
-                e.printStackTrace();
+        String sql = "SELECT COUNT(*) FROM movies";
+        try (Connection conn = DatabaseConnection.connect();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            ResultSet rs = pstmt.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1);
             }
-    
-            return 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+public static boolean addMovieToDatabase(String title, Movie.MovieGenre genre, String description, float rating, 
+                                                                                 Movie.MovieAgeRating ageRating, String imagePath, String trailerURL, 
+                                                                                 LocalDate releaseDate, String director) {
+        Movie movie = new Movie(0, title, genre, 0, description, director, "", releaseDate, rating, ageRating, Movie.Language.VOSTFR, imagePath);
+
+        if (isDuplicate(movie)) {
+                JOptionPane.showMessageDialog(null, "Movie already exists!", "Error", JOptionPane.ERROR_MESSAGE);
+                return false;
         }
 
+        String sql = "INSERT INTO movies (Title, Genre, Description, Rating, AgeRating, ImagePath, TrailerURL, ReleaseDate, Director) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        try (Connection conn = DatabaseConnection.connect();
+                 PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+                pstmt.setString(1, title);
+                pstmt.setString(2, genre.toString());
+                pstmt.setString(3, description);
+                pstmt.setFloat(4, rating);
+                pstmt.setString(5, ageRating.toString());
+                pstmt.setString(6, imagePath);
+                pstmt.setString(7, trailerURL);
+                pstmt.setDate(8, java.sql.Date.valueOf(releaseDate));
+                pstmt.setString(9, director);
+
+                int rowsInserted = pstmt.executeUpdate();
+
+                if (rowsInserted > 0) {
+                        System.out.println("Movie added successfully!");
+                        return true;
+                }
+
+        } catch (SQLException e) {
+                e.printStackTrace();
+                JOptionPane.showMessageDialog(null, "Error adding movie to the database!", "Error", JOptionPane.ERROR_MESSAGE);
+                return false;
+        }
+        return false;
+}
+    
+
+    public static void removeMovie(int movieID) {
+        String sql = "DELETE FROM movies WHERE MovieID = ?";
+
+        try (Connection conn = DatabaseConnection.connect();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setInt(1, movieID);
+
+            int rowsDeleted = pstmt.executeUpdate();
+
+            if (rowsDeleted > 0) {
+                System.out.println("Movie deleted successfully!");
+            } else {
+                System.out.println("Movie not found. No deletion performed.");
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static boolean isDuplicate(Movie movie) {
+        String sql = "SELECT COUNT(*) FROM movies WHERE Title = ? AND Director = ?";
+
+        try (Connection conn = DatabaseConnection.connect();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setString(1, movie.Title);
+            pstmt.setString(2, movie.Director);
+
+            ResultSet rs = pstmt.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1) > 0;
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return false;
+    }
+
+    // Method to update only the title
+    public static void updateMovieTitle(int movieID, String title) {
+        String sql = "UPDATE movies SET Title = ? WHERE MovieID = ?";
+
+        try (Connection conn = DatabaseConnection.connect();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setString(1, title);
+            pstmt.setInt(2, movieID);
+
+            int rowsUpdated = pstmt.executeUpdate();
+
+            if (rowsUpdated > 0) {
+                System.out.println("Movie title updated successfully!");
+            } else {
+                System.out.println("Movie not found. No update performed.");
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    // Method to update only the genre
+    public static void updateMovieGenre(int movieID, Movie.MovieGenre genre) {
+        String sql = "UPDATE movies SET Genre = ? WHERE MovieID = ?";
+
+        try (Connection conn = DatabaseConnection.connect();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setString(1, genre.toString());
+            pstmt.setInt(2, movieID);
+
+            int rowsUpdated = pstmt.executeUpdate();
+
+            if (rowsUpdated > 0) {
+                System.out.println("Movie genre updated successfully!");
+            } else {
+                System.out.println("Movie not found. No update performed.");
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    // Method to update only the description
+    public static void updateMovieDescription(int movieID, String description) {
+        String sql = "UPDATE movies SET Description = ? WHERE MovieID = ?";
+
+        try (Connection conn = DatabaseConnection.connect();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setString(1, description);
+            pstmt.setInt(2, movieID);
+
+            int rowsUpdated = pstmt.executeUpdate();
+
+            if (rowsUpdated > 0) {
+                System.out.println("Movie description updated successfully!");
+            } else {
+                System.out.println("Movie not found. No update performed.");
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    // Method to update only the rating
+    public static void updateMovieRating(int movieID, float rating) {
+        String sql = "UPDATE movies SET Rating = ? WHERE MovieID = ?";
+
+        try (Connection conn = DatabaseConnection.connect();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setFloat(1, rating);
+            pstmt.setInt(2, movieID);
+
+            int rowsUpdated = pstmt.executeUpdate();
+
+            if (rowsUpdated > 0) {
+                System.out.println("Movie rating updated successfully!");
+            } else {
+                System.out.println("Movie not found. No update performed.");
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    // Method to update only the age rating
+    public static void updateMovieAgeRating(int movieID, Movie.MovieAgeRating ageRating) {
+        String sql = "UPDATE movies SET AgeRating = ? WHERE MovieID = ?";
+
+        try (Connection conn = DatabaseConnection.connect();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setString(1, ageRating.toString());
+            pstmt.setInt(2, movieID);
+
+            int rowsUpdated = pstmt.executeUpdate();
+
+            if (rowsUpdated > 0) {
+                System.out.println("Movie age rating updated successfully!");
+            } else {
+                System.out.println("Movie not found. No update performed.");
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    // Method to update only the image path
+    public static void updateMovieImagePath(int movieID, String imagePath) {
+        String sql = "UPDATE movies SET ImagePath = ? WHERE MovieID = ?";
+
+        try (Connection conn = DatabaseConnection.connect();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setString(1, imagePath);
+            pstmt.setInt(2, movieID);
+
+            int rowsUpdated = pstmt.executeUpdate();
+
+            if (rowsUpdated > 0) {
+                System.out.println("Movie image path updated successfully!");
+            } else {
+                System.out.println("Movie not found. No update performed.");
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    // Method to update only the trailer URL
+    public static void updateMovieTrailerURL(int movieID, String trailerURL) {
+        String sql = "UPDATE movies SET TrailerURL = ? WHERE MovieID = ?";
+
+        try (Connection conn = DatabaseConnection.connect();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setString(1, trailerURL);
+            pstmt.setInt(2, movieID);
+
+            int rowsUpdated = pstmt.executeUpdate();
+
+            if (rowsUpdated > 0) {
+                System.out.println("Movie trailer URL updated successfully!");
+            } else {
+                System.out.println("Movie not found. No update performed.");
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    // Method to update only the release date
+    public static void updateMovieReleaseDate(int movieID, LocalDate releaseDate) {
+        String sql = "UPDATE movies SET ReleaseDate = ? WHERE MovieID = ?";
+
+        try (Connection conn = DatabaseConnection.connect();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setDate(1, java.sql.Date.valueOf(releaseDate));
+            pstmt.setInt(2, movieID);
+
+            int rowsUpdated = pstmt.executeUpdate();
+
+            if (rowsUpdated > 0) {
+                System.out.println("Movie release date updated successfully!");
+            } else {
+                System.out.println("Movie not found. No update performed.");
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    // Method to update only the director
+    public static void updateMovieDirector(int movieID, String director) {
+        String sql = "UPDATE movies SET Director = ? WHERE MovieID = ?";
+
+        try (Connection conn = DatabaseConnection.connect();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setString(1, director);
+            pstmt.setInt(2, movieID);
+
+            int rowsUpdated = pstmt.executeUpdate();
+
+            if (rowsUpdated > 0) {
+                System.out.println("Movie director updated successfully!");
+            } else {
+                System.out.println("Movie not found. No update performed.");
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static ResultSet findMoviesbyTitle(String title) {
+        String sql = "SELECT * FROM movies WHERE Title = ? ";
+
+        try (Connection conn = DatabaseConnection.connect();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setString(1, title);
+
+            return pstmt.executeQuery();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    public static ResultSet findMoviesbyGenre(String genre) {
+        String sql = "SELECT * FROM movies WHERE Genre = ? ";
+
+        try (Connection conn = DatabaseConnection.connect();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setString(1, genre);
+
+            return pstmt.executeQuery();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    public static ResultSet findMoviesbyDirector(String director) {
+        String sql = "SELECT * FROM movies WHERE Director = ? ";
+
+        try (Connection conn = DatabaseConnection.connect();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setString(1, director);
+
+            return pstmt.executeQuery();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    public static String getMovieTitle(int movieID) throws SQLException {
+        String sql = "SELECT Title FROM movies WHERE MovieID = ?";
+        try(Connection conn = DatabaseConnection.connect();
+            PreparedStatement pstm = conn.prepareStatement(sql)){
+            pstm.setInt(1, movieID);
+            ResultSet rs = pstm.executeQuery();
+            if(rs.next()){
+                return rs.getString(1);
+            }
+        }
+        return null;
+    }
+
+    public static String getMovieGenre(int movieID) throws SQLException {
+        String sql = "SELECT Genre FROM movies WHERE MovieID = ?";
+        try(Connection conn = DatabaseConnection.connect();
+            PreparedStatement pstm = conn.prepareStatement(sql)){
+            pstm.setInt(1, movieID);
+            ResultSet rs = pstm.executeQuery();
+            if(rs.next()){
+                return rs.getString(1);
+            }
+        }
+        return null;
+    }
+
+    public static String getMovieDescription(int movieID) throws SQLException {
+        String sql = "SELECT Description FROM movies WHERE MovieID = ?";
+        try(Connection conn = DatabaseConnection.connect();
+            PreparedStatement pstm = conn.prepareStatement(sql)){
+            pstm.setInt(1, movieID);
+            ResultSet rs = pstm.executeQuery();
+            if(rs.next()){
+                return rs.getString(1);
+            }
+        }
+        return null;
+    }
+
+    public static float getMovieRating(int movieID) throws SQLException {
+        String sql = "SELECT Rating FROM movies WHERE MovieID = ?";
+        try(Connection conn = DatabaseConnection.connect();
+            PreparedStatement pstm = conn.prepareStatement(sql)){
+            pstm.setInt(1, movieID);
+            ResultSet rs = pstm.executeQuery();
+            if(rs.next()){
+                return rs.getFloat(1);
+            }
+        }
+        return 0;
+    }
+
+    public static String getMovieAgeRating(int movieID) throws SQLException {
+        String sql = "SELECT AgeRating FROM movies WHERE MovieID = ?";
+        try(Connection conn = DatabaseConnection.connect();
+            PreparedStatement pstm = conn.prepareStatement(sql)){
+            pstm.setInt(1, movieID);
+            ResultSet rs = pstm.executeQuery();
+            if(rs.next()){
+                return rs.getString(1);
+            }
+        }
+        return null;
+    }
+
+    public static String getMovieImagePath(int movieID) throws SQLException {
+        String sql = "SELECT ImagePath FROM movies WHERE MovieID = ?";
+        try(Connection conn = DatabaseConnection.connect();
+            PreparedStatement pstm = conn.prepareStatement(sql)){
+            pstm.setInt(1, movieID);
+            ResultSet rs = pstm.executeQuery();
+            if(rs.next()){
+                return rs.getString(1);
+            }
+        }
+        return null;
+    }
+
+    public static String getMovieTrailerURL(int movieID) throws SQLException {
+        String sql = "SELECT TrailerURL FROM movies WHERE MovieID = ?";
+        try(Connection conn = DatabaseConnection.connect();
+            PreparedStatement pstm = conn.prepareStatement(sql)){
+            pstm.setInt(1, movieID);
+            ResultSet rs = pstm.executeQuery();
+            if(rs.next()){
+                return rs.getString(1);
+            }
+        }
+        return null;
+    }
+
+    public static LocalDate getMovieReleaseDate(int movieID) throws SQLException {
+        String sql = "SELECT ReleaseDate FROM movies WHERE MovieID = ?";
+        try(Connection conn = DatabaseConnection.connect();
+            PreparedStatement pstm = conn.prepareStatement(sql)){
+            pstm.setInt(1, movieID);
+            ResultSet rs = pstm.executeQuery();
+            if(rs.next()){
+                return rs.getDate(1).toLocalDate();
+            }
+        }
+        return null;
+    }
+
+    public static String getMovieDirector(int movieID) throws SQLException {
+        String sql = "SELECT Director FROM movies WHERE MovieID = ?";
+        try(Connection conn = DatabaseConnection.connect();
+            PreparedStatement pstm = conn.prepareStatement(sql)){
+            pstm.setInt(1, movieID);
+            ResultSet rs = pstm.executeQuery();
+            if(rs.next()){
+                return rs.getString(1);
+            }
+        }
+        return null;
+    }
 }
