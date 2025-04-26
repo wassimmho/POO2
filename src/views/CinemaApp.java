@@ -3800,8 +3800,149 @@ public class CinemaApp extends JFrame implements ActionListener {
         JPanel HomeDashboard = new JPanel();
         HomeDashboard.setLayout(null);
         HomeDashboard.setBounds(0, 0, 1400, 750);
-        HomeDashboard.setBackground(Color.blue);
+        HomeDashboard.setBackground(new Color(30, 30, 30));
         MiddlePanel.add(HomeDashboard);
+
+        // Top three rounded panels for stats
+        int panelWidth = 280;
+        int panelHeight = 150;
+        int spacing = 20;
+        int startX = 60;
+        int startY = 80;
+
+        // First panel: Number of Clients
+        RoundedPanel clientsPanel = new RoundedPanel(30);
+        clientsPanel.setBounds(startX, startY, panelWidth, panelHeight);
+        clientsPanel.setBackground(new Color(50, 50, 50));
+        clientsPanel.setLayout(null);
+        HomeDashboard.add(clientsPanel);
+
+        JLabel clientsTitle = new JLabel("Number of Clients");
+        clientsTitle.setBounds(20, 20, 200, 30);
+        clientsTitle.setForeground(Color.WHITE);
+        clientsTitle.setFont(new Font("Bebas Neue", Font.BOLD, 18));
+        clientsPanel.add(clientsTitle);
+
+        JLabel clientsCount = new JLabel(String.valueOf(ClientManager.numberofusers()));
+        clientsCount.setBounds(20, 60, 200, 50);
+        clientsCount.setForeground(Color.WHITE);
+        clientsCount.setFont(new Font("Bebas Neue", Font.BOLD, 40));
+        clientsPanel.add(clientsCount);
+
+        // Second panel: Number of Movies
+        RoundedPanel moviesPanel = new RoundedPanel(30);
+        moviesPanel.setBounds(startX + panelWidth + spacing, startY, panelWidth, panelHeight);
+        moviesPanel.setBackground(new Color(50, 50, 50));
+        moviesPanel.setLayout(null);
+        HomeDashboard.add(moviesPanel);
+
+        JLabel moviesTitle = new JLabel("Number of Movies");
+        moviesTitle.setBounds(20, 20, 200, 30);
+        moviesTitle.setForeground(Color.WHITE);
+        moviesTitle.setFont(new Font("Bebas Neue", Font.BOLD, 18));
+        moviesPanel.add(moviesTitle);
+
+        JLabel moviesCount = new JLabel(String.valueOf(MovieManager.numberofmovies()));
+        moviesCount.setBounds(20, 60, 200, 50);
+        moviesCount.setForeground(Color.WHITE);
+        moviesCount.setFont(new Font("Bebas Neue", Font.BOLD, 40));
+        moviesPanel.add(moviesCount);
+
+        // Third panel: Number of Theaters
+        RoundedPanel theatersPanel = new RoundedPanel(30);
+        theatersPanel.setBounds(startX + 2 * (panelWidth + spacing), startY, panelWidth, panelHeight);
+        theatersPanel.setBackground(new Color(50, 50, 50));
+        theatersPanel.setLayout(null);
+        HomeDashboard.add(theatersPanel);
+
+        JLabel theatersTitle = new JLabel("Number of Theaters");
+        theatersTitle.setBounds(20, 20, 200, 30);
+        theatersTitle.setForeground(Color.WHITE);
+        theatersTitle.setFont(new Font("Bebas Neue", Font.BOLD, 18));
+        theatersPanel.add(theatersTitle);
+
+        JLabel theatersCount = new JLabel(String.valueOf(TheaterManager.numberOfTheaters()));
+        theatersCount.setBounds(20, 60, 200, 50);
+        theatersCount.setForeground(Color.WHITE);
+        theatersCount.setFont(new Font("Bebas Neue", Font.BOLD, 40));
+        theatersPanel.add(theatersCount);
+
+        // Big panel for quick actions
+        int bigPanelWidth = panelWidth * 3 + spacing * 2;
+        int bigPanelHeight = 400;
+        int bigPanelY = startY + panelHeight + spacing;
+
+        RoundedPanel quickActionsPanel = new RoundedPanel(30);
+        quickActionsPanel.setBounds(startX, bigPanelY, bigPanelWidth, bigPanelHeight);
+        quickActionsPanel.setBackground(new Color(40, 40, 40));
+        quickActionsPanel.setLayout(null);
+        HomeDashboard.add(quickActionsPanel);
+
+        JLabel quickActionsTitle = new JLabel("Quick Actions");
+        quickActionsTitle.setBounds(20, 20, 300, 30);
+        quickActionsTitle.setForeground(Color.WHITE);
+        quickActionsTitle.setFont(new Font("Bebas Neue", Font.BOLD, 20));
+        quickActionsPanel.add(quickActionsTitle);
+
+        // Add Broadcast Button
+        RoundedButton addBroadcastButton = new RoundedButton("Add Broadcast", 20);
+        addBroadcastButton.setBounds(50, 80, 200, 50);
+        addBroadcastButton.setForeground(Color.WHITE);
+        addBroadcastButton.setBackground(new Color(60, 120, 180));
+        addBroadcastButton.setFont(new Font("Segoe UI", Font.BOLD, 16));
+        addBroadcastButton.addActionListener(e -> {
+            // Action to add a broadcast
+            JOptionPane.showMessageDialog(null, "Add Broadcast clicked!");
+        });
+        quickActionsPanel.add(addBroadcastButton);
+
+        // Add Movie Button
+        RoundedButton addMovieButton = new RoundedButton("Add Movie", 20);
+        addMovieButton.setBounds(300, 80, 200, 50);
+        addMovieButton.setForeground(Color.WHITE);
+        addMovieButton.setBackground(new Color(80, 160, 100));
+        addMovieButton.setFont(new Font("Segoe UI", Font.BOLD, 16));
+        addMovieButton.addActionListener(e -> {
+            // Action to add a movie
+            JOptionPane.showMessageDialog(null, "Add Movie clicked!");
+        });
+        quickActionsPanel.add(addMovieButton);
+
+        // Add Theater Button
+        RoundedButton addTheaterButton = new RoundedButton("Add Theater", 20);
+        addTheaterButton.setBounds(550, 80, 200, 50);
+        addTheaterButton.setForeground(Color.WHITE);
+        addTheaterButton.setBackground(new Color(200, 100, 80));
+        addTheaterButton.setFont(new Font("Segoe UI", Font.BOLD, 16));
+        addTheaterButton.addActionListener(e -> {
+            // Action to add a theater
+            JOptionPane.showMessageDialog(null, "Add Theater clicked!");
+        });
+        quickActionsPanel.add(addTheaterButton);
+
+        // View Reports Button
+        RoundedButton viewReportsButton = new RoundedButton("View Reports", 20);
+        viewReportsButton.setBounds(50, 160, 200, 50);
+        viewReportsButton.setForeground(Color.WHITE);
+        viewReportsButton.setBackground(new Color(150, 75, 200));
+        viewReportsButton.setFont(new Font("Segoe UI", Font.BOLD, 16));
+        viewReportsButton.addActionListener(e -> {
+            // Action to view reports
+            JOptionPane.showMessageDialog(null, "View Reports clicked!");
+        });
+        quickActionsPanel.add(viewReportsButton);
+
+        // Settings Button
+        RoundedButton settingsButton = new RoundedButton("Settings", 20);
+        settingsButton.setBounds(300, 160, 200, 50);
+        settingsButton.setForeground(Color.WHITE);
+        settingsButton.setBackground(new Color(100, 100, 100));
+        settingsButton.setFont(new Font("Segoe UI", Font.BOLD, 16));
+        settingsButton.addActionListener(e -> {
+            // Action to open settings
+            JOptionPane.showMessageDialog(null, "Settings clicked!");
+        });
+        quickActionsPanel.add(settingsButton);
 //--------------------------------about theater--------------
         JPanel theaterDashboard = new JPanel();
         theaterDashboard.setLayout(null);
@@ -4431,12 +4572,7 @@ public class CinemaApp extends JFrame implements ActionListener {
             }
         });
         adminDashboard.add(selectAllAdmin);
-//---------------------------------about Stats--------------------------------
-        JPanel StatsDashboard = new JPanel();
-        StatsDashboard.setLayout(null);
-        StatsDashboard.setBounds(0, 0, 1400, 750);
-        StatsDashboard.setBackground(Color.WHITE);
-        MiddlePanel.add(StatsDashboard);
+
 //------------------------------About Broadcast--------------------------------
 
         JPanel BroadcastDashboard = new JPanel();
@@ -6116,7 +6252,6 @@ public class CinemaApp extends JFrame implements ActionListener {
         cardContainer.add(HomeDashboard, "home");
         cardContainer.add(theaterDashboard,"theater");
         cardContainer.add(adminDashboard,"admin");
-        cardContainer.add(StatsDashboard,"stats");
 
 
         ((CardLayout) cardContainer.getLayout()).show(cardContainer, "movies");
@@ -6243,19 +6378,7 @@ public class CinemaApp extends JFrame implements ActionListener {
         separatorLeft.setBounds(10, 460,  150, 1);
         LeftPanel.add(separatorLeft);
 
-        RoundedButton Statsbutton = new RoundedButton("Stats", 20);
-        Statsbutton.setBounds(10, 485, 150, 40);
-        Statsbutton.setForeground(Color.WHITE);
-        Statsbutton.setBackground(new Color(0, 0, 0, 0));
-        Statsbutton.setContentAreaFilled(false);
-        Statsbutton.setFont(new Font("Segoe UI", Font.BOLD, 14));
-        Statsbutton.setHoverEffect(new Color(0, 0, 0 , 0), new Color(40, 40, 40));
-        Statsbutton.addActionListener(e -> ((CardLayout) cardContainer.getLayout()).show(cardContainer, "stats"));
-        LeftPanel.add(Statsbutton);
 
-        JLabel StatsButtonicon = new JLabel(resizedIcon("img\\icon\\pie-chart 1.png", 20, 20));
-        StatsButtonicon.setBounds(5, 11, 20, 20);
-        Statsbutton.add(StatsButtonicon);
 
 
         RoundedButton Logoutbutton = new RoundedButton("Log out", 20);
