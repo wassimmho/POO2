@@ -5,6 +5,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
 import java.sql.*;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.ZoneId;
@@ -161,7 +162,7 @@ public class CinemaApp extends JFrame implements ActionListener {
 
         // add the main panel to the JFrame ----------------------------------
         setContentPane(MainPanel);
-        MainCardLayout.show(MainPanel, "ProfileAdminPanel");
+        MainCardLayout.show(MainPanel, "Admin");
 
         // Revalidate and repaint to ensure the SettingsPanel is displayed
         this.revalidate();
@@ -1470,6 +1471,2968 @@ public class CinemaApp extends JFrame implements ActionListener {
     }
 
 
+
+    public JPanel CreateAccountAdminPanel() {
+        JPanel AccountAdminPanel = new JPanel();
+
+        return AccountAdminPanel;
+    }
+
+
+    public JPanel CreateBuyPanel(Movie movie){
+        JPanel BuyPanel = new JPanel();
+        BuyPanel.setLayout(null);
+        BuyPanel.setBounds(0, 0, 1200, 750);
+        BuyPanel.setBackground(new Color(0x121213));
+
+        //Left panel ----------------------------------------------------------------
+        RoundedPanel LeftPanel = new RoundedPanel(35); 
+        LeftPanel.setBounds(30,30, 150, 650);
+        LeftPanel.setBackground(new Color(0x212121));
+        LeftPanel.setLayout(null);
+
+        BuyPanel.add(LeftPanel);
+
+        JPanel StraightLine = new JPanel();
+        StraightLine.setBounds(220, 80, 930, 5);
+        StraightLine.setBackground(new Color(0x313131));
+
+        BuyPanel.add(StraightLine);
+
+        RoundedPanel SearchBar = new RoundedPanel(35);
+        SearchBar.setBounds(250, 30, 800, 30);
+        SearchBar.setBackground(new Color(0x212121));
+        SearchBar.setLayout(null);
+
+        BuyPanel.add(SearchBar);
+
+        JTextField SearchField = new JTextField();
+        SearchField.setBounds(10, 2, 800, 25);
+        SearchField.setFont(new Font("Inter", Font.BOLD, 15));
+        SearchField.setForeground(Color.white);
+        SearchField.setCaretColor(Color.white);
+        SearchField.setOpaque(false);
+        SearchField.setBorder(null);
+
+        TextfieldBehave(SearchField, "Search for a movie");
+
+        SearchBar.add(SearchField);
+
+        JButton Filter = new JButton();
+        Filter.setBounds(200, 32, 30, 30);
+        Filter.setFocusPainted(false);
+        Filter.setBorder(null);
+        Filter.setBackground(new Color(0x212121));
+        Filter.setUI(new RoundButtonUI(Color.black));
+        Filter.addActionListener(e -> {
+            // Open movie filter dialog
+        });
+        BuyPanel.add(Filter);
+
+        JButton History = new JButton();
+        History.setBounds(1070, 29, 30, 30);
+        History.setFocusPainted(false);
+        History.setBorder(null);
+        History.setBackground(new Color(0x212121));
+        History.setUI(new RoundButtonUI(Color.black));
+        History.addActionListener(e -> {
+            // Open movie History dialog
+        });
+        BuyPanel.add(History);
+
+        JButton Account = new JButton();
+        Account.setBounds(1110, 29, 50, 30);
+        Account.setFocusPainted(false);
+        Account.setBorder(null);
+        Account.setBackground(new Color(0x515151));
+        Account.setUI(new RoundButtonUI(Color.black));
+        Account.addActionListener(e -> {
+            // Open movie Account dialog
+            MainCardLayout.show(MainPanel, "Account");
+        });
+        BuyPanel.add(Account);
+
+        JPanel ContentPanel = new JPanel();
+        ContentPanel.setLayout(null);
+        ContentPanel.setOpaque(true);
+        ContentPanel.setBackground(new Color(0x121213));
+        ContentPanel.setPreferredSize(new Dimension(919, 1250));
+
+        JScrollPane scrollPane = new JScrollPane(ContentPanel);
+        scrollPane.setBounds(227, 85, 919, 750);
+        scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
+        scrollPane.setOpaque(false);
+        scrollPane.setBorder(null);
+
+        ContentPanel.addMouseWheelListener(e -> {
+            JScrollBar verticalScrollBar = scrollPane.getVerticalScrollBar();// had scroll par rapport l y
+            int notches = e.getWheelRotation();
+            int currentValue = verticalScrollBar.getValue();
+            int scrollAmount = 30; // Adjust scroll speed
+            verticalScrollBar.setValue(currentValue + (notches * scrollAmount));
+        });
+
+        BuyPanel.add(scrollPane);
+
+        RoundedPanel FilmBanner = new RoundedPanel(35);
+        FilmBanner.setBounds(0, 20, 915, 300);
+        FilmBanner.setBackground(new Color(0x212121));
+        FilmBanner.setLayout(null);
+
+        ContentPanel.add(FilmBanner);
+
+        RoundedPanel InfoPanel = new RoundedPanel(35);
+        InfoPanel.setBounds(0, 550, 650, 275);
+        InfoPanel.setBackground(new Color(0x121213));
+        InfoPanel.setLayout(null);
+        InfoPanel.setBorder(BorderFactory.createLineBorder(Color.white, 2, true));
+
+        ContentPanel.add(InfoPanel);
+
+        JLabel FilmTitle = new JLabel("Movie Title");
+        FilmTitle.setBounds(0, 335, 900, 50);
+        FilmTitle.setForeground(Color.white);
+        FilmTitle.setFont(new Font("Inter", Font.BOLD, 36));
+
+        ContentPanel.add(FilmTitle);
+
+        JLabel Description = new JLabel();
+        Description.setBounds(0, 350, 1000, 250);
+        Description.setForeground(Color.white);
+        Description.setFont(new Font("Inter", Font.PLAIN, 15));
+
+        ContentPanel.add(Description);
+
+        JLabel FilmRating = new JLabel("Rating: 8.5/10");
+        FilmRating.setBounds(35, 25, 600, 25);
+        FilmRating.setForeground(Color.white);
+        FilmRating.setFont(new Font("Inter", Font.BOLD, 16));
+
+        InfoPanel.add(FilmRating);
+
+        JLabel AgeRating = new JLabel("Age rating : PG16");
+        AgeRating.setBounds(400, 25, 600, 25);
+        AgeRating.setForeground(Color.white);
+        AgeRating.setFont(new Font("Inter", Font.BOLD, 16));
+
+        InfoPanel.add(AgeRating);
+
+        JLabel Duration = new JLabel("duration : 1h30");
+        Duration.setBounds(400, 75, 600, 25);
+        Duration.setForeground(Color.white);
+        Duration.setFont(new Font("Inter", Font.BOLD, 16));
+
+        InfoPanel.add(Duration);
+
+        JLabel FilmReleaseDate = new JLabel("Release Date: 12/05/2022");
+        FilmReleaseDate.setBounds(35, 75, 600, 25);
+        FilmReleaseDate.setForeground(Color.white);
+        FilmReleaseDate.setFont(new Font("Inter", Font.BOLD, 16));
+
+        InfoPanel.add(FilmReleaseDate);
+
+        JLabel FilmGenre = new JLabel("Genre: Drama, Comedy");
+        FilmGenre.setBounds(35, 125, 600, 25);
+        FilmGenre.setForeground(Color.white);
+        FilmGenre.setFont(new Font("Inter", Font.BOLD, 16));
+
+        InfoPanel.add(FilmGenre);
+
+        JLabel FilmDirector = new JLabel("Director: John Doe");
+        FilmDirector.setBounds(35, 175, 600, 25);
+        FilmDirector.setForeground(Color.white);
+        FilmDirector.setFont(new Font("Inter", Font.BOLD, 16));
+
+        InfoPanel.add(FilmDirector);
+
+        JLabel FilmCast = new JLabel("Cast: John Doe, Jane Doe");
+        FilmCast.setBounds(35, 225, 600, 25);
+        FilmCast.setForeground(Color.white);
+        FilmCast.setFont(new Font("Inter", Font.BOLD, 16));
+
+        InfoPanel.add(FilmCast);
+
+        JButton Buy = new JButton();
+        Buy.setBounds(0, 850, 175, 40);
+        Buy.setText("Buy Now");
+        Buy.setFont(new Font("Inter", Font.BOLD, 15));
+        Buy.setBackground(Color.white);
+        Buy.setForeground(Color.black);
+        Buy.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        Buy.setUI(new RoundButtonUI(Color.white));
+        Buy.addActionListener(e -> {
+            // handle buy button click
+        });
+
+        ContentPanel.add(Buy);
+
+        JButton WhatchTrailler = new JButton();
+        WhatchTrailler.setBounds(200, 850, 250, 40);
+        WhatchTrailler.setText("Whatch Trailler Now");
+        WhatchTrailler.setFont(new Font("Inter", Font.BOLD, 15));
+        WhatchTrailler.setBackground(Color.black);
+        WhatchTrailler.setForeground(Color.white);
+        WhatchTrailler.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        WhatchTrailler.setUI(new RoundButtonUI(Color.black));
+        WhatchTrailler.addActionListener(e -> {
+            // handle WhatchTrailler button click
+        });
+
+        ContentPanel.add(WhatchTrailler);
+
+        return BuyPanel;
+    }
+
+
+    public JPanel createInterfaceAdminPanel(){
+        JPanel panel = new JPanel();
+        panel.setLayout(null);
+        panel.setBounds(0, 0, 1200, 750);
+        panel.setBackground(Color.blue);
+
+
+
+//---------------------------left panel------------------------------
+
+        JPanel LeftPanel = new JPanel();
+        LeftPanel.setLayout(null);
+        LeftPanel.setBounds(0, 0, 170, 750);
+        LeftPanel.setBackground(new Color(30 , 30 ,30));
+        panel.add(LeftPanel);
+
+        JLabel LogoName = new JLabel("INEMATIC");
+        LogoName.setBounds(55, 6, 120, 50);
+        LogoName.setForeground(Color.WHITE);
+        LogoName.setFont(new Font("Bebas Neue", Font.BOLD, 18));
+        LeftPanel.add(LogoName);
+        JLabel CLogored = new JLabel("C");
+        CLogored.setBounds(41, 21, 30, 20);
+        CLogored.setForeground(Color.red);
+        CLogored.setFont(new Font("Bebas Neue", Font.BOLD, 18));
+        LeftPanel.add(CLogored);
+
+
+
+
+
+        JSeparator separator1 = new JSeparator();
+        separator1.setOrientation(SwingConstants.VERTICAL);
+        separator1.setBackground(Color.white);
+        separator1.setForeground(Color.white);
+        separator1.setBounds(168, 0, 5, 750);
+        LeftPanel.add(separator1);
+
+ //--------------------------Middle Panel--------------------------------
+
+
+        JPanel MiddlePanel = new JPanel();
+        MiddlePanel.setLayout(null);
+        MiddlePanel.setBounds(170, 0, 1200, 750);
+        MiddlePanel.setBackground(Color.red);
+        panel.add(MiddlePanel);
+
+
+//---------------------------about Home--------------------------------
+        JPanel HomeDashboard = new JPanel();
+        HomeDashboard.setLayout(null);
+        HomeDashboard.setBounds(0, 0, 1400, 750);
+        HomeDashboard.setBackground(new Color(30, 30, 30));
+        MiddlePanel.add(HomeDashboard);
+
+        // Top three rounded panels for 
+        int panelWidth = 280;
+        int panelHeight = 150;
+        int spacing = 20;
+        int startX = 60;
+        int startY = 80;
+
+        // First panel: Number of Clients
+        RoundedPanel clientsPanel = new RoundedPanel(30);
+        clientsPanel.setBounds(startX, startY, panelWidth, panelHeight);
+        clientsPanel.setBackground(new Color(50, 50, 50));
+        clientsPanel.setLayout(null);
+        HomeDashboard.add(clientsPanel);
+
+        JLabel clientsTitle = new JLabel("Number of Clients");
+        clientsTitle.setBounds(20, 20, 200, 30);
+        clientsTitle.setForeground(Color.WHITE);
+        clientsTitle.setFont(new Font("Bebas Neue", Font.BOLD, 18));
+        clientsPanel.add(clientsTitle);
+
+        JLabel clientsCount = new JLabel(String.valueOf(ClientManager.numberofusers()));
+        clientsCount.setBounds(20, 60, 200, 50);
+        clientsCount.setForeground(Color.WHITE);
+        clientsCount.setFont(new Font("Bebas Neue", Font.BOLD, 40));
+        clientsPanel.add(clientsCount);
+
+        // Second panel: Number of Movies
+        RoundedPanel moviesPanel = new RoundedPanel(30);
+        moviesPanel.setBounds(startX + panelWidth + spacing, startY, panelWidth, panelHeight);
+        moviesPanel.setBackground(new Color(50, 50, 50));
+        moviesPanel.setLayout(null);
+        HomeDashboard.add(moviesPanel);
+
+        JLabel moviesTitle = new JLabel("Number of Movies");
+        moviesTitle.setBounds(20, 20, 200, 30);
+        moviesTitle.setForeground(Color.WHITE);
+        moviesTitle.setFont(new Font("Bebas Neue", Font.BOLD, 18));
+        moviesPanel.add(moviesTitle);
+
+        JLabel moviesCount = new JLabel(String.valueOf(MovieManager.numberofmovies()));
+        moviesCount.setBounds(20, 60, 200, 50);
+        moviesCount.setForeground(Color.WHITE);
+        moviesCount.setFont(new Font("Bebas Neue", Font.BOLD, 40));
+        moviesPanel.add(moviesCount);
+
+        // Third panel: Number of Theaters
+        RoundedPanel theatersPanel = new RoundedPanel(30);
+        theatersPanel.setBounds(startX + 2 * (panelWidth + spacing), startY, panelWidth, panelHeight);
+        theatersPanel.setBackground(new Color(50, 50, 50));
+        theatersPanel.setLayout(null);
+        HomeDashboard.add(theatersPanel);
+
+        JLabel theatersTitle = new JLabel("Number of Theaters");
+        theatersTitle.setBounds(20, 20, 200, 30);
+        theatersTitle.setForeground(Color.WHITE);
+        theatersTitle.setFont(new Font("Bebas Neue", Font.BOLD, 18));
+        theatersPanel.add(theatersTitle);
+
+        JLabel theatersCount = new JLabel(String.valueOf(TheaterManager.numberOfTheaters()));
+        theatersCount.setBounds(20, 60, 200, 50);
+        theatersCount.setForeground(Color.WHITE);
+        theatersCount.setFont(new Font("Bebas Neue", Font.BOLD, 40));
+        theatersPanel.add(theatersCount);
+
+        // Big panel for quick actions
+        int bigPanelWidth = panelWidth * 3 + spacing * 2;
+        int bigPanelHeight = 400;
+        int bigPanelY = startY + panelHeight + spacing;
+
+        RoundedPanel quickActionsPanel = new RoundedPanel(30);
+        quickActionsPanel.setBounds(startX, bigPanelY, bigPanelWidth, bigPanelHeight);
+        quickActionsPanel.setBackground(new Color(40, 40, 40));
+        quickActionsPanel.setLayout(null);
+        HomeDashboard.add(quickActionsPanel);
+
+        JLabel quickActionsTitle = new JLabel("Quick Actions");
+        quickActionsTitle.setBounds(20, 20, 300, 30);
+        quickActionsTitle.setForeground(Color.WHITE);
+        quickActionsTitle.setFont(new Font("Bebas Neue", Font.BOLD, 20));
+        quickActionsPanel.add(quickActionsTitle);
+
+        // Add Broadcast Button
+        RoundedButton addBroadcastButton = new RoundedButton("Add Broadcast", 20);
+        addBroadcastButton.setBounds(50, 80, 200, 50);
+        addBroadcastButton.setForeground(Color.WHITE);
+        addBroadcastButton.setBackground(new Color(60, 120, 180));
+        addBroadcastButton.setFont(new Font("Segoe UI", Font.BOLD, 16));
+        addBroadcastButton.addActionListener(e -> {
+            // Action to add a broadcast
+            JOptionPane.showMessageDialog(null, "Add Broadcast clicked!");
+        });
+        quickActionsPanel.add(addBroadcastButton);
+
+        // Add Movie Button
+        RoundedButton addMovieButton = new RoundedButton("Add Movie", 20);
+        addMovieButton.setBounds(300, 80, 200, 50);
+        addMovieButton.setForeground(Color.WHITE);
+        addMovieButton.setBackground(new Color(80, 160, 100));
+        addMovieButton.setFont(new Font("Segoe UI", Font.BOLD, 16));
+        addMovieButton.addActionListener(e -> {
+            // Action to add a movie
+            JOptionPane.showMessageDialog(null, "Add Movie clicked!");
+        });
+        quickActionsPanel.add(addMovieButton);
+
+        // Add Theater Button
+        RoundedButton addTheaterButton = new RoundedButton("Add Theater", 20);
+        addTheaterButton.setBounds(550, 80, 200, 50);
+        addTheaterButton.setForeground(Color.WHITE);
+        addTheaterButton.setBackground(new Color(200, 100, 80));
+        addTheaterButton.setFont(new Font("Segoe UI", Font.BOLD, 16));
+        addTheaterButton.addActionListener(e -> {
+            // Action to add a theater
+            JOptionPane.showMessageDialog(null, "Add Theater clicked!");
+        });
+        quickActionsPanel.add(addTheaterButton);
+
+        // View Reports Button
+        RoundedButton viewReportsButton = new RoundedButton("View Reports", 20);
+        viewReportsButton.setBounds(50, 160, 200, 50);
+        viewReportsButton.setForeground(Color.WHITE);
+        viewReportsButton.setBackground(new Color(150, 75, 200));
+        viewReportsButton.setFont(new Font("Segoe UI", Font.BOLD, 16));
+        viewReportsButton.addActionListener(e -> {
+            // Action to view reports
+            JOptionPane.showMessageDialog(null, "View Reports clicked!");
+        });
+        quickActionsPanel.add(viewReportsButton);
+
+        // Settings Button
+        RoundedButton settingsButton = new RoundedButton("Settings", 20);
+        settingsButton.setBounds(300, 160, 200, 50);
+        settingsButton.setForeground(Color.WHITE);
+        settingsButton.setBackground(new Color(100, 100, 100));
+        settingsButton.setFont(new Font("Segoe UI", Font.BOLD, 16));
+        settingsButton.addActionListener(e -> {
+            // Action to open settings
+            JOptionPane.showMessageDialog(null, "Settings clicked!");
+        });
+        quickActionsPanel.add(settingsButton);
+//--------------------------------about theater--------------
+        JPanel theaterDashboard = new JPanel();
+        theaterDashboard.setLayout(null);
+        theaterDashboard.setBounds(0, 0, 1400, 750);
+        theaterDashboard.setBackground(new Color(30, 30, 30));
+        MiddlePanel.add(theaterDashboard);
+
+        JLabel TheaterTitlePanellbl = new JLabel("Theater  Dashboard");
+        TheaterTitlePanellbl.setBounds(30, 26, 300, 30);
+        TheaterTitlePanellbl.setForeground(Color.WHITE);
+        TheaterTitlePanellbl.setFont(new Font("Bebas Neue", Font.BOLD, 28));
+        theaterDashboard.add(TheaterTitlePanellbl);
+
+        JLabel Selectlbltheater = new JLabel("Select");
+        Selectlbltheater.setBounds(30, 70, 100, 30);
+        Selectlbltheater.setForeground(Color.WHITE);
+        Selectlbltheater.setFont(new Font("Bebas Neue", Font.PLAIN, 13));
+        theaterDashboard.add(Selectlbltheater);
+
+        JLabel namelblTheater = new JLabel("Name");
+        namelblTheater.setBounds(230, 70, 100, 30);
+        namelblTheater.setForeground(Color.WHITE);
+        namelblTheater.setFont(new Font("Bebas Neue", Font.PLAIN, 13));
+        theaterDashboard.add(namelblTheater);
+
+        JLabel NormalSeatslbl = new JLabel("Normal Seats");
+        NormalSeatslbl.setBounds(430, 70, 100, 30);
+        NormalSeatslbl.setForeground(Color.WHITE);
+        NormalSeatslbl.setFont(new Font("Bebas Neue", Font.PLAIN, 13));
+        theaterDashboard.add(NormalSeatslbl);
+
+        JLabel Vipseatlbl = new JLabel("VIP Seats");
+        Vipseatlbl.setBounds(630, 70, 100, 30);
+        Vipseatlbl.setForeground(Color.WHITE);
+        Vipseatlbl.setFont(new Font("Bebas Neue", Font.PLAIN, 13));
+        theaterDashboard.add(Vipseatlbl);
+
+        JSeparator separatorhorTheater = new JSeparator();
+        separatorhorTheater.setOrientation(SwingConstants.HORIZONTAL);
+        separatorhorTheater.setBackground(Color.white);
+        separatorhorTheater.setForeground(Color.white);
+        separatorhorTheater.setBounds(21, 105, 720, 1);
+        theaterDashboard.add(separatorhorTheater);
+
+        JPanel TheaterPanelList = new JPanel();
+        TheaterPanelList.setLayout(null);
+        TheaterPanelList.setBounds(30, 130, 700, 440);
+        TheaterPanelList.setBackground(new Color(30, 30, 30));
+
+        JPanel contentPanelTheaterList = new JPanel();
+        contentPanelTheaterList.setLayout(null);
+        contentPanelTheaterList.setBackground(new Color(30, 30, 30));
+
+        int totalHeightTheaterList = clientManager.clients.size() * 50;
+        contentPanelTheaterList.setPreferredSize(new Dimension(650, Math.max(500, totalHeightTheaterList)));
+
+        ArrayList<JCheckBox> checkBoxesTheaterList = new ArrayList<>();
+
+        try (Connection conn = DatabaseConnection.connect();
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery("SELECT * FROM theaters")) {
+
+            int rowIndex = 0;
+            while (rs.next()) {
+            JPanel TheaterListRow = new JPanel();
+            TheaterListRow.setLayout(null);
+            TheaterListRow.setBounds(0, rowIndex * 50, 700, 40);
+            TheaterListRow.setBackground(new Color(30, 30, 30));
+
+            JCheckBox selectCheckBox = new JCheckBox();
+            selectCheckBox.setBounds(0, 10, 20, 20);
+            selectCheckBox.setBackground(new Color(30, 30, 30));
+            selectCheckBox.setForeground(Color.white);
+            selectCheckBox.setFont(new Font("Bebas Neue", Font.PLAIN, 13));
+            TheaterListRow.add(selectCheckBox);
+            checkBoxesTheaterList.add(selectCheckBox);
+
+            JLabel NameTheater = new JLabel(rs.getString("TheaterName"));
+            NameTheater.setBounds(200, 10, 200, 20);
+            NameTheater.setForeground(Color.white);
+            NameTheater.setFont(new Font("Bebas Neue", Font.PLAIN, 13));
+            TheaterListRow.add(NameTheater);
+
+            JLabel NormalSeats = new JLabel(String.valueOf(rs.getInt("NormalSeats")));
+            NormalSeats.setBounds(400, 10, 100, 20);
+            NormalSeats.setForeground(Color.white);
+            NormalSeats.setFont(new Font("Bebas Neue", Font.PLAIN, 13));
+            TheaterListRow.add(NormalSeats);
+
+            JLabel VIPSeats = new JLabel(String.valueOf(rs.getInt("VipSeats")));
+            VIPSeats.setBounds(600, 10, 100, 20);
+            VIPSeats.setForeground(Color.white);
+            VIPSeats.setFont(new Font("Bebas Neue", Font.PLAIN, 13));
+            TheaterListRow.add(VIPSeats);
+
+            contentPanelTheaterList.add(TheaterListRow);
+            rowIndex++;
+            }
+
+            contentPanelTheaterList.setPreferredSize(new Dimension(650, Math.max(500, rowIndex * 50)));
+            contentPanelTheaterList.revalidate();
+            contentPanelTheaterList.repaint();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Error fetching theater data from the database!", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+
+        JScrollPane scrollPanelTheaterList = new JScrollPane(contentPanelTheaterList);
+        scrollPanelTheaterList.setBounds(35, 110, 700, 440);
+        scrollPanelTheaterList.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
+        scrollPanelTheaterList.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        scrollPanelTheaterList.setBorder(null);
+        scrollPanelTheaterList.getVerticalScrollBar().setUnitIncrement(16);
+        scrollPanelTheaterList.getViewport().setBackground(new Color(30, 30, 30));
+
+        contentPanelTheaterList.addMouseWheelListener(e -> {
+            JScrollBar verticalScrollBar = scrollPanelTheaterList.getVerticalScrollBar();
+            int notches = e.getWheelRotation();
+            int currentValue = verticalScrollBar.getValue();
+            int scrollAmount = 30;
+            verticalScrollBar.setValue(currentValue + (notches * scrollAmount));
+        });
+
+        theaterDashboard.add(scrollPanelTheaterList);
+
+        RoundedButton UnSelectAllTheater = new RoundedButton("Unselected All", 5);
+        UnSelectAllTheater.setBounds(64, 650, 97, 27);
+        UnSelectAllTheater.setForeground(Color.BLACK);
+        UnSelectAllTheater.setBackground(Color.white);
+        UnSelectAllTheater.addActionListener(e -> {
+            for (JCheckBox checkBox : checkBoxesTheaterList) {
+            if (checkBox.isSelected()) {
+                checkBox.setSelected(false);
+            }
+            }
+        });
+        theaterDashboard.add(UnSelectAllTheater);
+
+        int buttonwidth1 = 97;
+        int gap1 = 20;
+        RoundedButton selectAllTheaters = new RoundedButton("Selected All", 5);
+        selectAllTheaters.setBounds(64 + buttonwidth1 + gap1, 650, 120, 27);
+        selectAllTheaters.setForeground(Color.BLACK);
+        selectAllTheaters.setBackground(Color.white);
+        selectAllTheaters.addActionListener(e -> {
+            for (JCheckBox checkBox : checkBoxesTheaterList) {
+            if (!checkBox.isSelected()) {
+                checkBox.setSelected(true);
+            }
+            }
+        });
+        theaterDashboard.add(selectAllTheaters);
+
+        RoundedButton EditTheater = new RoundedButton("Edit" , 5);
+        EditTheater.setBounds(70 + buttonwidth1*2 + gap1*2, 650, 97, 27);
+        EditTheater.setForeground(Color.BLACK);
+        EditTheater.setBackground(Color.white);
+
+        theaterDashboard.add(EditTheater);
+
+        RoundedButton AddTheater = new RoundedButton("Add" , 5);
+        AddTheater.setBounds(64 + buttonwidth1*3 + gap1*3, 650, 97, 27);
+        AddTheater.setForeground(Color.BLACK);
+        AddTheater.setBackground(Color.white);
+        theaterDashboard.add(AddTheater);
+
+        RoundedButton Deletetheater = new RoundedButton("Delete" , 5);
+        Deletetheater.setBounds(64 + buttonwidth1*4 + gap1*4, 650, 97, 27);
+        Deletetheater.setForeground(Color.BLACK);
+        Deletetheater.setBackground(Color.white);
+        theaterDashboard.add(Deletetheater);
+
+        // slide panel 
+        JPanel EditTheaterpanel = new JPanel();
+        EditTheaterpanel.setLayout(null);
+        EditTheaterpanel.setBounds(1200,0, 270, 750);
+        EditTheaterpanel.setBackground(new Color(30,30,30));
+        theaterDashboard.add(EditTheaterpanel);
+
+        JLabel Edittheaterlbl = new JLabel("Edit Theater ");
+        Edittheaterlbl.setBounds(30 ,30 ,191,36);
+        Edittheaterlbl.setFont(new Font("Segoe UI" , Font.BOLD , 24));
+        Edittheaterlbl.setForeground(Color.white);
+        EditTheaterpanel.add(Edittheaterlbl); 
+
+        JLabel editJLabelTheaterName = new JLabel("Edit Theater Title");
+        editJLabelTheaterName.setBounds(20,120,130,24);
+        editJLabelTheaterName.setFont(new Font("Segoe UI" , Font.BOLD ,14));
+        editJLabelTheaterName.setForeground(Color.white);
+        EditTheaterpanel.add(editJLabelTheaterName);
+
+        JCheckBox CheckEditTheatername = new JCheckBox();
+        CheckEditTheatername.setBounds(160,123, 20, 20);
+        CheckEditTheatername.setBackground(new Color(30, 30, 30));
+        CheckEditTheatername.setForeground(Color.white);
+        CheckEditTheatername.setFont(new Font("Bebas Neue", Font.PLAIN, 13));
+        CheckEditTheatername.setSelected(true);
+        EditTheaterpanel.add(CheckEditTheatername);
+
+        JTextField editJTextFieldNameTheater = new JTextField(" Theater Name");
+        editJTextFieldNameTheater.setBounds(20,160,200,38);
+        editJTextFieldNameTheater.setFont(new Font("Segoe UI" , Font.PLAIN , 14));
+        editJTextFieldNameTheater.setForeground(Color.white);
+        editJTextFieldNameTheater.setBackground(new Color(30,30,30));
+        TextfieldBehave(editJTextFieldNameTheater, " Theater Name");
+        CheckEditTheatername.addItemListener(e -> {
+            if (CheckEditTheatername.isSelected()) {
+                editJTextFieldNameTheater.setEnabled(true);
+            } else {
+                editJTextFieldNameTheater.setEnabled(false);
+            }
+        });
+        EditTheaterpanel.add(editJTextFieldNameTheater);
+
+        JLabel editJLabelnbrseatsnrml = new JLabel("Number of Normal Seats ");
+        editJLabelnbrseatsnrml.setBounds(20,230,180,24);
+        editJLabelnbrseatsnrml.setFont(new Font("Segoe UI" , Font.BOLD ,14));
+        editJLabelnbrseatsnrml.setForeground(Color.white);
+        EditTheaterpanel.add(editJLabelnbrseatsnrml);
+
+        JCheckBox CheckEditNrmlseats = new JCheckBox();
+        CheckEditNrmlseats.setBounds(190,233, 20, 20);
+        CheckEditNrmlseats.setBackground(new Color(30, 30, 30));
+        CheckEditNrmlseats.setForeground(Color.white);
+        CheckEditNrmlseats.setFont(new Font("Bebas Neue", Font.PLAIN, 13));
+        CheckEditNrmlseats.setSelected(true);
+        EditTheaterpanel.add(CheckEditNrmlseats);
+
+        JTextField editJTextFieldnbrseatnrml = new JTextField();
+        editJTextFieldnbrseatnrml.setBounds(20,273,200,38);
+        editJTextFieldnbrseatnrml.setFont(new Font("Segoe UI" , Font.PLAIN , 14));
+        editJTextFieldnbrseatnrml.setForeground(Color.white);
+        editJTextFieldnbrseatnrml.setBackground(new Color(30,30,30));
+        //TextfieldBehave(editJTextFieldnbrseatnrml, " ");
+        CheckEditNrmlseats.addItemListener(e -> {
+            if (CheckEditNrmlseats.isSelected()) {
+                editJTextFieldnbrseatnrml.setEnabled(true);
+            } else {
+                editJTextFieldnbrseatnrml.setEnabled(false);
+            }
+        });
+        EditTheaterpanel.add(editJTextFieldnbrseatnrml);
+
+        JLabel editJLabelnbrseatsvip = new JLabel("Number of VIP Seats");
+        editJLabelnbrseatsvip.setBounds(20,343,150,24);
+        editJLabelnbrseatsvip.setFont(new Font("Segoe UI" , Font.BOLD ,14));
+        editJLabelnbrseatsvip.setForeground(Color.white);
+        EditTheaterpanel.add(editJLabelnbrseatsvip);
+
+        JCheckBox CheckEditnbrseatsvip = new JCheckBox();
+        CheckEditnbrseatsvip.setBounds(170,346, 20, 20);
+        CheckEditnbrseatsvip.setBackground(new Color(30, 30, 30));
+        CheckEditnbrseatsvip.setForeground(Color.white);
+        CheckEditnbrseatsvip.setFont(new Font("Bebas Neue", Font.PLAIN, 13));
+        CheckEditnbrseatsvip.setSelected(true);
+        EditTheaterpanel.add(CheckEditnbrseatsvip);
+
+        JTextField editJTextFieldnbrseatsvip = new JTextField();
+        editJTextFieldnbrseatsvip.setBounds(20,386,200,38);
+        editJTextFieldnbrseatsvip.setFont(new Font("Segoe UI" , Font.PLAIN , 14));
+        editJTextFieldnbrseatsvip.setForeground(Color.white);
+        editJTextFieldnbrseatsvip.setBackground(new Color(30,30,30));
+        //TextfieldBehave(editJTextFieldnbrseatsvip, " Title");
+        CheckEditnbrseatsvip.addItemListener(e -> {
+            if (CheckEditnbrseatsvip.isSelected()) {
+                editJTextFieldnbrseatsvip.setEnabled(true);
+            } else {
+                editJTextFieldnbrseatsvip.setEnabled(false);
+            }
+        });
+        EditTheaterpanel.add(editJTextFieldnbrseatsvip);
+
+        RoundedButton EditButtontheaterEdit = new RoundedButton("Edit ", 5);
+        EditButtontheaterEdit.setBounds(35, 550, 170, 36);
+        EditButtontheaterEdit.setBackground(Color.white);
+        EditTheaterpanel.add(EditButtontheaterEdit);
+
+        RoundedButton CancelButtonEdit = new RoundedButton("Cancel" , 5);
+        CancelButtonEdit.setBackground(Color.white);
+        CancelButtonEdit.setBounds(35, 600, 170, 36);
+        CancelButtonEdit.addActionListener(e -> {
+            if (isPanelVisible) {
+                slidePanel(EditTheaterpanel, 782, 1200, 0, 270, 750);
+                isPanelVisible = false;
+            }
+        });
+        EditTheaterpanel.add(CancelButtonEdit);
+
+        EditTheater.addActionListener(e->{
+            if (!isPanelVisible) {
+                slidePanel(EditTheaterpanel, 1200, 782, 0, 270, 750);
+                isPanelVisible = true;
+            }
+        });
+
+        //----------right Things
+
+
+        JSeparator separator1Theater = new JSeparator();
+        separator1Theater.setOrientation(SwingConstants.VERTICAL);
+        separator1Theater.setBackground(Color.white);
+        separator1Theater.setForeground(Color.white);
+        separator1Theater.setBounds(780, 00, 2, 750);
+        theaterDashboard.add(separator1Theater);
+
+        // Center Panel for Theater Statistics
+        JPanel centerPanel = new JPanel();
+        centerPanel.setLayout(null);
+        centerPanel.setBounds(800, 20, 350, 700);
+        centerPanel.setBackground(new Color(0, 0, 0, 0));
+        theaterDashboard.add(centerPanel);
+
+        // Total Number of Theaters
+        JLabel nbrTheaterLabel = new JLabel("Total Number of Theaters");
+        nbrTheaterLabel.setBounds(40, 0, 200, 30);
+        nbrTheaterLabel.setForeground(Color.WHITE);
+        nbrTheaterLabel.setFont(new Font("Bebas Neue", Font.BOLD, 15));
+        centerPanel.add(nbrTheaterLabel);
+
+        RoundedPanel CircleTheater = new RoundedPanel(100);
+        CircleTheater.setLayout(null);
+        CircleTheater.setBounds(50, 40, 100, 100);
+        CircleTheater.setBackground(new Color(0, 0, 0, 0));
+        CircleTheater.setRoundedBorder(Color.WHITE, 2);
+        centerPanel.add(CircleTheater);
+
+        int totalTheaters = TheaterManager.numberOfTheaters();
+        JLabel nbrTotalTheater = new JLabel(String.valueOf(totalTheaters));
+        nbrTotalTheater.setBounds(totalTheaters < 100 ? 40 : 30, 32, 100, 30);
+        nbrTotalTheater.setForeground(Color.WHITE);
+        nbrTotalTheater.setFont(new Font("Bebas Neue", Font.BOLD, 30));
+        CircleTheater.add(nbrTotalTheater);
+
+        JSeparator separatorleft1 = new JSeparator();
+        separator1.setOrientation(SwingConstants.HORIZONTAL);
+        separator1.setBackground(Color.white);
+        separator1.setForeground(Color.white);
+        separator1.setBounds(50, 160, 250, 1);
+        centerPanel.add(separator1);
+
+        // Total VIP Seats
+        JLabel nbrVIPSeatsLabel = new JLabel("Total VIP Seats");
+        nbrVIPSeatsLabel.setBounds(50, 180, 200, 30);
+        nbrVIPSeatsLabel.setForeground(Color.WHITE);
+        nbrVIPSeatsLabel.setFont(new Font("Bebas Neue", Font.BOLD, 15));
+        centerPanel.add(nbrVIPSeatsLabel);
+
+        RoundedPanel CircleVIPSeats = new RoundedPanel(100);
+        CircleVIPSeats.setLayout(null);
+        CircleVIPSeats.setBounds(50, 220, 100, 100);
+        CircleVIPSeats.setBackground(new Color(0, 0, 0, 0));
+        CircleVIPSeats.setRoundedBorder(Color.WHITE, 2);
+        centerPanel.add(CircleVIPSeats);
+
+        int totalVIPSeats = TheaterManager.totalVIPSeats();
+        JLabel nbrTotalVIPSeats = new JLabel(String.valueOf(totalVIPSeats));
+        nbrTotalVIPSeats.setBounds(totalVIPSeats < 10 ? 40 : 33, 32, 100, 30);
+        nbrTotalVIPSeats.setForeground(Color.WHITE);
+        nbrTotalVIPSeats.setFont(new Font("Bebas Neue", Font.BOLD, 30));
+        CircleVIPSeats.add(nbrTotalVIPSeats);
+
+        JSeparator separator2 = new JSeparator();
+        separator2.setOrientation(SwingConstants.HORIZONTAL);
+        separator2.setBackground(Color.white);
+        separator2.setForeground(Color.white);
+        separator2.setBounds(5, 340, 250, 1);
+        centerPanel.add(separator2);
+
+        // Total Normal Seats
+        JLabel nbrNormalSeatsLabel = new JLabel("Total Normal Seats");
+        nbrNormalSeatsLabel.setBounds(50, 360, 200, 30);
+        nbrNormalSeatsLabel.setForeground(Color.WHITE);
+        nbrNormalSeatsLabel.setFont(new Font("Bebas Neue", Font.BOLD, 15));
+        centerPanel.add(nbrNormalSeatsLabel);
+
+        RoundedPanel CircleNormalSeats = new RoundedPanel(100);
+        CircleNormalSeats.setLayout(null);
+        CircleNormalSeats.setBounds(50, 400, 100, 100);
+        CircleNormalSeats.setBackground(new Color(0, 0, 0, 0));
+        CircleNormalSeats.setRoundedBorder(Color.WHITE, 2);
+        centerPanel.add(CircleNormalSeats);
+
+        int totalNormalSeats = TheaterManager.totalNormalSeats();
+        JLabel nbrTotalNormalSeats = new JLabel(String.valueOf(totalNormalSeats));
+        nbrTotalNormalSeats.setBounds(totalNormalSeats < 10 ? 40 : 33, 32, 100, 30);
+        nbrTotalNormalSeats.setForeground(Color.WHITE);
+        nbrTotalNormalSeats.setFont(new Font("Bebas Neue", Font.BOLD, 30));
+        CircleNormalSeats.add(nbrTotalNormalSeats);
+
+        JSeparator separator3 = new JSeparator();
+        separator3.setOrientation(SwingConstants.HORIZONTAL);
+        separator3.setBackground(Color.white);
+        separator3.setForeground(Color.white);
+        separator3.setBounds(50, 520, 250, 1);
+        centerPanel.add(separator3);
+
+        // Date
+        JLabel Datetodaytheater = new JLabel("Date:");
+        Datetodaytheater.setBounds(50, 700, 200, 30);
+        Datetodaytheater.setForeground(Color.WHITE);
+        Datetodaytheater.setFont(new Font("Bebas Neue", Font.BOLD, 13));
+        centerPanel.add(Datetodaytheater);
+
+        JLabel datenowTheater = new JLabel(LocalDate.now().toString());
+        datenowTheater.setBounds(50, 700, 200, 30);
+        datenowTheater.setForeground(Color.WHITE);
+        datenowTheater.setFont(new Font("Bebas Neue", Font.BOLD, 13));
+        centerPanel.add(datenowTheater);
+        
+//------------------------------About Broadcast--------------------------------
+
+        JPanel BroadcastDashboard = new JPanel();
+        BroadcastDashboard.setLayout(null);
+        BroadcastDashboard.setBounds(0, 0, 1400, 750);
+        BroadcastDashboard.setBackground(new Color(30, 30, 30));
+        MiddlePanel.add(BroadcastDashboard);
+
+        JLabel Broadcastlbl = new JLabel("Broadcast  Dashboard");
+        Broadcastlbl.setBounds(35, 26, 300, 30);
+        Broadcastlbl.setForeground(Color.WHITE);
+        Broadcastlbl.setFont(new Font("Bebas Neue", Font.BOLD, 23));
+        BroadcastDashboard.add(Broadcastlbl);
+
+
+        JLabel Movielblbroad = new JLabel("   Movie");
+        Movielblbroad.setBounds(170, 87, 200, 30);
+        Movielblbroad.setForeground(Color.WHITE);
+        Movielblbroad.setFont(new Font("Bebas Neue", Font.PLAIN, 13));
+        BroadcastDashboard.add(Movielblbroad);
+
+        JLabel Theaterlblbroad = new JLabel("Theater");
+        Theaterlblbroad.setBounds(390, 87, 200, 30);
+        Theaterlblbroad.setForeground(Color.WHITE);
+        Theaterlblbroad.setFont(new Font("Bebas Neue", Font.PLAIN, 13));
+        BroadcastDashboard.add(Theaterlblbroad);
+
+        JLabel Datelblbroad = new JLabel("Date");
+        Datelblbroad.setBounds(610, 87, 200, 30);
+        Datelblbroad.setForeground(Color.WHITE);
+        Datelblbroad.setFont(new Font("Bebas Neue", Font.PLAIN, 13));
+        BroadcastDashboard.add(Datelblbroad);  
+
+        JLabel SelectlblBroad = new JLabel("Select");
+        SelectlblBroad.setBounds(30, 87, 200, 30);
+        SelectlblBroad.setForeground(Color.WHITE);
+        SelectlblBroad.setFont(new Font("Bebas Neue", Font.PLAIN, 13));
+        BroadcastDashboard.add(SelectlblBroad);
+
+        JSeparator separatorhorBroad = new JSeparator();
+        separatorhorBroad.setOrientation(SwingConstants.HORIZONTAL);
+        separatorhorBroad.setBackground(Color.white);
+        separatorhorBroad.setForeground(Color.white); 
+        separatorhorBroad.setBounds(21, 120, 720, 1);
+        BroadcastDashboard.add(separatorhorBroad);
+   
+        JPanel Broadcast = new JPanel();
+        Broadcast.setLayout(null);
+        Broadcast.setBounds(5, 130, 700, 440);
+        Broadcast.setBackground(new Color(30, 30, 30));
+        
+
+        JPanel contentPanelBroad = new JPanel();
+        contentPanelBroad.setLayout(null);
+        contentPanelBroad.setBackground(new Color(30, 30, 30));
+
+
+        int totalHeightBroad = broadcastManager.broadcasts.size() * 50; 
+        contentPanelBroad.setPreferredSize(new Dimension(650, Math.max(500, totalHeightBroad)));
+
+        ArrayList<JCheckBox> checkBoxesBroadcast = new ArrayList<JCheckBox>();
+
+                try (Connection conn = DatabaseConnection.connect();
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(
+                "SELECT broadcasts.BroadcastID, movies.Title AS MovieTitle, theaters.TheaterName AS TheaterName, " +
+                "broadcasts.Language, broadcasts.BroadcastDate " +
+                "FROM broadcasts " +
+                "JOIN movies ON broadcasts.MovieID = movies.MovieID " +
+                "JOIN theaters ON broadcasts.TheaterID = theaters.TheaterID")) {
+
+            int rowIndex = 0;
+            while (rs.next()) {
+                JPanel BroadcastRow = new JPanel();
+                BroadcastRow.setLayout(null);
+                BroadcastRow.setBounds(0, rowIndex * 50, 700, 40);
+                BroadcastRow.setBackground(new Color(30, 30, 30));
+
+                JLabel MovieTitleLabel = new JLabel(rs.getString("MovieTitle"));
+                MovieTitleLabel.setBounds(170, 5, 200, 30);
+                MovieTitleLabel.setForeground(Color.white);
+                MovieTitleLabel.setFont(new Font("Bebas Neue", Font.PLAIN, 13));
+                BroadcastRow.add(MovieTitleLabel);
+
+                JLabel TheaterNameLabel = new JLabel(rs.getString("TheaterName"));
+                TheaterNameLabel.setBounds(390, 5, 200, 30);
+                TheaterNameLabel.setForeground(Color.white);
+                TheaterNameLabel.setFont(new Font("Bebas Neue", Font.PLAIN, 13));
+                BroadcastRow.add(TheaterNameLabel);
+
+                JLabel BroadcastDateLabel = new JLabel(rs.getDate("BroadcastDate").toString());
+                BroadcastDateLabel.setBounds(610, 5, 200, 30);
+                BroadcastDateLabel.setForeground(Color.white);
+                BroadcastDateLabel.setFont(new Font("Bebas Neue", Font.PLAIN, 13));
+                BroadcastRow.add(BroadcastDateLabel);
+
+                JCheckBox selectCheckBox = new JCheckBox();
+                selectCheckBox.setBounds(30, 5, 20, 20);
+                selectCheckBox.setBackground(new Color(30, 30, 30));
+                selectCheckBox.setForeground(Color.white);
+                selectCheckBox.setFont(new Font("Bebas Neue", Font.PLAIN, 13));
+                BroadcastRow.add(selectCheckBox);
+                checkBoxesBroadcast.add(selectCheckBox);
+
+                contentPanelBroad.add(BroadcastRow);
+                rowIndex++;
+            }
+
+            // Update the preferred size of the content panel based on the number of rows
+            contentPanelBroad.setPreferredSize(new Dimension(650, Math.max(500, rowIndex * 50)));
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Error fetching broadcast data from the database!", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+
+      
+        JScrollPane scrollPanelBroadcast = new JScrollPane(contentPanelBroad);
+        scrollPanelBroadcast.setBounds(5, 130, 700, 440);
+        scrollPanelBroadcast.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
+        scrollPanelBroadcast.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        scrollPanelBroadcast.setBorder(null);
+        scrollPanelBroadcast.getVerticalScrollBar().setUnitIncrement(16);
+        scrollPanelBroadcast.getViewport().setBackground(new Color(30, 30, 30));
+
+       
+        contentPanelBroad.addMouseWheelListener(e -> {
+            JScrollBar verticalScrollBar = scrollPanelBroadcast.getVerticalScrollBar();
+            int notches = e.getWheelRotation();
+            int currentValue = verticalScrollBar.getValue();
+            int scrollAmount = 30; 
+            verticalScrollBar.setValue(currentValue + (notches * scrollAmount));
+        });
+
+        BroadcastDashboard.add(scrollPanelBroadcast);
+
+        int buttonwidth = 97 ;
+        int gap = 20 ;
+
+        RoundedButton UnSelectAllBroad = new RoundedButton("Unselected All" , 5);
+        UnSelectAllBroad.setBounds(64, 650, 97, 27);
+        UnSelectAllBroad.setForeground(Color.BLACK);
+        UnSelectAllBroad.setBackground(Color.white);
+        UnSelectAllBroad.addActionListener(e->{
+            for(JCheckBox checkBox : checkBoxesBroadcast) {
+                if(checkBox.isSelected()){
+                    checkBox.setSelected(false);
+                }
+                
+            }
+        });
+        BroadcastDashboard.add(UnSelectAllBroad);
+
+        
+        RoundedButton selectAllBroad = new RoundedButton("Selected All" , 5);
+        selectAllBroad.setBounds(64 + buttonwidth + gap , 650, 97, 27);
+        selectAllBroad.setForeground(Color.BLACK);
+        selectAllBroad.setBackground(Color.white);
+        selectAllBroad.addActionListener(e->{
+            for(JCheckBox checkBox : checkBoxesBroadcast) {
+                if(!checkBox.isSelected()){
+                    checkBox.setSelected(true);
+                }
+            }
+        });
+        BroadcastDashboard.add(selectAllBroad);
+
+        JPanel EditBroadcast = new JPanel();
+        EditBroadcast.setLayout(null);
+        EditBroadcast.setBounds(1200,0, 270, 750);
+        EditBroadcast.setBackground(new Color(30,30,30));
+        BroadcastDashboard.add(EditBroadcast);
+
+        JLabel LabelBroadcast = new JLabel("Edit Broadcast");
+        LabelBroadcast.setBounds(30 ,30 ,191,36);
+        LabelBroadcast.setFont(new Font("Segoe UI" , Font.BOLD , 24));
+        LabelBroadcast.setForeground(Color.white);
+        EditBroadcast.add(LabelBroadcast);  
+
+
+        JLabel editJLabelBroadcast = new JLabel("Edit Theater");
+        editJLabelBroadcast.setBounds(20,120,105,24);
+        editJLabelBroadcast.setFont(new Font("Segoe UI" , Font.BOLD ,14));
+        editJLabelBroadcast.setForeground(Color.white);
+        EditBroadcast.add(editJLabelBroadcast);
+        
+        JCheckBox CheckEditBroadcastHall = new JCheckBox();
+        CheckEditBroadcastHall.setBounds(146,123, 20, 20);
+        CheckEditBroadcastHall.setBackground(new Color(30, 30, 30));
+        CheckEditBroadcastHall.setForeground(Color.white);
+        CheckEditBroadcastHall.setFont(new Font("Bebas Neue", Font.PLAIN, 13));
+        CheckEditBroadcastHall.setSelected(true);
+        EditBroadcast.add(CheckEditBroadcastHall);
+
+
+        JTextField editJTextFieldBroadcastNamehall = new JTextField("Big Hall");
+        editJTextFieldBroadcastNamehall.setBounds(20,160,200,38);
+        editJTextFieldBroadcastNamehall.setFont(new Font("Segoe UI" , Font.PLAIN , 14));
+        editJTextFieldBroadcastNamehall.setForeground(Color.white);
+        editJTextFieldBroadcastNamehall.setBackground(new Color(30,30,30));
+        TextfieldBehave(editJTextFieldBroadcastNamehall, "Big Hall");
+        CheckEditBroadcastHall.addItemListener(e -> {
+            if (CheckEditBroadcastHall.isSelected()) {
+                editJTextFieldBroadcastNamehall.setEnabled(true);
+            } else {
+                editJTextFieldBroadcastNamehall.setEnabled(false);
+            }
+        });
+        EditBroadcast.add(editJTextFieldBroadcastNamehall);
+
+
+        JLabel edittime = new JLabel("Edit Time");
+        edittime.setBounds(20,270,105,24);
+        edittime.setFont(new Font("Segoe UI" , Font.BOLD ,14));
+        edittime.setForeground(Color.white);
+        EditBroadcast.add(edittime);
+
+        JCheckBox CheckEditBroadcastTime = new JCheckBox();
+        CheckEditBroadcastTime.setBounds(146,273, 20, 20);
+        CheckEditBroadcastTime.setBackground(new Color(30, 30, 30));
+        CheckEditBroadcastTime.setForeground(Color.white);
+        CheckEditBroadcastTime.setFont(new Font("Bebas Neue", Font.PLAIN, 13));
+        //inisialise the checkbox like not checked
+        CheckEditBroadcastTime.setSelected(true);
+
+        EditBroadcast.add(CheckEditBroadcastTime);
+
+        JDialog timeDialogBroadcast = new JDialog(this, "Select Time", true);
+        timeDialogBroadcast.setLayout(new BorderLayout());
+        timeDialogBroadcast.setSize(300, 200);
+        timeDialogBroadcast.setLocationRelativeTo(this);
+
+        
+
+
+        RoundedButton showTimeBtn = new RoundedButton(LocalDate.now().toString() , 7);
+        showTimeBtn.setBounds(20, 310, 200, 30);
+        showTimeBtn.setFont(new Font("Arial", Font.PLAIN, 14));
+        showTimeBtn.setForeground(Color.white);
+        showTimeBtn.setBackground(new Color(30,30,30));
+        showTimeBtn.setRoundedBorder(Color.white, 1);
+        CheckEditBroadcastTime.addItemListener(new ItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent e) {
+                if (CheckEditBroadcastTime.isSelected()) {
+                    showTimeBtn.setEnabled(true);
+                } else {
+                    showTimeBtn.setEnabled(false);
+                }
+            }
+        });
+        showTimeBtn.addActionListener(e -> {
+            timeDialogBroadcast.setVisible(true); 
+        });
+        EditBroadcast.add(showTimeBtn);
+
+        JPanel TimePanelBroadcast = new JPanel(new FlowLayout());
+        SpinnerDateModel timeModelbroad = new SpinnerDateModel();
+        JSpinner timeSpinnerbroad = new JSpinner(timeModelbroad);
+        JSpinner.DateEditor timeEditorbroad = new JSpinner.DateEditor(timeSpinnerbroad, "yyyy/MM/dd");//yyyy/MM/dd HH:mm
+        timeSpinnerbroad.setEditor(timeEditorbroad);
+        TimePanelBroadcast.add(new JLabel("Select Time: "));
+        TimePanelBroadcast.add(timeSpinnerbroad);
+
+        
+        JPanel buttonPanelbroad = new JPanel(new FlowLayout());
+        JButton okButtonbroad = new JButton("OK");
+        JButton cancelButtonbroad = new JButton("Cancel");
+        buttonPanelbroad.add(okButtonbroad);
+        buttonPanelbroad.add(cancelButtonbroad);
+
+        timeDialogBroadcast.add(TimePanelBroadcast, BorderLayout.CENTER);
+        timeDialogBroadcast.add(buttonPanelbroad, BorderLayout.SOUTH);
+      
+
+        
+        okButtonbroad.addActionListener(e -> {
+            Date selectedTime = (Date) timeSpinnerbroad.getValue();
+            localTime = selectedTime.toInstant()
+                .atZone(ZoneId.systemDefault())
+                .toLocalTime();
+            String formattedTime = selectedTime.toInstant()
+                .atZone(ZoneId.systemDefault())
+                .toLocalDateTime()
+                .format(java.time.format.DateTimeFormatter.ofPattern("yyyy/MM/dd"));
+           showTimeBtn.setText(formattedTime);
+            timeDialogBroadcast.dispose();
+        });
+
+
+        cancelButtonbroad.addActionListener(e -> {
+            
+            timeDialogBroadcast.dispose();
+        });
+
+        JLabel editmovie = new JLabel("Edit Movie");
+        editmovie.setBounds(20,410,105,24);
+        editmovie.setFont(new Font("Segoe UI" , Font.BOLD ,14));
+        editmovie.setForeground(Color.white);
+        EditBroadcast.add(editmovie);
+
+        JCheckBox CheckEditBroadcastMovie = new JCheckBox();
+        CheckEditBroadcastMovie.setBounds(146,413, 20, 20);
+        CheckEditBroadcastMovie.setBackground(new Color(30, 30, 30));
+        CheckEditBroadcastMovie.setForeground(Color.white);
+        CheckEditBroadcastMovie.setFont(new Font("Bebas Neue", Font.PLAIN, 13));
+        CheckEditBroadcastMovie.setSelected(true);
+        EditBroadcast.add(CheckEditBroadcastMovie);
+
+        JComboBox<String> Moviesbox = new JComboBox<>(movieManager.movies.stream().map(movie -> movie.Title).toArray(String[]::new));
+        Moviesbox.setBounds(20, 450, 200, 30);
+        Moviesbox.setForeground(Color.white);
+        Moviesbox.setFocusable(false);
+        Moviesbox.setBorder(BorderFactory.createEmptyBorder());
+        Moviesbox.setBackground(new Color(30,30,30));
+        Moviesbox.setFont(new Font("Arial", Font.PLAIN, 16));
+        EditBroadcast.add(Moviesbox);
+
+        RoundedButton EditButtonBroadcastEdit = new RoundedButton("Edit" , 5);
+        EditButtonBroadcastEdit.setBackground(Color.white);
+        EditButtonBroadcastEdit.setBounds(35, 520, 170, 36);
+        EditBroadcast.add(EditButtonBroadcastEdit);
+
+        RoundedButton CancelButtonBroadcastedit = new RoundedButton("Cancel" , 5);
+        CancelButtonBroadcastedit.setBackground(Color.white);
+        CancelButtonBroadcastedit.setBounds(35, 580, 170, 36);
+        CancelButtonBroadcastedit.addActionListener(e -> {
+            if (isPanelVisible) {
+                slidePanel(EditBroadcast, 782, 1200, 0, 270, 750);
+                isPanelVisible = false;
+            }
+        });
+        EditBroadcast.add(CancelButtonBroadcastedit);
+
+
+
+        RoundedButton EditBroad = new RoundedButton("Edit" , 5);
+        EditBroad.setBounds(64 + buttonwidth*2 + gap*2, 650, 97, 27);
+        EditBroad.setForeground(Color.BLACK);
+        EditBroad.setBackground(Color.white);
+        EditBroad.addActionListener(e->{
+            if (!isPanelVisible) {
+                slidePanel(EditBroadcast, 1200, 782, 0, 270, 750);
+                isPanelVisible = true;
+            }
+            
+        });
+        BroadcastDashboard.add(EditBroad);
+
+        RoundedButton AddBroad = new RoundedButton("Add" , 5);
+        AddBroad.setBounds(64 + buttonwidth*3 + gap*3, 650, 97, 27);
+        AddBroad.setForeground(Color.BLACK);
+        AddBroad.setBackground(Color.white);
+        BroadcastDashboard.add(AddBroad);
+
+        RoundedButton DeleteBroad = new RoundedButton("Delete" , 5);
+        DeleteBroad.setBounds(64 + buttonwidth*4 + gap*4, 650, 97, 27);
+        DeleteBroad.setForeground(Color.BLACK);
+        DeleteBroad.setBackground(Color.white);
+        BroadcastDashboard.add(DeleteBroad);
+
+
+
+
+        //-------right things
+
+        JSeparator separator1Broad = new JSeparator();
+        separator1Broad.setOrientation(SwingConstants.VERTICAL);
+        separator1Broad.setBackground(Color.white);
+        separator1Broad.setForeground(Color.white);
+        separator1Broad.setBounds(780, 00, 2, 750);
+        BroadcastDashboard.add(separator1Broad);
+        
+
+        JLabel nbrBroad = new JLabel("Total Number of Broadcast");
+        nbrBroad.setBounds(800, 20, 200, 30);
+        nbrBroad.setForeground(Color.WHITE);
+        nbrBroad.setFont(new Font("Bebas Neue", Font.BOLD, 15));
+        BroadcastDashboard.add(nbrBroad);
+
+
+        RoundedPanel CircleBroad = new RoundedPanel(100);
+        CircleBroad.setLayout(null);
+        CircleBroad.setBounds(855, 80, 100, 100);
+        CircleBroad.setBackground( new Color(0, 0, 0, 0));
+        CircleBroad.setRoundedBorder(Color.WHITE, 2);
+        BroadcastDashboard.add(CircleBroad);
+
+        JLabel nbrUserLabelBroad = new JLabel();
+
+        if(broadcastManager.broadcasts.size() < 10){
+            nbrUserLabelBroad.setBounds(40, 32, 100, 30);
+            nbrUserLabelBroad.setText(String.valueOf(broadcastManager.broadcasts.size()));
+        }else{
+            nbrUserLabelBroad.setBounds(33, 32, 100, 30);
+            nbrUserLabelBroad.setText(String.valueOf(broadcastManager.broadcasts.size()));
+        }
+        
+        nbrUserLabelBroad.setForeground(Color.WHITE);
+        nbrUserLabelBroad.setFont(new Font("Bebas Neue", Font.BOLD, 30));
+        CircleBroad.add(nbrUserLabelBroad);
+        
+        JSeparator separatorRght1Broadcast = new JSeparator();
+        separatorRght1Broadcast.setOrientation(SwingConstants.HORIZONTAL);
+        separatorRght1Broadcast.setBackground(Color.white);
+        separatorRght1Broadcast.setForeground(Color.white); 
+        separatorRght1Broadcast.setBounds(790, 240, 220, 1);
+        BroadcastDashboard.add(separatorRght1Broadcast);
+
+        JLabel TopWatchedMovie = new JLabel("Top Watched Movie");
+        TopWatchedMovie.setBounds(830, 255, 250, 30);
+        TopWatchedMovie.setForeground(Color.WHITE);
+        TopWatchedMovie.setFont(new Font("Bebas Neue", Font.BOLD, 15));
+        BroadcastDashboard.add(TopWatchedMovie);
+
+        JLabel NameTopMovie = new JLabel(); 
+        NameTopMovie.setBounds(850, 300, 250, 30);
+        NameTopMovie.setForeground(Color.WHITE);
+        NameTopMovie.setFont(new Font("Roboto", Font.TYPE1_FONT, 13));
+        String mostFrequentMovie = null;
+        int maxCount = 0;
+
+        
+        for (int i = 0; i < broadcastManager.broadcasts.size(); i++) {
+            String currentMovie = broadcastManager.broadcasts.get(i).movie.Title;
+            int currentCount = 0;
+
+            
+            for (int j = 0; j <  broadcastManager.broadcasts.size(); j++) {
+                if (broadcastManager.broadcasts.get(j).movie.Title.equals(currentMovie)) {
+                    currentCount++;
+                }
+            }
+
+            
+            if (currentCount > maxCount) {
+                maxCount = currentCount;
+                mostFrequentMovie = currentMovie;
+            }
+        }
+        NameTopMovie.setText(mostFrequentMovie);
+        BroadcastDashboard.add(NameTopMovie);
+
+        JLabel nbrofbroadcast = new JLabel();
+        nbrofbroadcast.setBounds(860, 350, 250, 30);
+        nbrofbroadcast.setForeground(Color.WHITE);
+        nbrofbroadcast.setFont(new Font("Bebas Neue", Font.PLAIN, 13));
+        nbrofbroadcast.setText(String.valueOf(maxCount + "   Broadcasts"));
+        BroadcastDashboard.add(nbrofbroadcast);
+
+        JSeparator separatorRght2Broadcast = new JSeparator();
+        separatorRght2Broadcast.setOrientation(SwingConstants.HORIZONTAL);
+        separatorRght2Broadcast.setBackground(Color.white);
+        separatorRght2Broadcast.setForeground(Color.white);
+        separatorRght2Broadcast.setBounds(790, 400, 220, 1);
+        BroadcastDashboard.add(separatorRght2Broadcast);
+
+        JSeparator separatorRght3Broadcast = new JSeparator();
+        separatorRght3Broadcast.setOrientation(SwingConstants.HORIZONTAL);
+        separatorRght3Broadcast.setBackground(Color.white);
+        separatorRght3Broadcast.setForeground(Color.white);
+        separatorRght3Broadcast.setBounds(790, 660, 220, 1);
+        BroadcastDashboard.add(separatorRght3Broadcast);
+
+        JLabel DatetodayBroad = new JLabel("Date:");
+        DatetodayBroad.setBounds(840, 675, 200, 30);
+        DatetodayBroad.setForeground(Color.WHITE);
+        DatetodayBroad.setFont(new Font("Bebas Neue", Font.BOLD, 13));
+        BroadcastDashboard.add(DatetodayBroad);
+        
+        JLabel datenowBroad = new JLabel(LocalDate.now().toString());
+        datenowBroad.setBounds(880, 675, 200, 30);
+        datenowBroad.setForeground(Color.WHITE);
+        datenowBroad.setFont(new Font("Bebas Neue", Font.BOLD, 13));
+        BroadcastDashboard.add(datenowBroad);
+
+
+
+ 
+
+//----------------------Movies Panel------------------------
+
+
+        JPanel MoviesDashboard = new JPanel();
+        MoviesDashboard.setLayout(null);
+        MoviesDashboard.setBounds(0, 0, 750, 750);
+        MoviesDashboard.setBackground(new Color(30 , 30 ,30));
+        MiddlePanel.add(MoviesDashboard);
+
+        JLabel Moviecastlbl = new JLabel("Movies  Dashboard");
+        Moviecastlbl.setBounds(35, 26, 300, 30);
+        Moviecastlbl.setForeground(Color.WHITE);
+        Moviecastlbl.setFont(new Font("Bebas Neue", Font.BOLD, 23));
+        MoviesDashboard.add(Moviecastlbl);
+
+
+        JSeparator separatorhorMovie = new JSeparator();
+        separatorhorMovie.setOrientation(SwingConstants.HORIZONTAL);
+        separatorhorMovie.setBackground(Color.white);
+        separatorhorMovie.setForeground(Color.white); 
+        separatorhorMovie.setBounds(21, 120, 720, 1);
+        MoviesDashboard.add(separatorhorMovie);
+
+        // Column widths and positions
+        final int SELECT_COL_WIDTH = 60;
+        final int TITLE_COL_WIDTH = 200;
+        final int GENRE_COL_WIDTH = 150;
+        final int RATING_COL_WIDTH = 100;
+        final int AGE_RATING_COL_WIDTH = 100;
+        final int RELEASE_DATE_COL_WIDTH = 100;
+        
+        // Starting X position for all columns - moved further left
+        final int START_X = 0; // Reduced from 5 to 0
+        
+        // Header labels with consistent positioning
+        JLabel selectedlblMovie = new JLabel("Selected", SwingConstants.CENTER);
+        selectedlblMovie.setBounds(START_X + 15, 87, SELECT_COL_WIDTH, 30);
+        selectedlblMovie.setForeground(Color.white);
+        selectedlblMovie.setFont(new Font("Bebas Neue", Font.PLAIN, 13));
+        MoviesDashboard.add(selectedlblMovie);
+
+        JLabel MovieTitlelbl = new JLabel("Title", SwingConstants.CENTER);
+        MovieTitlelbl.setBounds(START_X + SELECT_COL_WIDTH, 87, TITLE_COL_WIDTH, 30);
+        MovieTitlelbl.setForeground(Color.WHITE);
+        MovieTitlelbl.setFont(new Font("Bebas Neue", Font.PLAIN, 13));
+        MoviesDashboard.add(MovieTitlelbl);
+
+        JLabel GenrelblMovie = new JLabel("Genre", SwingConstants.CENTER);
+        GenrelblMovie.setBounds(START_X + SELECT_COL_WIDTH + TITLE_COL_WIDTH, 87, GENRE_COL_WIDTH, 30);
+        GenrelblMovie.setForeground(Color.WHITE);
+        GenrelblMovie.setFont(new Font("Bebas Neue", Font.PLAIN, 13));
+        MoviesDashboard.add(GenrelblMovie);
+
+        JLabel RatinglblMovie = new JLabel("Rating", SwingConstants.CENTER);
+        RatinglblMovie.setBounds(START_X + SELECT_COL_WIDTH + TITLE_COL_WIDTH + GENRE_COL_WIDTH, 87, RATING_COL_WIDTH, 30);
+        RatinglblMovie.setForeground(Color.WHITE);
+        RatinglblMovie.setFont(new Font("Bebas Neue", Font.PLAIN, 13));
+        MoviesDashboard.add(RatinglblMovie);
+        
+        JLabel AgeRatinglblMovie = new JLabel("Age rating", SwingConstants.CENTER);
+        AgeRatinglblMovie.setBounds(START_X + SELECT_COL_WIDTH + TITLE_COL_WIDTH + GENRE_COL_WIDTH + RATING_COL_WIDTH, 87, AGE_RATING_COL_WIDTH, 30);
+        AgeRatinglblMovie.setForeground(Color.WHITE);
+        AgeRatinglblMovie.setFont(new Font("Bebas Neue", Font.PLAIN, 13));
+        MoviesDashboard.add(AgeRatinglblMovie); 
+
+        JLabel releaseDatelbl = new JLabel("Release Date", SwingConstants.CENTER);
+        releaseDatelbl.setBounds(START_X + SELECT_COL_WIDTH + TITLE_COL_WIDTH + GENRE_COL_WIDTH + RATING_COL_WIDTH + AGE_RATING_COL_WIDTH, 87, RELEASE_DATE_COL_WIDTH, 30);
+        releaseDatelbl.setForeground(Color.WHITE);
+        releaseDatelbl.setFont(new Font("Bebas Neue", Font.PLAIN, 13));
+        MoviesDashboard.add(releaseDatelbl); 
+
+        JPanel MoviePanelList = new JPanel();
+        MoviePanelList.setLayout(null);
+        MoviePanelList.setBounds(START_X, 130, 700, 440);
+        MoviePanelList.setBackground(new Color(30, 30, 30));
+
+        JPanel contentPanelMovieList = new JPanel();
+        contentPanelMovieList.setLayout(null);
+        contentPanelMovieList.setBackground(new Color(30, 30, 30));
+
+        int totalHeightMovieList = movieManager.movies.size() * 50; 
+        contentPanelMovieList.setPreferredSize(new Dimension(700, Math.max(500, totalHeightMovieList)));
+
+        ArrayList<JCheckBox> checkBoxesMovieList = new ArrayList<JCheckBox>();
+
+        try (Connection conn = DatabaseConnection.connect();
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT Title, Genre, Rating, AgeRating, ReleaseDate FROM movies")) {
+
+            int rowIndex = 0;
+            while (rs.next()) {
+                JPanel MovieListRow = new JPanel();
+                MovieListRow.setLayout(null);
+                MovieListRow.setBounds(0, rowIndex * 50, 700, 40);
+                MovieListRow.setBackground(new Color(30, 30, 30));
+
+                JLabel TitleLabel = new JLabel(rs.getString("Title"), SwingConstants.CENTER);
+                TitleLabel.setBounds(SELECT_COL_WIDTH, 5, TITLE_COL_WIDTH, 30);
+                TitleLabel.setForeground(Color.white);
+                TitleLabel.setFont(new Font("Bebas Neue", Font.PLAIN, 13));
+                MovieListRow.add(TitleLabel);
+
+                JLabel GenreLabel = new JLabel(rs.getString("Genre"), SwingConstants.CENTER);
+                GenreLabel.setBounds(SELECT_COL_WIDTH + TITLE_COL_WIDTH, 5, GENRE_COL_WIDTH, 30);
+                GenreLabel.setForeground(Color.white);
+                GenreLabel.setFont(new Font("Bebas Neue", Font.PLAIN, 13));
+                MovieListRow.add(GenreLabel);
+
+                JLabel RatingLabel = new JLabel(String.valueOf(rs.getDouble("Rating")), SwingConstants.CENTER);
+                RatingLabel.setBounds(SELECT_COL_WIDTH + TITLE_COL_WIDTH + GENRE_COL_WIDTH, 5, RATING_COL_WIDTH, 30);
+                RatingLabel.setForeground(Color.white);
+                RatingLabel.setFont(new Font("Bebas Neue", Font.PLAIN, 13));
+                MovieListRow.add(RatingLabel);
+
+                JLabel AgeRatingLabel = new JLabel(rs.getString("AgeRating"), SwingConstants.CENTER);
+                AgeRatingLabel.setBounds(SELECT_COL_WIDTH + TITLE_COL_WIDTH + GENRE_COL_WIDTH + RATING_COL_WIDTH, 5, AGE_RATING_COL_WIDTH, 30);
+                AgeRatingLabel.setForeground(Color.white);
+                AgeRatingLabel.setFont(new Font("Bebas Neue", Font.PLAIN, 13));
+                MovieListRow.add(AgeRatingLabel);
+
+                // Format the date to show full date including year
+                SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+                String formattedDate = dateFormat.format(rs.getDate("ReleaseDate"));
+                JLabel ReleaseDateLabel = new JLabel(formattedDate, SwingConstants.CENTER);
+                ReleaseDateLabel.setBounds(SELECT_COL_WIDTH + TITLE_COL_WIDTH + GENRE_COL_WIDTH + RATING_COL_WIDTH + AGE_RATING_COL_WIDTH, 5, RELEASE_DATE_COL_WIDTH, 30);
+                ReleaseDateLabel.setForeground(Color.white);
+                ReleaseDateLabel.setFont(new Font("Bebas Neue", Font.PLAIN, 13));
+                MovieListRow.add(ReleaseDateLabel);
+
+                JCheckBox selectCheckBox = new JCheckBox();
+                selectCheckBox.setBounds(15, 5, SELECT_COL_WIDTH, 30);
+                selectCheckBox.setBackground(new Color(30, 30, 30));
+                selectCheckBox.setForeground(Color.white);
+                selectCheckBox.setFont(new Font("Bebas Neue", Font.PLAIN, 13));
+                MovieListRow.add(selectCheckBox);
+                checkBoxesMovieList.add(selectCheckBox);
+
+                contentPanelMovieList.add(MovieListRow);
+                rowIndex++;
+            }
+
+            contentPanelMovieList.setPreferredSize(new Dimension(700, Math.max(500, rowIndex * 50)));
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Error fetching movie data from the database!", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+
+        JScrollPane scrollPanelMovieList = new JScrollPane(contentPanelMovieList);
+        scrollPanelMovieList.setBounds(START_X, 130, 700, 440);
+        scrollPanelMovieList.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
+        scrollPanelMovieList.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        scrollPanelMovieList.setBorder(null);
+        scrollPanelMovieList.getVerticalScrollBar().setUnitIncrement(16);
+        scrollPanelMovieList.getViewport().setBackground(new Color(30, 30, 30));
+
+        contentPanelMovieList.addMouseWheelListener(e -> {
+            JScrollBar verticalScrollBar = scrollPanelMovieList.getVerticalScrollBar();
+            int notches = e.getWheelRotation();
+            int currentValue = verticalScrollBar.getValue();
+            int scrollAmount = 30; 
+            verticalScrollBar.setValue(currentValue + (notches * scrollAmount));
+        });
+
+        MoviesDashboard.add(scrollPanelMovieList);
+
+
+        RoundedButton UnSelectAllMovie = new RoundedButton("Unselected All" , 5);
+        UnSelectAllMovie.setBounds(64, 650, 97, 27);
+        UnSelectAllMovie.setForeground(Color.BLACK);
+        UnSelectAllMovie.setBackground(Color.white);
+        UnSelectAllMovie.addActionListener(e->{
+            for(JCheckBox checkBox : checkBoxesMovieList) {
+                if(checkBox.isSelected()){
+                    checkBox.setSelected(false);
+                }
+                
+            }
+        });
+        MoviesDashboard.add(UnSelectAllMovie);
+
+        
+        RoundedButton selectAllMovie = new RoundedButton("Selected All" , 5);
+        selectAllMovie.setBounds(64 + buttonwidth + gap , 650, 97, 27);
+        selectAllMovie.setForeground(Color.BLACK);
+        selectAllMovie.setBackground(Color.white);
+        selectAllMovie.addActionListener(e->{
+            for(JCheckBox checkBox : checkBoxesMovieList) {
+                if(!checkBox.isSelected()){
+                    checkBox.setSelected(true);
+                }
+            }
+        });
+        MoviesDashboard.add(selectAllMovie);
+
+        RoundedButton EditMovie = new RoundedButton("Edit" , 5);
+        EditMovie.setBounds(64 + buttonwidth*2 + gap*2, 650, 97, 27);
+        EditMovie.setForeground(Color.BLACK);
+        EditMovie.setBackground(Color.white);
+        MoviesDashboard.add(EditMovie);
+
+        RoundedButton AddMovie = new RoundedButton("Add" , 5);
+        AddMovie.setBounds(64 + buttonwidth*3 + gap*3, 650, 97, 27);
+        AddMovie.setForeground(Color.BLACK);
+        AddMovie.setBackground(Color.white);
+        MoviesDashboard.add(AddMovie);
+
+// add movies-------- popup panel*****************************************************************************************************************
+        AddMovie.addActionListener(e -> {
+            // Create the Add Movie panel directly
+            JPanel addMovieModal = new JPanel();
+            addMovieModal.setLayout(null);
+            addMovieModal.setPreferredSize(new Dimension(1000, 500)); // Adjust size to make it smaller
+            addMovieModal.setBackground(new Color(30, 30, 30));
+        
+            // Title for the panel
+            JLabel panelTitle = new JLabel("Add New Movie");
+            panelTitle.setBounds(50, 10, 200, 30);
+            panelTitle.setForeground(Color.WHITE);
+            panelTitle.setFont(new Font("Segoe UI", Font.BOLD, 22));
+            addMovieModal.add(panelTitle);
+        
+            // Title Label and TextField
+            JLabel titleLabel = new JLabel("Title");
+            titleLabel.setBounds(50, 50, 100, 30);
+            titleLabel.setForeground(Color.WHITE);
+            JTextField titleTextField = new JTextField();
+            titleTextField.setBounds(50, 80, 300, 30);
+            titleTextField.setBackground(new Color(50, 50, 50));
+            titleTextField.setForeground(Color.WHITE);
+            titleTextField.setCaretColor(Color.WHITE);
+            titleTextField.setBorder(BorderFactory.createCompoundBorder(
+                BorderFactory.createLineBorder(Color.GRAY),
+                BorderFactory.createEmptyBorder(5, 5, 5, 5) // Padding
+            ));
+            addMovieModal.add(titleLabel);
+            addMovieModal.add(titleTextField);
+        
+            // Genre Label and TextField
+            JLabel genreLabel = new JLabel("Genre");
+            genreLabel.setBounds(50, 130, 100, 30); // Same x as Title, different y
+            genreLabel.setForeground(Color.WHITE);
+            JComboBox<Movie.MovieGenre> genreComboBox = new JComboBox<>(Movie.MovieGenre.values());
+            genreComboBox.setBounds(50, 160, 300, 30); // Same x as Title, different y
+            genreComboBox.setBackground(new Color(50, 50, 50));
+            genreComboBox.setForeground(Color.WHITE);
+            addMovieModal.add(genreLabel);
+            addMovieModal.add(genreComboBox);
+        
+            // Age Rating Label and TextField
+            JLabel ageRatingLabel = new JLabel("Age Rating");
+            ageRatingLabel.setBounds(50, 210, 100, 30); // Same x as Title, different y
+            ageRatingLabel.setForeground(Color.WHITE);
+            JComboBox<Movie.MovieAgeRating> ageRatingComboBox = new JComboBox<>(Movie.MovieAgeRating.values());
+            ageRatingComboBox.setBounds(50, 240, 300, 30); // Same x as Title, different y
+            ageRatingComboBox.setBackground(new Color(50, 50, 50));
+            ageRatingComboBox.setForeground(Color.WHITE);
+            addMovieModal.add(ageRatingLabel);
+            addMovieModal.add(ageRatingComboBox);
+        
+            // Rating Label and TextField
+            JLabel ratingLabel = new JLabel("Rating (0.0 - 10.0)");
+            ratingLabel.setBounds(50, 300, 150, 30);
+            ratingLabel.setForeground(Color.WHITE);
+            JTextField ratingTextField = new JTextField();
+            ratingTextField.setBounds(50, 330, 300, 30);
+            ratingTextField.setBackground(new Color(50, 50, 50));
+            ratingTextField.setForeground(Color.WHITE);
+            ratingTextField.setCaretColor(Color.WHITE);
+            ratingTextField.setBorder(BorderFactory.createCompoundBorder(
+                BorderFactory.createLineBorder(Color.GRAY),
+                BorderFactory.createEmptyBorder(5, 5, 5, 5) // Padding
+            ));
+            addMovieModal.add(ratingLabel);
+            addMovieModal.add(ratingTextField);
+        
+            // Trailer URL Label and TextField
+            JLabel trailerUrlLabel = new JLabel("Trailer URL");
+            trailerUrlLabel.setBounds(380, 50, 100, 30);
+            trailerUrlLabel.setForeground(Color.WHITE);
+            JTextField trailerUrlTextField = new JTextField();
+            trailerUrlTextField.setBounds(380, 80, 300, 30);
+            trailerUrlTextField.setBackground(new Color(50, 50, 50));
+            trailerUrlTextField.setForeground(Color.WHITE);
+            trailerUrlTextField.setCaretColor(Color.WHITE);
+            trailerUrlTextField.setBorder(BorderFactory.createCompoundBorder(
+                BorderFactory.createLineBorder(Color.GRAY),
+                BorderFactory.createEmptyBorder(5, 5, 5, 5) // Padding
+            ));
+            addMovieModal.add(trailerUrlLabel);
+            addMovieModal.add(trailerUrlTextField);
+        
+            // Release Date Label and Date Picker
+            JLabel releaseDateLabel = new JLabel("Release Date");
+            releaseDateLabel.setBounds(380, 130, 100, 30);
+            releaseDateLabel.setForeground(Color.WHITE);
+            JSpinner releaseDateSpinner = new JSpinner(new SpinnerDateModel());
+            releaseDateSpinner.setBounds(380, 160, 300, 30);
+            releaseDateSpinner.setEditor(new JSpinner.DateEditor(releaseDateSpinner, "yyyy-MM-dd"));
+            releaseDateSpinner.setBackground(new Color(50, 50, 50));
+            releaseDateSpinner.setForeground(Color.WHITE);
+            addMovieModal.add(releaseDateLabel);
+            addMovieModal.add(releaseDateSpinner);
+        
+            // Director Label and TextField
+            JLabel directorLabel = new JLabel("Director");
+            directorLabel.setBounds(50, 380, 100, 30);
+            directorLabel.setForeground(Color.WHITE);
+            JTextField directorTextField = new JTextField();
+            directorTextField.setBounds(50, 410, 300, 30);
+            directorTextField.setBackground(new Color(50, 50, 50));
+            directorTextField.setForeground(Color.WHITE);
+            directorTextField.setCaretColor(Color.WHITE);
+            directorTextField.setBorder(BorderFactory.createCompoundBorder(
+                BorderFactory.createLineBorder(Color.GRAY),
+                BorderFactory.createEmptyBorder(5, 5, 5, 5) // Padding
+            ));
+            addMovieModal.add(directorLabel);
+            addMovieModal.add(directorTextField);
+        
+            // Description Label and TextArea
+            JLabel descriptionLabel = new JLabel("Description");
+            descriptionLabel.setBounds(380, 210, 100, 30);
+            descriptionLabel.setForeground(Color.WHITE);
+            JTextArea descriptionTextArea = new JTextArea();
+            descriptionTextArea.setBounds(380, 240, 300, 100);
+            descriptionTextArea.setBackground(new Color(50, 50, 50));
+            descriptionTextArea.setForeground(Color.WHITE);
+            descriptionTextArea.setCaretColor(Color.WHITE);
+            descriptionTextArea.setBorder(BorderFactory.createCompoundBorder(
+                BorderFactory.createLineBorder(Color.GRAY),
+                BorderFactory.createEmptyBorder(5, 5, 5, 5) // Padding
+            ));
+            descriptionTextArea.setLineWrap(true);
+            descriptionTextArea.setWrapStyleWord(true);
+            addMovieModal.add(descriptionLabel);
+            addMovieModal.add(descriptionTextArea);
+        
+            // Image Panel
+            JPanel imagePanel = new JPanel();
+            imagePanel.setBounds(720, 130, 250, 300); // Adjusted position
+            imagePanel.setBackground(new Color(50, 50, 50));
+            imagePanel.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+            addMovieModal.add(imagePanel);
+        
+            // Choose Image Button
+            JLabel imageLabelHolder = new JLabel();
+            String[] imagePathHolder = new String[1]; // Use an array to hold the image path
+            RoundedButton chooseImageButton = new RoundedButton("Choose Image", 5);
+            chooseImageButton.setBounds(720, 60, 130, 30); // Moved to the top of the image panel
+            chooseImageButton.setForeground(Color.BLACK);
+            chooseImageButton.setBackground(Color.WHITE);
+            chooseImageButton.addActionListener(event -> {
+                JFileChooser fileChooser = new JFileChooser();
+                int result = fileChooser.showOpenDialog(null);
+                if (result == JFileChooser.APPROVE_OPTION) {
+                    File selectedFile = fileChooser.getSelectedFile();
+                    imagePathHolder[0] = selectedFile.getAbsolutePath(); // Store the image path in the array
+                    ImageIcon imageIcon = new ImageIcon(imagePathHolder[0]);
+                    Image image = imageIcon.getImage().getScaledInstance(imagePanel.getWidth(), imagePanel.getHeight(), Image.SCALE_SMOOTH);
+                    ImageIcon scaledImageIcon = new ImageIcon(image);
+                    imageLabelHolder.setIcon(scaledImageIcon);
+                    imagePanel.removeAll();
+                    imagePanel.add(imageLabelHolder);
+                    imagePanel.revalidate();
+                    imagePanel.repaint();
+                }
+            });
+            addMovieModal.add(chooseImageButton);
+        
+            // Add Movie Button
+            RoundedButton addMovieButton2 = new RoundedButton("Add Movie", 5);
+            addMovieButton2.setBounds(380, 450, 130, 30); // Adjusted position
+            addMovieButton2.setForeground(Color.BLACK);
+            addMovieButton2.setBackground(Color.WHITE);
+            addMovieButton2.addActionListener(event -> {
+                String title = titleTextField.getText();
+                Movie.MovieGenre genre = (Movie.MovieGenre) genreComboBox.getSelectedItem();
+                Movie.MovieAgeRating ageRating = (Movie.MovieAgeRating) ageRatingComboBox.getSelectedItem();
+                String ratingText = ratingTextField.getText();
+                String trailerUrl = trailerUrlTextField.getText();
+                Date releaseDate = (Date) releaseDateSpinner.getValue();
+                String director = directorTextField.getText();
+                String description = descriptionTextArea.getText();
+        
+                // Use imagePathHolder[0] to access the image path
+                if (!title.isEmpty() && genre != null && !ratingText.isEmpty() && !director.isEmpty() && !description.isEmpty() && imagePathHolder[0] != null) {
+                    try {
+                        float rating = Float.parseFloat(ratingText);
+        
+                        // Validate rating
+                        if (rating < 0 || rating > 10) {
+                            JOptionPane.showMessageDialog(null, "Rating must be between 0.0 and 10.0!", "Error", JOptionPane.ERROR_MESSAGE);
+                            return;
+                        }
+        
+                        // Format rating to one decimal place
+                        rating = Math.round(rating * 10) / 10.0f;
+        
+                        LocalDate localReleaseDate = new java.sql.Date(releaseDate.getTime()).toLocalDate();
+        
+                        // Call MovieManager.addMovieToDatabase
+                        boolean added = MovieManager.addMovieToDatabase(title, genre, description, rating, ageRating, imagePathHolder[0], trailerUrl, localReleaseDate, director);
+        
+                        if (added) {
+                            JOptionPane.showMessageDialog(null, "Movie added successfully!");
+                            SwingUtilities.getWindowAncestor(addMovieModal).dispose();
+                        } else {
+                            JOptionPane.showMessageDialog(null, "Failed to add movie. See console for details.", "Error", JOptionPane.ERROR_MESSAGE);
+                        }
+        
+                    } catch (NumberFormatException ex) {
+                        JOptionPane.showMessageDialog(null, "Invalid rating format!", "Error", JOptionPane.ERROR_MESSAGE);
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(null, "Please fill in all fields and choose an image!", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            });
+            addMovieModal.add(addMovieButton2);
+        
+            // Cancel Button
+            RoundedButton cancelButton = new RoundedButton("Cancel", 5);
+            cancelButton.setBounds(550, 450, 130, 30); // Adjusted position
+            cancelButton.setForeground(Color.BLACK);
+            cancelButton.setBackground(Color.WHITE);
+            cancelButton.addActionListener(event -> {
+                SwingUtilities.getWindowAncestor(addMovieModal).dispose();
+            });
+            addMovieModal.add(cancelButton);
+        
+            // Show the modal in a JDialog
+            JDialog dialog = new JDialog();
+            dialog.getRootPane().setBorder(BorderFactory.createLineBorder(Color.WHITE, 2));
+            dialog.setModal(true); // Prevent interaction with other windows
+            dialog.getContentPane().add(addMovieModal);
+            dialog.pack();
+            dialog.setLocationRelativeTo(null); // Center on screen
+            dialog.setVisible(true);
+        });
+//************************************************************************************************************************************************************* */
+        RoundedButton DeleteMovie = new RoundedButton("Delete" , 5);
+        DeleteMovie.setBounds(64 + buttonwidth*4 + gap*4, 650, 97, 27);
+        DeleteMovie.setForeground(Color.BLACK);
+        DeleteMovie.setBackground(Color.white);
+        MoviesDashboard.add(DeleteMovie);
+
+        JPanel EditMoviepanel = new JPanel();
+        EditMoviepanel.setLayout(null);
+        EditMoviepanel.setBounds(1200,0, 270, 750);
+        EditMoviepanel.setBackground(new Color(30,30,30));
+        MoviesDashboard.add(EditMoviepanel);
+
+        EditMovie.addActionListener(e->{
+            if (!isPanelVisible) {
+                slidePanel(EditMoviepanel, 1200, 782, 0, 270, 750);
+                isPanelVisible = true;
+            }
+        });
+
+        EditMovie.addActionListener(e -> {
+            // Create the Add Movie panel directly
+            JPanel addMovieModal = new JPanel();
+            addMovieModal.setLayout(null);
+            addMovieModal.setPreferredSize(new Dimension(1000, 500)); // Adjust size to make it smaller
+            addMovieModal.setBackground(new Color(30, 30, 30));
+        
+            // Title for the panel
+            JLabel panelTitle = new JLabel("Add New Movie");
+            panelTitle.setBounds(50, 10, 200, 30);
+            panelTitle.setForeground(Color.WHITE);
+            panelTitle.setFont(new Font("Segoe UI", Font.BOLD, 22));
+            addMovieModal.add(panelTitle);
+        
+            // Title Label and TextField
+            JCheckBox titleCheckBox = new JCheckBox();
+            titleCheckBox.setBounds(50, 50, 20, 20);
+            titleCheckBox.setBackground(new Color(30, 30, 30));
+            titleCheckBox.setForeground(Color.WHITE);
+            JLabel titleLabel = new JLabel("Title");
+            titleLabel.setBounds(80, 50, 100, 30);
+            titleLabel.setForeground(Color.WHITE);
+            JTextField titleTextField = new JTextField();
+            titleTextField.setBounds(50, 80, 300, 30);
+            titleTextField.setBackground(new Color(50, 50, 50));
+            titleTextField.setForeground(Color.WHITE);
+            titleTextField.setCaretColor(Color.WHITE);
+            titleTextField.setBorder(BorderFactory.createCompoundBorder(
+            BorderFactory.createLineBorder(Color.GRAY),
+            BorderFactory.createEmptyBorder(5, 5, 5, 5) // Padding
+            ));
+            titleTextField.setEnabled(false);
+            titleCheckBox.addActionListener(e1 -> titleTextField.setEnabled(titleCheckBox.isSelected()));
+            addMovieModal.add(titleCheckBox);
+            addMovieModal.add(titleLabel);
+            addMovieModal.add(titleTextField);
+        
+            // Genre Label and ComboBox
+            JCheckBox genreCheckBox = new JCheckBox();
+            genreCheckBox.setBounds(50, 130, 20, 20);
+            genreCheckBox.setBackground(new Color(30, 30, 30));
+            genreCheckBox.setForeground(Color.WHITE);
+            JLabel genreLabel = new JLabel("Genre");
+            genreLabel.setBounds(80, 130, 100, 30);
+            genreLabel.setForeground(Color.WHITE);
+            JComboBox<Movie.MovieGenre> genreComboBox = new JComboBox<>(Movie.MovieGenre.values());
+            genreComboBox.setBounds(50, 160, 300, 30);
+            genreComboBox.setBackground(new Color(50, 50, 50));
+            genreComboBox.setForeground(Color.WHITE);
+            genreComboBox.setEnabled(false);
+            genreCheckBox.addActionListener(e1 -> genreComboBox.setEnabled(genreCheckBox.isSelected()));
+            addMovieModal.add(genreCheckBox);
+            addMovieModal.add(genreLabel);
+            addMovieModal.add(genreComboBox);
+        
+            // Age Rating Label and ComboBox
+            JCheckBox ageRatingCheckBox = new JCheckBox();
+            ageRatingCheckBox.setBounds(50, 210, 20, 20);
+            ageRatingCheckBox.setBackground(new Color(30, 30, 30));
+            ageRatingCheckBox.setForeground(Color.WHITE);
+            JLabel ageRatingLabel = new JLabel("Age Rating");
+            ageRatingLabel.setBounds(80, 210, 100, 30);
+            ageRatingLabel.setForeground(Color.WHITE);
+            JComboBox<Movie.MovieAgeRating> ageRatingComboBox = new JComboBox<>(Movie.MovieAgeRating.values());
+            ageRatingComboBox.setBounds(50, 240, 300, 30);
+            ageRatingComboBox.setBackground(new Color(50, 50, 50));
+            ageRatingComboBox.setForeground(Color.WHITE);
+            ageRatingComboBox.setEnabled(false);
+            ageRatingCheckBox.addActionListener(e1 -> ageRatingComboBox.setEnabled(ageRatingCheckBox.isSelected()));
+            addMovieModal.add(ageRatingCheckBox);
+            addMovieModal.add(ageRatingLabel);
+            addMovieModal.add(ageRatingComboBox);
+        
+            // Rating Label and TextField
+            JCheckBox ratingCheckBox = new JCheckBox();
+            ratingCheckBox.setBounds(50, 300, 20, 20);
+            ratingCheckBox.setBackground(new Color(30, 30, 30));
+            ratingCheckBox.setForeground(Color.WHITE);
+            JLabel ratingLabel = new JLabel("Rating (0.0 - 10.0)");
+            ratingLabel.setBounds(80, 300, 150, 30);
+            ratingLabel.setForeground(Color.WHITE);
+            JTextField ratingTextField = new JTextField();
+            ratingTextField.setBounds(50, 330, 300, 30);
+            ratingTextField.setBackground(new Color(50, 50, 50));
+            ratingTextField.setForeground(Color.WHITE);
+            ratingTextField.setCaretColor(Color.WHITE);
+            ratingTextField.setBorder(BorderFactory.createCompoundBorder(
+            BorderFactory.createLineBorder(Color.GRAY),
+            BorderFactory.createEmptyBorder(5, 5, 5, 5) // Padding
+            ));
+            ratingTextField.setEnabled(false);
+            ratingCheckBox.addActionListener(e1 -> ratingTextField.setEnabled(ratingCheckBox.isSelected()));
+            addMovieModal.add(ratingCheckBox);
+            addMovieModal.add(ratingLabel);
+            addMovieModal.add(ratingTextField);
+        
+            // Trailer URL Label and TextField
+            JCheckBox trailerUrlCheckBox = new JCheckBox();
+            trailerUrlCheckBox.setBounds(380, 50, 20, 20);
+            trailerUrlCheckBox.setBackground(new Color(30, 30, 30));
+            trailerUrlCheckBox.setForeground(Color.WHITE);
+            JLabel trailerUrlLabel = new JLabel("Trailer URL");
+            trailerUrlLabel.setBounds(410, 50, 100, 30);
+            trailerUrlLabel.setForeground(Color.WHITE);
+            JTextField trailerUrlTextField = new JTextField();
+            trailerUrlTextField.setBounds(380, 80, 300, 30);
+            trailerUrlTextField.setBackground(new Color(50, 50, 50));
+            trailerUrlTextField.setForeground(Color.WHITE);
+            trailerUrlTextField.setCaretColor(Color.WHITE);
+            trailerUrlTextField.setBorder(BorderFactory.createCompoundBorder(
+            BorderFactory.createLineBorder(Color.GRAY),
+            BorderFactory.createEmptyBorder(5, 5, 5, 5) // Padding
+            ));
+            trailerUrlTextField.setEnabled(false);
+            trailerUrlCheckBox.addActionListener(e1 -> trailerUrlTextField.setEnabled(trailerUrlCheckBox.isSelected()));
+            addMovieModal.add(trailerUrlCheckBox);
+            addMovieModal.add(trailerUrlLabel);
+            addMovieModal.add(trailerUrlTextField);
+        
+            // Release Date Label and Date Picker
+            JCheckBox releaseDateCheckBox = new JCheckBox();
+            releaseDateCheckBox.setBounds(380, 130, 20, 20);
+            releaseDateCheckBox.setBackground(new Color(30, 30, 30));
+            releaseDateCheckBox.setForeground(Color.WHITE);
+            JLabel releaseDateLabel = new JLabel("Release Date");
+            releaseDateLabel.setBounds(410, 130, 100, 30);
+            releaseDateLabel.setForeground(Color.WHITE);
+            JSpinner releaseDateSpinner = new JSpinner(new SpinnerDateModel());
+            releaseDateSpinner.setBounds(380, 160, 300, 30);
+            releaseDateSpinner.setEditor(new JSpinner.DateEditor(releaseDateSpinner, "yyyy-MM-dd"));
+            releaseDateSpinner.setBackground(new Color(50, 50, 50));
+            releaseDateSpinner.setForeground(Color.WHITE);
+            releaseDateSpinner.setEnabled(false);
+            releaseDateCheckBox.addActionListener(e1 -> releaseDateSpinner.setEnabled(releaseDateCheckBox.isSelected()));
+            addMovieModal.add(releaseDateCheckBox);
+            addMovieModal.add(releaseDateLabel);
+            addMovieModal.add(releaseDateSpinner);
+        
+            // Director Label and TextField
+            JCheckBox directorCheckBox = new JCheckBox();
+            directorCheckBox.setBounds(50, 380, 20, 20);
+            directorCheckBox.setBackground(new Color(30, 30, 30));
+            directorCheckBox.setForeground(Color.WHITE);
+            JLabel directorLabel = new JLabel("Director");
+            directorLabel.setBounds(80, 380, 100, 30);
+            directorLabel.setForeground(Color.WHITE);
+            JTextField directorTextField = new JTextField();
+            directorTextField.setBounds(50, 410, 300, 30);
+            directorTextField.setBackground(new Color(50, 50, 50));
+            directorTextField.setForeground(Color.WHITE);
+            directorTextField.setCaretColor(Color.WHITE);
+            directorTextField.setBorder(BorderFactory.createCompoundBorder(
+            BorderFactory.createLineBorder(Color.GRAY),
+            BorderFactory.createEmptyBorder(5, 5, 5, 5) // Padding
+            ));
+            directorTextField.setEnabled(false);
+            directorCheckBox.addActionListener(e1 -> directorTextField.setEnabled(directorCheckBox.isSelected()));
+            addMovieModal.add(directorCheckBox);
+            addMovieModal.add(directorLabel);
+            addMovieModal.add(directorTextField);
+        
+            // Description Label and TextArea
+            JCheckBox descriptionCheckBox = new JCheckBox();
+            descriptionCheckBox.setBounds(380, 210, 20, 20);
+            descriptionCheckBox.setBackground(new Color(30, 30, 30));
+            descriptionCheckBox.setForeground(Color.WHITE);
+            JLabel descriptionLabel = new JLabel("Description");
+            descriptionLabel.setBounds(410, 210, 100, 30);
+            descriptionLabel.setForeground(Color.WHITE);
+            JTextArea descriptionTextArea = new JTextArea();
+            descriptionTextArea.setBounds(380, 240, 300, 100);
+            descriptionTextArea.setBackground(new Color(50, 50, 50));
+            descriptionTextArea.setForeground(Color.WHITE);
+            descriptionTextArea.setCaretColor(Color.WHITE);
+            descriptionTextArea.setBorder(BorderFactory.createCompoundBorder(
+            BorderFactory.createLineBorder(Color.GRAY),
+            BorderFactory.createEmptyBorder(5, 5, 5, 5) // Padding
+            ));
+            descriptionTextArea.setLineWrap(true);
+            descriptionTextArea.setWrapStyleWord(true);
+            descriptionTextArea.setEnabled(false);
+            descriptionCheckBox.addActionListener(e1 -> descriptionTextArea.setEnabled(descriptionCheckBox.isSelected()));
+            addMovieModal.add(descriptionCheckBox);
+            addMovieModal.add(descriptionLabel);
+            addMovieModal.add(descriptionTextArea);
+        
+            // Image Panel
+            JPanel imagePanel = new JPanel();
+            imagePanel.setBounds(720, 130, 250, 300);
+            imagePanel.setBackground(new Color(50, 50, 50));
+            imagePanel.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+            addMovieModal.add(imagePanel);
+        
+            // Choose Image Button
+            JCheckBox imageCheckBox = new JCheckBox();
+            imageCheckBox.setBounds(720, 60, 20, 20);
+            imageCheckBox.setBackground(new Color(30, 30, 30));
+            imageCheckBox.setForeground(Color.WHITE);
+            JLabel imageLabelHolder = new JLabel();
+            String[] imagePathHolder = new String[1];
+            RoundedButton chooseImageButton = new RoundedButton("Choose Image", 5);
+            chooseImageButton.setBounds(750, 60, 130, 30);
+            chooseImageButton.setForeground(Color.BLACK);
+            chooseImageButton.setBackground(Color.WHITE);
+            chooseImageButton.setEnabled(false);
+            imageCheckBox.addActionListener(e1 -> chooseImageButton.setEnabled(imageCheckBox.isSelected()));
+            chooseImageButton.addActionListener(event -> {
+            JFileChooser fileChooser = new JFileChooser();
+            int result = fileChooser.showOpenDialog(null);
+            if (result == JFileChooser.APPROVE_OPTION) {
+                File selectedFile = fileChooser.getSelectedFile();
+                imagePathHolder[0] = selectedFile.getAbsolutePath();
+                ImageIcon imageIcon = new ImageIcon(imagePathHolder[0]);
+                Image image = imageIcon.getImage().getScaledInstance(imagePanel.getWidth(), imagePanel.getHeight(), Image.SCALE_SMOOTH);
+                ImageIcon scaledImageIcon = new ImageIcon(image);
+                imageLabelHolder.setIcon(scaledImageIcon);
+                imagePanel.removeAll();
+                imagePanel.add(imageLabelHolder);
+                imagePanel.revalidate();
+                imagePanel.repaint();
+            }
+            });
+            addMovieModal.add(imageCheckBox);
+            addMovieModal.add(chooseImageButton);
+        
+            // Add Movie Button
+            RoundedButton addMovieButton2 = new RoundedButton("Edit Movie", 5);
+            addMovieButton2.setBounds(380, 450, 130, 30);
+            addMovieButton2.setForeground(Color.BLACK);
+            addMovieButton2.setBackground(Color.WHITE);
+            addMovieButton2.addActionListener(event -> {
+            String title = titleTextField.getText();
+            Movie.MovieGenre genre = (Movie.MovieGenre) genreComboBox.getSelectedItem();
+            Movie.MovieAgeRating ageRating = (Movie.MovieAgeRating) ageRatingComboBox.getSelectedItem();
+            String ratingText = ratingTextField.getText();
+            String trailerUrl = trailerUrlTextField.getText();
+            Date releaseDate = (Date) releaseDateSpinner.getValue();
+            String director = directorTextField.getText();
+            String description = descriptionTextArea.getText();
+        
+            if (!title.isEmpty() && genre != null && !ratingText.isEmpty() && !director.isEmpty() && !description.isEmpty() && imagePathHolder[0] != null) {
+                try {
+                float rating = Float.parseFloat(ratingText);
+                if (rating < 0 || rating > 10) {
+                    JOptionPane.showMessageDialog(null, "Rating must be between 0.0 and 10.0!", "Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+                rating = Math.round(rating * 10) / 10.0f;
+                LocalDate localReleaseDate = new java.sql.Date(releaseDate.getTime()).toLocalDate();
+                boolean added = MovieManager.addMovieToDatabase(title, genre, description, rating, ageRating, imagePathHolder[0], trailerUrl, localReleaseDate, director);
+                if (added) {
+                    JOptionPane.showMessageDialog(null, "Movie added successfully!");
+                    SwingUtilities.getWindowAncestor(addMovieModal).dispose();
+                } else {
+                    JOptionPane.showMessageDialog(null, "Failed to add movie. See console for details.", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+                } catch (NumberFormatException ex) {
+                JOptionPane.showMessageDialog(null, "Invalid rating format!", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "Please fill in all fields and choose an image!", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+            });
+            addMovieModal.add(addMovieButton2);
+        
+            // Cancel Button
+            RoundedButton cancelButton = new RoundedButton("Cancel", 5);
+            cancelButton.setBounds(550, 450, 130, 30);
+            cancelButton.setForeground(Color.BLACK);
+            cancelButton.setBackground(Color.WHITE);
+            cancelButton.addActionListener(event -> SwingUtilities.getWindowAncestor(addMovieModal).dispose());
+            addMovieModal.add(cancelButton);
+        
+            // Show the modal in a JDialog
+            JDialog dialog = new JDialog();
+            dialog.getRootPane().setBorder(BorderFactory.createLineBorder(Color.WHITE, 2));
+            dialog.setModal(true);
+            dialog.getContentPane().add(addMovieModal);
+            dialog.pack();
+            dialog.setLocationRelativeTo(null);
+            dialog.setVisible(true);
+        });
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+    //------------------------Right Things Movie------------
+
+    JSeparator separator1Movie = new JSeparator();
+    separator1Movie.setOrientation(SwingConstants.VERTICAL);
+    separator1Movie.setBackground(Color.white);
+    separator1Movie.setForeground(Color.white);
+    separator1Movie.setBounds(780, 00, 2, 750);
+    MoviesDashboard.add(separator1Movie);
+
+    // right side number of movies
+        JLabel nbrmovie = new JLabel("Total Number of Movies");
+        nbrmovie.setBounds(815, 20, 200, 30);
+        nbrmovie.setForeground(Color.WHITE);
+        nbrmovie.setFont(new Font("Bebas Neue", Font.BOLD, 15));
+        MoviesDashboard.add(nbrmovie);
+
+        RoundedPanel CircleMovie = new RoundedPanel(100);
+        CircleMovie.setLayout(null);
+        CircleMovie.setBounds(855, 80, 100, 100);
+        CircleMovie.setBackground(new Color(0, 0, 0, 0));
+        CircleMovie.setRoundedBorder(Color.WHITE, 2);
+        MoviesDashboard.add(CircleMovie);
+
+        // Fetch the total number of movies using the method
+        int totalMovies = MovieManager.numberofmovies();
+
+        JLabel nbrTotalMovie = new JLabel();
+        if (totalMovies < 10) {
+            nbrTotalMovie.setBounds(40, 32, 100, 30);
+            nbrTotalMovie.setText(String.valueOf(totalMovies));
+        } else {
+            nbrTotalMovie.setBounds(33, 32, 100, 30);
+            nbrTotalMovie.setText(String.valueOf(totalMovies));
+        }
+
+        nbrTotalMovie.setForeground(Color.WHITE);
+        nbrTotalMovie.setFont(new Font("Bebas Neue", Font.BOLD, 30));
+        CircleMovie.add(nbrTotalMovie);
+
+    JSeparator separatorRght1Movie = new JSeparator();
+    separatorRght1Movie.setOrientation(SwingConstants.HORIZONTAL);
+    separatorRght1Movie.setBackground(Color.white);
+    separatorRght1Movie.setForeground(Color.white); 
+    separatorRght1Movie.setBounds(790, 220, 220, 1);
+    MoviesDashboard.add(separatorRght1Movie);
+
+    JLabel NewReleaseMovielbl = new JLabel("Top Watched Movie");
+    NewReleaseMovielbl.setBounds(830, 255, 250, 30);
+    NewReleaseMovielbl.setForeground(Color.WHITE);
+    NewReleaseMovielbl.setFont(new Font("Bebas Neue", Font.BOLD, 15));
+    MoviesDashboard.add(NewReleaseMovielbl);
+
+    JLabel NamereleaseMovie = new JLabel(); 
+    NamereleaseMovie.setBounds(880, 300, 250, 30);
+    NamereleaseMovie.setForeground(Color.WHITE);
+    NamereleaseMovie.setFont(new Font("Roboto", Font.TYPE1_FONT, 13));
+    NamereleaseMovie.setText(String.valueOf(movieManager.movies.get(movieManager.movies.size()-1).Title));
+    MoviesDashboard.add(NamereleaseMovie);
+
+    JSeparator separatorRght2Movie = new JSeparator();
+    separatorRght2Movie.setOrientation(SwingConstants.HORIZONTAL);
+    separatorRght2Movie.setBackground(Color.white);
+    separatorRght2Movie.setForeground(Color.white);
+    separatorRght2Movie.setBounds(790, 400, 220, 1);
+    MoviesDashboard.add(separatorRght2Movie);
+
+    JLabel MostPopularGenrelbl = new JLabel("Most Watched Genre");
+    MostPopularGenrelbl.setBounds(830, 423, 250, 30);
+    MostPopularGenrelbl.setForeground(Color.WHITE);
+    MostPopularGenrelbl.setFont(new Font("Bebas Neue", Font.BOLD, 15));
+    MoviesDashboard.add(MostPopularGenrelbl);
+
+    JLabel MostPopularGenre = new JLabel();
+    MostPopularGenre.setBounds(880, 460, 250, 30);
+    MostPopularGenre.setForeground(Color.WHITE);
+    MostPopularGenre.setFont(new Font("Roboto", Font.TYPE1_FONT, 13));
+    String MostGenre = null;
+    int maxappeare = 0;
+    
+        for (int i = 0; i < movieManager.movies.size(); i++) {
+            String currentGenre = String.valueOf(movieManager.movies.get(i).Genre);
+            int currentCount = 0;
+
+            
+            for (int j = 0; j <  movieManager.movies.size(); j++) {
+                if (String.valueOf(movieManager.movies.get(j).Genre).equals(currentGenre)) {
+                    currentCount++;
+                }
+            }
+
+            
+            if (currentCount > maxappeare) {
+                maxappeare = currentCount;
+                MostGenre = currentGenre;
+            }
+        }
+    MostPopularGenre.setText(MostGenre);
+    MoviesDashboard.add(MostPopularGenre);
+
+    JPanel firstgenrepanel = new JPanel();
+    firstgenrepanel.setBounds(820, 550, 12, 12);
+    firstgenrepanel.setBackground(new Color(255,130,37));
+    firstgenrepanel.setBorder(BorderFactory.createLineBorder(Color.white));
+    MoviesDashboard.add(firstgenrepanel);
+
+    JLabel firstgenre = new JLabel();
+    firstgenre.setBounds(845,544,100,20);
+    firstgenre.setForeground(Color.WHITE);
+    firstgenre.setFont(new Font("Bebas Neue", Font.BOLD, 12));
+    firstgenre.setText(MostGenre);
+    MoviesDashboard.add(firstgenre);
+
+
+    JPanel secondgenrepanel = new JPanel(); 
+    secondgenrepanel.setBounds(820, 575, 12, 12);
+    secondgenrepanel.setBackground(new  Color(180,63,63));
+    secondgenrepanel.setBorder(BorderFactory.createLineBorder(Color.white));
+    MoviesDashboard.add(secondgenrepanel);
+
+    JLabel Secondgenre = new JLabel();
+    Secondgenre.setBounds(845,569,100,20);
+    Secondgenre.setForeground(Color.WHITE);
+    Secondgenre.setFont(new Font("Bebas Neue", Font.BOLD, 12));
+    Secondgenre.setText(MostGenre);
+    MoviesDashboard.add(Secondgenre);
+
+    JPanel thirdgenrepanel = new JPanel(); 
+    thirdgenrepanel.setBounds(820, 600, 12, 12);
+    thirdgenrepanel.setBackground(new Color(23,59,69));
+    thirdgenrepanel.setBorder(BorderFactory.createLineBorder(Color.white));
+    MoviesDashboard.add(thirdgenrepanel);
+
+    JLabel thirdgenre = new JLabel();
+    thirdgenre.setBounds(845,594,100,20);
+    thirdgenre.setForeground(Color.WHITE);
+    thirdgenre.setFont(new Font("Bebas Neue", Font.BOLD, 12));
+    thirdgenre.setText(MostGenre);
+    MoviesDashboard.add(thirdgenre);
+
+    String Mostgenre = null;
+    String secondMostFrequentMovie = null;
+    String thirdMostFrequentMovie = null;
+    int maxcounte = 0;
+    int secondMaxCount = 0;
+    int thirdMaxCount = 0;
+
+    
+    for (int i = 0; i < movieManager.movies.size(); i++) {
+        String currentGenre = String.valueOf(movieManager.movies.get(i).Genre);
+        int currentCount = 0;
+
+ 
+        for (int j = 0; j < movieManager.movies.size(); j++) {
+            if (String.valueOf(movieManager.movies.get(j).Genre).equals(currentGenre)) {
+                currentCount++;
+            }
+        }
+
+        
+        if (currentCount > maxcounte) {
+
+            thirdMaxCount = secondMaxCount;
+            thirdMostFrequentMovie = secondMostFrequentMovie;
+
+            secondMaxCount = maxcounte;
+            secondMostFrequentMovie = mostFrequentMovie;
+
+           
+            maxcounte = currentCount;
+            mostFrequentMovie = currentGenre;
+        } else if (currentCount > secondMaxCount && !currentGenre.equals(mostFrequentMovie)) {
+
+            thirdMaxCount = secondMaxCount;
+            thirdMostFrequentMovie = secondMostFrequentMovie;
+
+            secondMaxCount = currentCount;
+            secondMostFrequentMovie = currentGenre;
+        } else if (currentCount > thirdMaxCount && !currentGenre.equals(mostFrequentMovie) && !currentGenre.equals(secondMostFrequentMovie)) {
+
+            thirdMaxCount = currentCount;
+            thirdMostFrequentMovie = currentGenre;
+        }
+    }
+    Secondgenre.setText(secondMostFrequentMovie);
+    thirdgenre.setText(thirdMostFrequentMovie);
+
+    JLabel nbrfirstgenrelbl = new JLabel();
+    nbrfirstgenrelbl.setBounds(950,544,100,20);
+    nbrfirstgenrelbl.setForeground(Color.WHITE);
+    nbrfirstgenrelbl.setFont(new Font("Bebas Neue", Font.BOLD, 12));
+    MoviesDashboard.add(nbrfirstgenrelbl);
+
+    int count = 0;
+    for(int i = 0; i < movieManager.movies.size(); i++){
+        if(String.valueOf(movieManager.movies.get(i).Genre).equals(MostGenre)){
+            count++;
+        }
+    }
+    nbrfirstgenrelbl.setText(String.valueOf((count*100)/movieManager.movies.size() + "%"));
+
+    count =0;
+    JLabel nbrsecondgenrelbl = new JLabel();
+    nbrsecondgenrelbl.setBounds(950,575,100,20);
+    nbrsecondgenrelbl.setForeground(Color.WHITE);
+    nbrsecondgenrelbl.setFont(new Font("Bebas Neue", Font.BOLD, 12));
+    MoviesDashboard.add(nbrsecondgenrelbl);
+
+    for(int i = 0; i < movieManager.movies.size(); i++){
+        if(String.valueOf(movieManager.movies.get(i).Genre).equals(secondMostFrequentMovie)){
+            count++;
+        }
+    }
+    nbrsecondgenrelbl.setText(String.valueOf((count*100)/movieManager.movies.size() + "%"));
+
+    JLabel nbrthirdgenrelbl = new JLabel();
+    nbrthirdgenrelbl.setBounds(950,600,100,20);
+    nbrthirdgenrelbl.setForeground(Color.WHITE);
+    nbrthirdgenrelbl.setFont(new Font("Bebas Neue", Font.BOLD, 12));
+    MoviesDashboard.add(nbrthirdgenrelbl);
+
+    count = 0;
+    for(int i = 0; i < movieManager.movies.size(); i++){
+        if(String.valueOf(movieManager.movies.get(i).Genre).equals(thirdMostFrequentMovie)){
+            count++;
+        }
+    }
+    nbrthirdgenrelbl.setText(String.valueOf((count*100)/movieManager.movies.size() + "%"));
+
+
+    JSeparator separatorRght3Movie = new JSeparator();
+    separatorRght3Movie.setOrientation(SwingConstants.HORIZONTAL);
+    separatorRght3Movie.setBackground(Color.white);
+    separatorRght3Movie.setForeground(Color.white); 
+    separatorRght3Movie.setBounds(790, 670, 220, 1);
+    MoviesDashboard.add(separatorRght3Movie);
+
+    JLabel DatetodayMovie = new JLabel("Date:");
+    DatetodayMovie.setBounds(840, 675, 200, 30);
+    DatetodayMovie.setForeground(Color.WHITE);
+    DatetodayMovie.setFont(new Font("Bebas Neue", Font.BOLD, 13));
+    MoviesDashboard.add(DatetodayMovie);
+    
+    JLabel datenowMovie = new JLabel(LocalDate.now().toString());
+    datenowMovie.setBounds(880, 675, 200, 30);
+    datenowMovie.setForeground(Color.WHITE);
+    datenowMovie.setFont(new Font("Bebas Neue", Font.BOLD, 13));
+    MoviesDashboard.add(datenowMovie);
+
+    
+
+
+
+
+
+
+
+
+
+//---------------User Insights DashBoard--------------------------------
+
+        JPanel UserInsightsDashboard = new JPanel();
+        UserInsightsDashboard.setLayout(null);
+        UserInsightsDashboard.setBounds(100, 0, 1200, 750);
+        UserInsightsDashboard.setBackground(new Color(30 ,30,30));
+        MiddlePanel.add(UserInsightsDashboard);
+
+
+        JLabel UserInsightlbl = new JLabel("User Insights Dashboard");
+        UserInsightlbl.setBounds(35, 26, 300, 30);
+        UserInsightlbl.setForeground(Color.WHITE);
+        UserInsightlbl.setFont(new Font("Bebas Neue", Font.BOLD, 23));
+        UserInsightsDashboard.add(UserInsightlbl);
+
+
+
+        JSeparator separatorhorUser = new JSeparator();
+        separatorhorUser.setOrientation(SwingConstants.HORIZONTAL);
+        separatorhorUser.setBackground(Color.white);
+        separatorhorUser.setForeground(Color.white); 
+        separatorhorUser.setBounds(21, 120, 720, 1);
+        UserInsightsDashboard.add(separatorhorUser);
+
+        JLabel selectedlblUser = new JLabel ("Selected");
+        selectedlblUser.setBounds(20, 87, 60, 30);
+        selectedlblUser.setForeground(Color.white);
+        selectedlblUser.setFont(new Font("Bebas Neue", Font.PLAIN, 13));
+        UserInsightsDashboard.add(selectedlblUser);
+
+        JLabel NamelblUser = new JLabel("Name");
+        NamelblUser.setBounds(110, 87, 60, 30);
+        NamelblUser.setForeground(Color.WHITE);
+        NamelblUser.setFont(new Font("Bebas Neue", Font.PLAIN, 13));
+        UserInsightsDashboard.add(NamelblUser);
+
+        JLabel EmaillblUser = new JLabel("Email");
+        EmaillblUser.setBounds(235, 87, 60, 30);
+        EmaillblUser.setForeground(Color.WHITE);
+        EmaillblUser.setFont(new Font("Bebas Neue", Font.PLAIN, 13));
+        UserInsightsDashboard.add(EmaillblUser);
+
+        JLabel PhoneNumberLblUser = new JLabel("PhoneNumber");
+        PhoneNumberLblUser.setBounds(380, 87, 80, 30);
+        PhoneNumberLblUser.setForeground(Color.WHITE);
+        PhoneNumberLblUser.setFont(new Font("Bebas Neue", Font.PLAIN, 13));
+        UserInsightsDashboard.add(PhoneNumberLblUser); 
+        
+        JLabel AgelblUser = new JLabel("Age");
+        AgelblUser.setBounds(570, 87, 60, 30);
+        AgelblUser.setForeground(Color.WHITE);
+        AgelblUser.setFont(new Font("Bebas Neue", Font.PLAIN, 13));
+        UserInsightsDashboard.add(AgelblUser); 
+
+        JLabel BalancelblUser = new JLabel("Balance");
+        BalancelblUser.setBounds(655, 87, 60, 30);
+        BalancelblUser.setForeground(Color.WHITE);
+        BalancelblUser.setFont(new Font("Bebas Neue", Font.PLAIN, 13));
+        UserInsightsDashboard.add(BalancelblUser); 
+
+        JPanel UsersPanelList = new JPanel();
+        UsersPanelList.setLayout(null);
+        UsersPanelList.setBounds(20, 130, 700, 440);
+        UsersPanelList.setBackground(new Color(30, 30, 30));
+
+        JPanel contentPanelUserList = new JPanel();
+        contentPanelUserList.setLayout(null);
+        contentPanelUserList.setBackground(new Color(30, 30, 30));
+
+        int totalHeightUserList = clientManager.clients.size() * 50; 
+        contentPanelUserList.setPreferredSize(new Dimension(650, Math.max(500, totalHeightUserList)));
+
+        ArrayList<JCheckBox> checkBoxesUserList = new ArrayList<JCheckBox>();
+
+        try (Connection conn = DatabaseConnection.connect();
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT * FROM users")) {
+
+            int rowIndex = 0;
+            while (rs.next()) {
+                JPanel UserListRow = new JPanel();
+                UserListRow.setLayout(null);
+                UserListRow.setBounds(0, rowIndex * 50, 700, 40);
+                UserListRow.setBackground(new Color(30, 30, 30));
+
+                JLabel NameUser = new JLabel(rs.getString("Name"));
+                NameUser.setBounds(67, 5, 200, 30);
+                NameUser.setForeground(Color.white);
+                NameUser.setFont(new Font("Bebas Neue", Font.PLAIN, 13));
+                UserListRow.add(NameUser);
+
+                JLabel EmailUser = new JLabel(rs.getString("Email"));
+                EmailUser.setBounds(190, 5, 200, 30);
+                EmailUser.setForeground(Color.white);
+                EmailUser.setFont(new Font("Bebas Neue", Font.PLAIN, 13));
+                UserListRow.add(EmailUser);
+
+                JLabel PhonenumberUser = new JLabel(rs.getString("PhoneNumber"));
+                PhonenumberUser.setBounds(370, 5, 200, 30);
+                PhonenumberUser.setForeground(Color.white);
+                PhonenumberUser.setFont(new Font("Bebas Neue", Font.PLAIN, 13));
+                UserListRow.add(PhonenumberUser);
+
+                JLabel AgeUser = new JLabel(String.valueOf(rs.getInt("Age")));
+                AgeUser.setBounds(540, 5, 200, 30);
+                AgeUser.setForeground(Color.white);
+                AgeUser.setFont(new Font("Bebas Neue", Font.PLAIN, 13));
+                UserListRow.add(AgeUser);
+
+                JLabel BalanceUser = new JLabel(String.valueOf(rs.getInt("Balance")));
+                BalanceUser.setBounds(635, 5, 400, 30);
+                BalanceUser.setForeground(Color.white);
+                BalanceUser.setFont(new Font("Bebas Neue", Font.PLAIN, 13));
+                UserListRow.add(BalanceUser);
+
+                JCheckBox selectCheckBox = new JCheckBox();
+                selectCheckBox.setBounds(0, 5, 20, 20);
+                selectCheckBox.setBackground(new Color(30, 30, 30));
+                selectCheckBox.setForeground(Color.white);
+                selectCheckBox.setFont(new Font("Bebas Neue", Font.PLAIN, 13));
+                UserListRow.add(selectCheckBox);
+                checkBoxesUserList.add(selectCheckBox);
+
+                contentPanelUserList.add(UserListRow);
+                rowIndex++;
+            }
+
+            contentPanelUserList.setPreferredSize(new Dimension(650, Math.max(500, rowIndex * 50)));
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Error fetching user data from the database!", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+
+        JScrollPane scrollPanelUserList = new JScrollPane(contentPanelUserList);
+        scrollPanelUserList.setBounds(35, 130, 700, 440);
+        scrollPanelUserList.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
+        scrollPanelUserList.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        scrollPanelUserList.setBorder(null);
+        scrollPanelUserList.getVerticalScrollBar().setUnitIncrement(16);
+        scrollPanelUserList.getViewport().setBackground(new Color(30, 30, 30));
+
+        contentPanelUserList.addMouseWheelListener(e -> {
+            JScrollBar verticalScrollBar = scrollPanelUserList.getVerticalScrollBar();
+            int notches = e.getWheelRotation();
+            int currentValue = verticalScrollBar.getValue();
+            int scrollAmount = 30; 
+            verticalScrollBar.setValue(currentValue + (notches * scrollAmount));
+        });
+
+        UserInsightsDashboard.add(scrollPanelUserList);
+
+        RoundedButton UnSelectAllUser = new RoundedButton("Unselected All" , 5);
+        UnSelectAllUser.setBounds(20, 650, 120, 30);
+        UnSelectAllUser.setForeground(Color.BLACK);
+        UnSelectAllUser.setBackground(Color.white);
+        UnSelectAllUser.addActionListener(e->{
+            for(JCheckBox checkBox : checkBoxesUserList) {
+                if(checkBox.isSelected()){
+                    checkBox.setSelected(false);
+                }
+                
+            }
+        });
+        UserInsightsDashboard.add(UnSelectAllUser);
+        
+        RoundedButton selectAllUser = new RoundedButton("Selected All" , 5);
+        selectAllUser.setBounds(180, 650, 120, 30);
+        selectAllUser.setForeground(Color.BLACK);
+        selectAllUser.setBackground(Color.white);
+        selectAllUser.addActionListener(e->{
+            for(JCheckBox checkBox : checkBoxesUserList) {
+                if(!checkBox.isSelected()){
+                    checkBox.setSelected(true);
+                }
+            }
+        });
+        UserInsightsDashboard.add(selectAllUser);
+
+        //-------right things
+
+        JSeparator separator1User = new JSeparator();
+        separator1User.setOrientation(SwingConstants.VERTICAL);
+        separator1User.setBackground(Color.white);
+        separator1User.setForeground(Color.white);
+        separator1User.setBounds(780, 00, 2, 750);
+        UserInsightsDashboard.add(separator1User);
+        
+
+        JLabel nbrUser = new JLabel("Number of Users");
+        nbrUser.setBounds(840, 20, 200, 30);
+        nbrUser.setForeground(Color.WHITE);
+        nbrUser.setFont(new Font("Bebas Neue", Font.BOLD, 16));
+        UserInsightsDashboard.add(nbrUser);
+
+
+        RoundedPanel CircleUser = new RoundedPanel(100);
+        CircleUser.setLayout(null);
+        CircleUser.setBounds(855, 80, 100, 100);
+        CircleUser.setBackground( new Color(0, 0, 0, 0));
+        CircleUser.setRoundedBorder(Color.WHITE, 2);
+        UserInsightsDashboard.add(CircleUser);
+
+        JLabel nbrUserLabel = new JLabel();
+         if(clientManager.clients.size() < 10){
+            nbrUserLabel.setBounds(40, 32, 100, 30);
+            nbrUserLabel.setText(String.valueOf(clientManager.clients.size()));
+
+         }else{
+            nbrUserLabel.setBounds(33, 32, 100, 30);
+            nbrUserLabel.setText(String.valueOf(clientManager.clients.size()));
+         }
+        
+        nbrUserLabel.setForeground(Color.WHITE);
+        nbrUserLabel.setFont(new Font("Bebas Neue", Font.BOLD, 30));
+        CircleUser.add(nbrUserLabel);
+        
+        JSeparator separatorRght1User = new JSeparator();
+        separatorRght1User.setOrientation(SwingConstants.HORIZONTAL);
+        separatorRght1User.setBackground(Color.white);
+        separatorRght1User.setForeground(Color.white); 
+        separatorRght1User.setBounds(790, 240, 220, 1);
+        UserInsightsDashboard.add(separatorRght1User);
+
+
+
+        RoundedPanel Circle2User = new RoundedPanel(100);
+        Circle2User.setLayout(null);
+        Circle2User.setBounds(855, 320, 100, 100);
+        Circle2User.setBackground(new Color(0, 0, 0, 0));
+        Circle2User.setRoundedBorder(Color.WHITE, 2);
+        UserInsightsDashboard.add(Circle2User);
+
+        JLabel AvgBalancelbl = new JLabel("Average Balance per user ");
+        AvgBalancelbl.setBounds(800, 260, 200, 30);
+        AvgBalancelbl.setForeground(Color.WHITE);
+        AvgBalancelbl.setFont(new Font("Bebas Neue", Font.BOLD, 16));
+        UserInsightsDashboard.add(AvgBalancelbl);
+
+        JLabel AvgBalance = new JLabel();
+        int AvrgBalance = ClientManager.averagebalance(); // Use the averagebalance method
+
+        if (AvrgBalance < 10) {
+            AvgBalance.setBounds(30, 34, 100, 30);
+            AvgBalance.setFont(new Font("Bebas Neue", Font.BOLD, 24));
+            AvgBalance.setText(String.valueOf(AvrgBalance) + "da");
+        } else if (AvrgBalance > 10 && AvrgBalance < 1000) {
+            AvgBalance.setBounds(20, 32, 100, 30);
+            AvgBalance.setFont(new Font("Bebas Neue", Font.BOLD, 24));
+            AvgBalance.setText(String.valueOf(AvrgBalance) + "da");
+        } else if (AvrgBalance > 1000) {
+            AvgBalance.setBounds(15, 32, 100, 30);
+            AvgBalance.setFont(new Font("Bebas Neue", Font.BOLD, 19));
+            AvgBalance.setText(String.valueOf(AvrgBalance) + "da");
+        }
+
+        AvgBalance.setForeground(Color.WHITE);
+        Circle2User.add(AvgBalance);
+
+
+        JSeparator separatorRght2User = new JSeparator();
+        separatorRght2User.setOrientation(SwingConstants.HORIZONTAL);
+        separatorRght2User.setBackground(Color.white);
+        separatorRght2User.setForeground(Color.white); 
+        separatorRght2User.setBounds(790, 470, 220, 1);
+        UserInsightsDashboard.add(separatorRght2User);
+
+        JLabel AvregeAgelbl = new JLabel("Most Common Age Groups");
+        AvregeAgelbl.setBounds(820, 490, 200, 30);
+        AvregeAgelbl.setForeground(Color.WHITE);
+        AvregeAgelbl.setFont(new Font("Bebas Neue", Font.BOLD, 13));
+        UserInsightsDashboard.add(AvregeAgelbl);
+
+        JLabel AvrgAge = new JLabel();
+        int avrgAge = 0;
+        int sumAge = 0;
+        for (Client client : clientManager.clients) {
+            sumAge += client.Age;
+        }
+        avrgAge = sumAge / clientManager.clients.size();
+        AvrgAge.setText(String.valueOf(avrgAge));
+        AvrgAge.setBounds(890, 530, 100, 20);
+        AvrgAge.setForeground(Color.WHITE);
+        AvrgAge.setFont(new Font("Bebas Neue", Font.BOLD, 19));
+        UserInsightsDashboard.add(AvrgAge);
+
+        JPanel down20 = new JPanel();
+        down20.setBounds(820, 575, 12, 12);
+        down20.setBackground(new Color(180,63,63));
+        down20.setBorder(BorderFactory.createLineBorder(Color.white));
+        UserInsightsDashboard.add(down20);
+
+        JLabel down20lbl = new JLabel(">20");
+        down20lbl.setBounds(845,569,100,20);
+        down20lbl.setForeground(Color.WHITE);
+        down20lbl.setFont(new Font("Bebas Neue", Font.BOLD, 12));
+        UserInsightsDashboard.add(down20lbl);
+
+        JLabel nbrofdown20lbl = new JLabel();
+        nbrofdown20lbl.setBounds(950,569,100,20);
+        nbrofdown20lbl.setForeground(Color.WHITE);
+        nbrofdown20lbl.setFont(new Font("Bebas Neue", Font.BOLD, 12));
+        UserInsightsDashboard.add(nbrofdown20lbl);
+
+
+        JPanel btw21_30 = new JPanel();
+        btw21_30.setBounds(820, 600, 12, 12);
+        btw21_30.setBackground(new Color(255,130,37));
+        btw21_30.setBorder(BorderFactory.createLineBorder(Color.white));
+        UserInsightsDashboard.add(btw21_30);
+
+
+        JLabel btw21_30lbl = new JLabel("21 - 30");
+        btw21_30lbl.setBounds(845,594,100,20);
+        btw21_30lbl.setForeground(Color.WHITE);
+        btw21_30lbl.setFont(new Font("Bebas Neue", Font.BOLD, 12));
+        UserInsightsDashboard.add(btw21_30lbl);
+
+        JLabel nbrbtw21_30lbl = new JLabel();
+        nbrbtw21_30lbl.setBounds(950,594,100,20);
+        nbrbtw21_30lbl.setForeground(Color.WHITE);
+        nbrbtw21_30lbl.setFont(new Font("Bebas Neue", Font.BOLD, 12));
+        UserInsightsDashboard.add(nbrbtw21_30lbl);
+
+
+        JPanel up30 = new JPanel();
+        up30.setBounds(820, 625, 12, 12);
+        up30.setBackground(new Color(23,59,69));
+        up30.setBorder(BorderFactory.createLineBorder(Color.white));
+        UserInsightsDashboard.add(up30);
+
+
+        JLabel up30lbl = new JLabel("<30");
+        up30lbl.setBounds(845,619,100,20);
+        up30lbl.setForeground(Color.WHITE);
+        up30lbl.setFont(new Font("Bebas Neue", Font.BOLD, 12));
+        UserInsightsDashboard.add(up30lbl);
+
+        JLabel nbrup30lbl = new JLabel();
+        nbrup30lbl.setBounds(950,619,100,20);
+        nbrup30lbl.setForeground(Color.WHITE);
+        nbrup30lbl.setFont(new Font("Bebas Neue", Font.BOLD, 12));
+        UserInsightsDashboard.add(nbrup30lbl);
+
+        int nbrup30 = 0;
+        for (Client client : clientManager.clients) {
+            if(client.Age > 30)//up30
+                nbrup30++;
+        }
+        int nbrofdown20 = 0;
+        for (Client client : clientManager.clients) {
+            if(client.Age<20)//down 20
+                nbrofdown20++;
+        }
+        int nbrbtw21_30 = 0;
+        for (Client client : clientManager.clients) {
+            if(client.Age >= 21 && client.Age <= 30)//btw 21 30
+                nbrbtw21_30++;
+        }
+
+        nbrup30lbl.setText(String.valueOf((nbrup30 * 100)/clientManager.clients.size()) + "%");
+        nbrbtw21_30lbl.setText(String.valueOf((nbrbtw21_30 * 100)/clientManager.clients.size()) + "%");
+        nbrofdown20lbl.setText(String.valueOf((nbrofdown20 * 100)/clientManager.clients.size()) + "%");
+
+
+        JSeparator separatorRght3User = new JSeparator();
+        separatorRght3User.setOrientation(SwingConstants.HORIZONTAL);
+        separatorRght3User.setBackground(Color.white);
+        separatorRght3User.setForeground(Color.white); 
+        separatorRght3User.setBounds(790, 670, 220, 1);
+        UserInsightsDashboard.add(separatorRght3User);
+
+
+
+
+        JLabel DatetodayUser = new JLabel("Date:");
+        DatetodayUser.setBounds(840, 675, 200, 30);
+        DatetodayUser.setForeground(Color.WHITE);
+        DatetodayUser.setFont(new Font("Bebas Neue", Font.BOLD, 13));
+        UserInsightsDashboard.add(DatetodayUser);
+        
+        JLabel datenowUser = new JLabel(LocalDate.now().toString());
+        datenowUser.setBounds(880, 675, 200, 30);
+        datenowUser.setForeground(Color.WHITE);
+        datenowUser.setFont(new Font("Bebas Neue", Font.BOLD, 13));
+        UserInsightsDashboard.add(datenowUser);
+
+
+
+//---------------------fin middle ----------------------
+
+
+
+
+
+
+
+
+        JPanel cardContainer = new JPanel();
+        cardContainer.setLayout(new CardLayout());
+        cardContainer.setBounds(0, 0, 1200, 750);
+        cardContainer.add(BroadcastDashboard, "broadcast");
+        cardContainer.add(MoviesDashboard, "movies");
+        cardContainer.add(UserInsightsDashboard, "users");
+        cardContainer.add(HomeDashboard, "home");
+        cardContainer.add(theaterDashboard,"theater");
+
+
+        ((CardLayout) cardContainer.getLayout()).show(cardContainer, "movies");
+
+
+        MiddlePanel.setLayout(null);
+        MiddlePanel.add(cardContainer);
+
+
+
+        RoundedButton homebutton = new RoundedButton("Home", 20);
+        homebutton.setBounds(10, 100, 150, 40);
+        homebutton.setForeground(Color.WHITE);
+        homebutton.setBackground(new Color(0, 0, 0, 0));
+        homebutton.setContentAreaFilled(false);
+        homebutton.setFont(new Font("Segoe UI", Font.BOLD, 14));
+        homebutton.setHorizontalAlignment(SwingConstants.LEFT);
+        homebutton.setHoverEffect(new Color(0, 0, 0 , 0), new Color(40, 40, 40));
+        homebutton.addActionListener(e -> ((CardLayout) cardContainer.getLayout()).show(cardContainer, "home"));
+        LeftPanel.add(homebutton);
+
+        RoundedButton moviesButton = new RoundedButton("Movies", 20);
+        moviesButton.setBounds(10, 160, 150, 40);
+        moviesButton.setForeground(Color.WHITE);
+        moviesButton.setBackground(new Color(0, 0, 0, 0));
+        moviesButton.setContentAreaFilled(false);
+        moviesButton.setFont(new Font("Segoe UI", Font.BOLD, 14));
+        moviesButton.setHorizontalAlignment(SwingConstants.LEFT);
+        moviesButton.addActionListener(e -> {
+            isPanelVisible = false;
+            ((CardLayout) cardContainer.getLayout()).show(cardContainer, "movies");
+        });
+        moviesButton.setHoverEffect(new Color(0, 0, 0 , 0), new Color(40, 40, 40));
+        LeftPanel.add(moviesButton);
+
+        RoundedButton usersButton = new RoundedButton("Users", 20);
+        usersButton.setBounds(10, 220, 150, 40);
+        usersButton.setForeground(Color.WHITE);
+        usersButton.setBackground(new Color(0, 0, 0, 0));
+        usersButton.setContentAreaFilled(false);
+        usersButton.setFont(new Font("Segoe UI", Font.BOLD, 14));
+        usersButton.setHorizontalAlignment(SwingConstants.LEFT);
+        usersButton.addActionListener(e -> {
+            isPanelVisible = false;
+            ((CardLayout) cardContainer.getLayout()).show(cardContainer, "users");
+        });
+        usersButton.setHoverEffect(new Color(0, 0, 0 , 0), new Color(40, 40, 40));
+        LeftPanel.add(usersButton);
+
+        RoundedButton Theaterbutton = new RoundedButton("Theater", 20);
+        Theaterbutton.setBounds(10, 280, 150, 40);
+        Theaterbutton.setForeground(Color.WHITE);
+        Theaterbutton.setBackground(new Color(0, 0, 0, 0));
+        Theaterbutton.setContentAreaFilled(false);
+        Theaterbutton.setFont(new Font("Segoe UI", Font.BOLD, 14));
+        Theaterbutton.setHorizontalAlignment(SwingConstants.LEFT);
+        Theaterbutton.setHoverEffect(new Color(0, 0, 0 , 0), new Color(40, 40, 40));
+        Theaterbutton.addActionListener(e->{
+            isPanelVisible = false;
+            ((CardLayout) cardContainer.getLayout()).show(cardContainer, "theater");
+        });
+        LeftPanel.add(Theaterbutton);
+
+        RoundedButton broadcastButton = new RoundedButton("Broadcast", 20);
+        broadcastButton.setBounds(10, 350, 150, 40);
+        broadcastButton.setForeground(Color.WHITE);
+        broadcastButton.setBackground(new Color(0, 0, 0, 0));
+        broadcastButton.setContentAreaFilled(false);
+        broadcastButton.setLayout(null);
+        broadcastButton.setFont(new Font("Segoe UI", Font.BOLD, 14));
+        broadcastButton.setHorizontalAlignment(SwingConstants.LEFT);
+        broadcastButton.addActionListener(e ->{
+            isPanelVisible = false;
+            ((CardLayout) cardContainer.getLayout()).show(cardContainer, "broadcast");
+        });
+        broadcastButton.setHoverEffect(new Color(0, 0, 0 , 0), new Color(40, 40, 40));
+        LeftPanel.add(broadcastButton);
+
+        JSeparator separatorLeft = new JSeparator();
+        separatorLeft.setOrientation(SwingConstants.HORIZONTAL);
+        separatorLeft.setBackground(Color.white);
+        separatorLeft.setForeground(Color.white);
+        separatorLeft.setBounds(10, 460, 150, 1);
+        LeftPanel.add(separatorLeft);
+
+        RoundedButton Logoutbutton = new RoundedButton("Log out", 20);
+        Logoutbutton.setBounds(10, 630, 150, 40);
+        Logoutbutton.setForeground(Color.WHITE);
+        Logoutbutton.setBackground(new Color(0, 0, 0, 0));
+        Logoutbutton.setContentAreaFilled(false);
+        Logoutbutton.setFont(new Font("Segoe UI", Font.BOLD, 14));
+        Logoutbutton.setHorizontalAlignment(SwingConstants.LEFT);
+        Logoutbutton.setHoverEffect(new Color(0, 0, 0 , 0), new Color(40, 40, 40));
+        Logoutbutton.addActionListener(e ->{
+            int response = JOptionPane.showConfirmDialog(
+                null, 
+                "Are you sure you want to proceed?", 
+                "Confirmation", 
+                JOptionPane.YES_NO_OPTION
+            );
+            if (response == JOptionPane.YES_OPTION) {
+                MainCardLayout.show(MainPanel, "LogIn");
+            }  
+        });
+        LeftPanel.add(Logoutbutton);
+        
+        return panel;
+    }
+   
+
+
+
+
+
+    // handle events ------------------------------------------------------------------------
+    public void HandleLogIn(String email, String password) {
+        // handle log in
+    }
+
+    public void HandleSignIn(JTextField username, JPasswordField password, JTextField email, JTextField cardNumber, 
+    JTextField ccvnbr, JTextField PhoneNumber) {
+        // handle SignIn
+    }
+
+
+
+     public ImageIcon resizedIcon(String path , int width , int height){ // hadi bch tbdl l img l size li rak habo w trj3 direct ImageIcon t7yo direct f label ou f button
+
+        ImageIcon icon = new ImageIcon(path);
+        Image image = icon.getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH);
+        ImageIcon resizedIcon = new ImageIcon(image);
+        
+        return  resizedIcon;
+    }
+
+    public void validateInput(JTextField textField, String regex) { // hadi tcoloriyi l border ta3 textfield 3la hsab type li rak hab l user ydkhlo f textfield
+
+        String input = textField.getText().trim();
+        if (input.equals("   Movie Name") || input.equals("   Film duration") || 
+            input.equals("   Film Rating") || input.equals("0da")) {
+            textField.setBorder(BorderFactory.createLineBorder(new Color(80, 77, 74))); 
+            return;
+        }
+    
+       
+        if (input.matches(regex)) {
+            textField.setBorder(BorderFactory.createLineBorder(Color.GREEN));
+        } else {
+            textField.setBorder(BorderFactory.createLineBorder(Color.RED)); 
+         //   JOptionPane.showMessageDialog(this, "Please enter a valid input", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    public void TextAreaBehave(JTextArea textField, String placeholder) {// hadi tktb dakhel l textarea ida makach focus 3lih ida kayen tfasi klch ida tnha l focus w user maktb walo t3awed tktb wch kan fiha
+        textField.setText(placeholder);
+        textField.setForeground(Color.GRAY);
+
+        textField.addFocusListener(new java.awt.event.FocusAdapter() {
+            @Override
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                if (textField.getText().equals(placeholder)) {
+                    SwingUtilities.invokeLater(() -> {
+                        textField.setText("");
+                        textField.setForeground(Color.WHITE);
+                    });
+                }
+            }
+
+            @Override
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                if (textField.getText().isEmpty()) {
+                    SwingUtilities.invokeLater(() -> {
+                        textField.setText(placeholder);
+                        textField.setForeground(Color.GRAY);
+                    });
+                }
+            }
+        });
+    }
+
+    public void TextfieldBehave(JTextField textField, String placeholder) {// kima TextAreaBehave nrk hadi 3la textfield mais brk 
+        textField.setText(placeholder);
+        textField.setForeground(Color.GRAY);
+
+        textField.addFocusListener(new java.awt.event.FocusAdapter() {
+            @Override
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                if (textField.getText().equals(placeholder)) {
+                    SwingUtilities.invokeLater(() -> {
+                        textField.setText("");
+                        textField.setForeground(Color.WHITE);
+                    });
+                }
+            }
+
+            @Override
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                if (textField.getText().isEmpty()) {
+                    SwingUtilities.invokeLater(() -> {
+                        textField.setText(placeholder);
+                        textField.setForeground(Color.GRAY);
+                    });
+                }
+            }
+        });
+    }
+
+    public void slidePanel(JPanel panel, int startX, int endX, int y, int width, int height) {
+        javax.swing.Timer slideTimer = new javax.swing.Timer(10, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int currentX = panel.getX();
+                int step = 10; // Adjust the step size for smoother/faster animation
+    
+                if (startX < endX) {
+                    // Sliding to the right
+                    if (currentX + step >= endX) {
+                        panel.setBounds(endX, y, width, height);
+                        ((javax.swing.Timer) e.getSource()).stop();
+                    } else {
+                        panel.setBounds(currentX + step, y, width, height);
+                    }
+                } else {
+                    // Sliding to the left
+                    if (currentX - step <= endX) {
+                        panel.setBounds(endX, y, width, height);
+                        ((javax.swing.Timer) e.getSource()).stop();
+                    } else {
+                        panel.setBounds(currentX - step, y, width, height);
+                    }
+                }
+            }
+        });
+        slideTimer.start();
+    }
+
+    public static void main(String[] args) {
+        try {
+            CinemaApp Frame = new CinemaApp();
+            Frame.setVisible(true);
+
+            // Revalidate and repaint to ensure the SettingsPanel is displayed
+            Frame.revalidate();
+            Frame.repaint();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        
+    }
+
+
+    
     // create components ------------------------------------------------------------------
     public JPanel CreateBackGroundPanel() {
 
@@ -3534,3263 +6497,6 @@ public class CinemaApp extends JFrame implements ActionListener {
         });
 
         return AccountPanel;
-    }
-
-    public JPanel CreateAccountAdminPanel() {
-        JPanel AccountAdminPanel = new JPanel();
-
-        return AccountAdminPanel;
-    }
-
-
-    public JPanel CreateBuyPanel(Movie movie){
-        JPanel BuyPanel = new JPanel();
-        BuyPanel.setLayout(null);
-        BuyPanel.setBounds(0, 0, 1200, 750);
-        BuyPanel.setBackground(new Color(0x121213));
-
-        //Left panel ----------------------------------------------------------------
-        RoundedPanel LeftPanel = new RoundedPanel(35); 
-        LeftPanel.setBounds(30,30, 150, 650);
-        LeftPanel.setBackground(new Color(0x212121));
-        LeftPanel.setLayout(null);
-
-        BuyPanel.add(LeftPanel);
-
-        JPanel StraightLine = new JPanel();
-        StraightLine.setBounds(220, 80, 930, 5);
-        StraightLine.setBackground(new Color(0x313131));
-
-        BuyPanel.add(StraightLine);
-
-        RoundedPanel SearchBar = new RoundedPanel(35);
-        SearchBar.setBounds(250, 30, 800, 30);
-        SearchBar.setBackground(new Color(0x212121));
-        SearchBar.setLayout(null);
-
-        BuyPanel.add(SearchBar);
-
-        JTextField SearchField = new JTextField();
-        SearchField.setBounds(10, 2, 800, 25);
-        SearchField.setFont(new Font("Inter", Font.BOLD, 15));
-        SearchField.setForeground(Color.white);
-        SearchField.setCaretColor(Color.white);
-        SearchField.setOpaque(false);
-        SearchField.setBorder(null);
-
-        TextfieldBehave(SearchField, "Search for a movie");
-
-        SearchBar.add(SearchField);
-
-        JButton Filter = new JButton();
-        Filter.setBounds(200, 32, 30, 30);
-        Filter.setFocusPainted(false);
-        Filter.setBorder(null);
-        Filter.setBackground(new Color(0x212121));
-        Filter.setUI(new RoundButtonUI(Color.black));
-        Filter.addActionListener(e -> {
-            // Open movie filter dialog
-        });
-        BuyPanel.add(Filter);
-
-        JButton History = new JButton();
-        History.setBounds(1070, 29, 30, 30);
-        History.setFocusPainted(false);
-        History.setBorder(null);
-        History.setBackground(new Color(0x212121));
-        History.setUI(new RoundButtonUI(Color.black));
-        History.addActionListener(e -> {
-            // Open movie History dialog
-        });
-        BuyPanel.add(History);
-
-        JButton Account = new JButton();
-        Account.setBounds(1110, 29, 50, 30);
-        Account.setFocusPainted(false);
-        Account.setBorder(null);
-        Account.setBackground(new Color(0x515151));
-        Account.setUI(new RoundButtonUI(Color.black));
-        Account.addActionListener(e -> {
-            // Open movie Account dialog
-            MainCardLayout.show(MainPanel, "Account");
-        });
-        BuyPanel.add(Account);
-
-        JPanel ContentPanel = new JPanel();
-        ContentPanel.setLayout(null);
-        ContentPanel.setOpaque(true);
-        ContentPanel.setBackground(new Color(0x121213));
-        ContentPanel.setPreferredSize(new Dimension(919, 1250));
-
-        JScrollPane scrollPane = new JScrollPane(ContentPanel);
-        scrollPane.setBounds(227, 85, 919, 750);
-        scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
-        scrollPane.setOpaque(false);
-        scrollPane.setBorder(null);
-
-        ContentPanel.addMouseWheelListener(e -> {
-            JScrollBar verticalScrollBar = scrollPane.getVerticalScrollBar();// had scroll par rapport l y
-            int notches = e.getWheelRotation();
-            int currentValue = verticalScrollBar.getValue();
-            int scrollAmount = 30; // Adjust scroll speed
-            verticalScrollBar.setValue(currentValue + (notches * scrollAmount));
-        });
-
-        BuyPanel.add(scrollPane);
-
-        RoundedPanel FilmBanner = new RoundedPanel(35);
-        FilmBanner.setBounds(0, 20, 915, 300);
-        FilmBanner.setBackground(new Color(0x212121));
-        FilmBanner.setLayout(null);
-
-        ContentPanel.add(FilmBanner);
-
-        RoundedPanel InfoPanel = new RoundedPanel(35);
-        InfoPanel.setBounds(0, 550, 650, 275);
-        InfoPanel.setBackground(new Color(0x121213));
-        InfoPanel.setLayout(null);
-        InfoPanel.setBorder(BorderFactory.createLineBorder(Color.white, 2, true));
-
-        ContentPanel.add(InfoPanel);
-
-        JLabel FilmTitle = new JLabel("Movie Title");
-        FilmTitle.setBounds(0, 335, 900, 50);
-        FilmTitle.setForeground(Color.white);
-        FilmTitle.setFont(new Font("Inter", Font.BOLD, 36));
-
-        ContentPanel.add(FilmTitle);
-
-        JLabel Description = new JLabel();
-        Description.setBounds(0, 350, 1000, 250);
-        Description.setForeground(Color.white);
-        Description.setFont(new Font("Inter", Font.PLAIN, 15));
-
-        ContentPanel.add(Description);
-
-        JLabel FilmRating = new JLabel("Rating: 8.5/10");
-        FilmRating.setBounds(35, 25, 600, 25);
-        FilmRating.setForeground(Color.white);
-        FilmRating.setFont(new Font("Inter", Font.BOLD, 16));
-
-        InfoPanel.add(FilmRating);
-
-        JLabel AgeRating = new JLabel("Age rating : PG16");
-        AgeRating.setBounds(400, 25, 600, 25);
-        AgeRating.setForeground(Color.white);
-        AgeRating.setFont(new Font("Inter", Font.BOLD, 16));
-
-        InfoPanel.add(AgeRating);
-
-        JLabel Duration = new JLabel("duration : 1h30");
-        Duration.setBounds(400, 75, 600, 25);
-        Duration.setForeground(Color.white);
-        Duration.setFont(new Font("Inter", Font.BOLD, 16));
-
-        InfoPanel.add(Duration);
-
-        JLabel FilmReleaseDate = new JLabel("Release Date: 12/05/2022");
-        FilmReleaseDate.setBounds(35, 75, 600, 25);
-        FilmReleaseDate.setForeground(Color.white);
-        FilmReleaseDate.setFont(new Font("Inter", Font.BOLD, 16));
-
-        InfoPanel.add(FilmReleaseDate);
-
-        JLabel FilmGenre = new JLabel("Genre: Drama, Comedy");
-        FilmGenre.setBounds(35, 125, 600, 25);
-        FilmGenre.setForeground(Color.white);
-        FilmGenre.setFont(new Font("Inter", Font.BOLD, 16));
-
-        InfoPanel.add(FilmGenre);
-
-        JLabel FilmDirector = new JLabel("Director: John Doe");
-        FilmDirector.setBounds(35, 175, 600, 25);
-        FilmDirector.setForeground(Color.white);
-        FilmDirector.setFont(new Font("Inter", Font.BOLD, 16));
-
-        InfoPanel.add(FilmDirector);
-
-        JLabel FilmCast = new JLabel("Cast: John Doe, Jane Doe");
-        FilmCast.setBounds(35, 225, 600, 25);
-        FilmCast.setForeground(Color.white);
-        FilmCast.setFont(new Font("Inter", Font.BOLD, 16));
-
-        InfoPanel.add(FilmCast);
-
-        JButton Buy = new JButton();
-        Buy.setBounds(0, 850, 175, 40);
-        Buy.setText("Buy Now");
-        Buy.setFont(new Font("Inter", Font.BOLD, 15));
-        Buy.setBackground(Color.white);
-        Buy.setForeground(Color.black);
-        Buy.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        Buy.setUI(new RoundButtonUI(Color.white));
-        Buy.addActionListener(e -> {
-            // handle buy button click
-        });
-
-        ContentPanel.add(Buy);
-
-        JButton WhatchTrailler = new JButton();
-        WhatchTrailler.setBounds(200, 850, 250, 40);
-        WhatchTrailler.setText("Whatch Trailler Now");
-        WhatchTrailler.setFont(new Font("Inter", Font.BOLD, 15));
-        WhatchTrailler.setBackground(Color.black);
-        WhatchTrailler.setForeground(Color.white);
-        WhatchTrailler.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        WhatchTrailler.setUI(new RoundButtonUI(Color.black));
-        WhatchTrailler.addActionListener(e -> {
-            // handle WhatchTrailler button click
-        });
-
-        ContentPanel.add(WhatchTrailler);
-
-        return BuyPanel;
-    }
-
-
-    public JPanel createInterfaceAdminPanel(){
-        JPanel panel = new JPanel();
-        panel.setLayout(null);
-        panel.setBounds(0, 0, 1200, 750);
-        panel.setBackground(Color.blue);
-
-
-
-//---------------------------left panel------------------------------
-
-        JPanel LeftPanel = new JPanel();
-        LeftPanel.setLayout(null);
-        LeftPanel.setBounds(0, 0, 170, 750);
-        LeftPanel.setBackground(new Color(30 , 30 ,30));
-        panel.add(LeftPanel);
-
-        JLabel LogoName = new JLabel("INEMATIC");
-        LogoName.setBounds(55, 6, 120, 50);
-        LogoName.setForeground(Color.WHITE);
-        LogoName.setFont(new Font("Bebas Neue", Font.BOLD, 18));
-        LeftPanel.add(LogoName);
-        JLabel CLogored = new JLabel("C");
-        CLogored.setBounds(41, 21, 30, 20);
-        CLogored.setForeground(Color.red);
-        CLogored.setFont(new Font("Bebas Neue", Font.BOLD, 18));
-        LeftPanel.add(CLogored);
-
-
-
-
-
-        JSeparator separator1 = new JSeparator();
-        separator1.setOrientation(SwingConstants.VERTICAL);
-        separator1.setBackground(Color.white);
-        separator1.setForeground(Color.white);
-        separator1.setBounds(168, 0, 5, 750);
-        LeftPanel.add(separator1);
-
- //--------------------------Middle Panel--------------------------------
-
-
-        JPanel MiddlePanel = new JPanel();
-        MiddlePanel.setLayout(null);
-        MiddlePanel.setBounds(170, 0, 1200, 750);
-        MiddlePanel.setBackground(Color.red);
-        panel.add(MiddlePanel);
-
-
-//---------------------------about Home--------------------------------
-        JPanel HomeDashboard = new JPanel();
-        HomeDashboard.setLayout(null);
-        HomeDashboard.setBounds(0, 0, 1400, 750);
-        HomeDashboard.setBackground(new Color(30, 30, 30));
-        MiddlePanel.add(HomeDashboard);
-
-        // Top three rounded panels for 
-        int panelWidth = 280;
-        int panelHeight = 150;
-        int spacing = 20;
-        int startX = 60;
-        int startY = 80;
-
-        // First panel: Number of Clients
-        RoundedPanel clientsPanel = new RoundedPanel(30);
-        clientsPanel.setBounds(startX, startY, panelWidth, panelHeight);
-        clientsPanel.setBackground(new Color(50, 50, 50));
-        clientsPanel.setLayout(null);
-        HomeDashboard.add(clientsPanel);
-
-        JLabel clientsTitle = new JLabel("Number of Clients");
-        clientsTitle.setBounds(20, 20, 200, 30);
-        clientsTitle.setForeground(Color.WHITE);
-        clientsTitle.setFont(new Font("Bebas Neue", Font.BOLD, 18));
-        clientsPanel.add(clientsTitle);
-
-        JLabel clientsCount = new JLabel(String.valueOf(ClientManager.numberofusers()));
-        clientsCount.setBounds(20, 60, 200, 50);
-        clientsCount.setForeground(Color.WHITE);
-        clientsCount.setFont(new Font("Bebas Neue", Font.BOLD, 40));
-        clientsPanel.add(clientsCount);
-
-        // Second panel: Number of Movies
-        RoundedPanel moviesPanel = new RoundedPanel(30);
-        moviesPanel.setBounds(startX + panelWidth + spacing, startY, panelWidth, panelHeight);
-        moviesPanel.setBackground(new Color(50, 50, 50));
-        moviesPanel.setLayout(null);
-        HomeDashboard.add(moviesPanel);
-
-        JLabel moviesTitle = new JLabel("Number of Movies");
-        moviesTitle.setBounds(20, 20, 200, 30);
-        moviesTitle.setForeground(Color.WHITE);
-        moviesTitle.setFont(new Font("Bebas Neue", Font.BOLD, 18));
-        moviesPanel.add(moviesTitle);
-
-        JLabel moviesCount = new JLabel(String.valueOf(MovieManager.numberofmovies()));
-        moviesCount.setBounds(20, 60, 200, 50);
-        moviesCount.setForeground(Color.WHITE);
-        moviesCount.setFont(new Font("Bebas Neue", Font.BOLD, 40));
-        moviesPanel.add(moviesCount);
-
-        // Third panel: Number of Theaters
-        RoundedPanel theatersPanel = new RoundedPanel(30);
-        theatersPanel.setBounds(startX + 2 * (panelWidth + spacing), startY, panelWidth, panelHeight);
-        theatersPanel.setBackground(new Color(50, 50, 50));
-        theatersPanel.setLayout(null);
-        HomeDashboard.add(theatersPanel);
-
-        JLabel theatersTitle = new JLabel("Number of Theaters");
-        theatersTitle.setBounds(20, 20, 200, 30);
-        theatersTitle.setForeground(Color.WHITE);
-        theatersTitle.setFont(new Font("Bebas Neue", Font.BOLD, 18));
-        theatersPanel.add(theatersTitle);
-
-        JLabel theatersCount = new JLabel(String.valueOf(TheaterManager.numberOfTheaters()));
-        theatersCount.setBounds(20, 60, 200, 50);
-        theatersCount.setForeground(Color.WHITE);
-        theatersCount.setFont(new Font("Bebas Neue", Font.BOLD, 40));
-        theatersPanel.add(theatersCount);
-
-        // Big panel for quick actions
-        int bigPanelWidth = panelWidth * 3 + spacing * 2;
-        int bigPanelHeight = 400;
-        int bigPanelY = startY + panelHeight + spacing;
-
-        RoundedPanel quickActionsPanel = new RoundedPanel(30);
-        quickActionsPanel.setBounds(startX, bigPanelY, bigPanelWidth, bigPanelHeight);
-        quickActionsPanel.setBackground(new Color(40, 40, 40));
-        quickActionsPanel.setLayout(null);
-        HomeDashboard.add(quickActionsPanel);
-
-        JLabel quickActionsTitle = new JLabel("Quick Actions");
-        quickActionsTitle.setBounds(20, 20, 300, 30);
-        quickActionsTitle.setForeground(Color.WHITE);
-        quickActionsTitle.setFont(new Font("Bebas Neue", Font.BOLD, 20));
-        quickActionsPanel.add(quickActionsTitle);
-
-        // Add Broadcast Button
-        RoundedButton addBroadcastButton = new RoundedButton("Add Broadcast", 20);
-        addBroadcastButton.setBounds(50, 80, 200, 50);
-        addBroadcastButton.setForeground(Color.WHITE);
-        addBroadcastButton.setBackground(new Color(60, 120, 180));
-        addBroadcastButton.setFont(new Font("Segoe UI", Font.BOLD, 16));
-        addBroadcastButton.addActionListener(e -> {
-            // Action to add a broadcast
-            JOptionPane.showMessageDialog(null, "Add Broadcast clicked!");
-        });
-        quickActionsPanel.add(addBroadcastButton);
-
-        // Add Movie Button
-        RoundedButton addMovieButton = new RoundedButton("Add Movie", 20);
-        addMovieButton.setBounds(300, 80, 200, 50);
-        addMovieButton.setForeground(Color.WHITE);
-        addMovieButton.setBackground(new Color(80, 160, 100));
-        addMovieButton.setFont(new Font("Segoe UI", Font.BOLD, 16));
-        addMovieButton.addActionListener(e -> {
-            // Action to add a movie
-            JOptionPane.showMessageDialog(null, "Add Movie clicked!");
-        });
-        quickActionsPanel.add(addMovieButton);
-
-        // Add Theater Button
-        RoundedButton addTheaterButton = new RoundedButton("Add Theater", 20);
-        addTheaterButton.setBounds(550, 80, 200, 50);
-        addTheaterButton.setForeground(Color.WHITE);
-        addTheaterButton.setBackground(new Color(200, 100, 80));
-        addTheaterButton.setFont(new Font("Segoe UI", Font.BOLD, 16));
-        addTheaterButton.addActionListener(e -> {
-            // Action to add a theater
-            JOptionPane.showMessageDialog(null, "Add Theater clicked!");
-        });
-        quickActionsPanel.add(addTheaterButton);
-
-        // View Reports Button
-        RoundedButton viewReportsButton = new RoundedButton("View Reports", 20);
-        viewReportsButton.setBounds(50, 160, 200, 50);
-        viewReportsButton.setForeground(Color.WHITE);
-        viewReportsButton.setBackground(new Color(150, 75, 200));
-        viewReportsButton.setFont(new Font("Segoe UI", Font.BOLD, 16));
-        viewReportsButton.addActionListener(e -> {
-            // Action to view reports
-            JOptionPane.showMessageDialog(null, "View Reports clicked!");
-        });
-        quickActionsPanel.add(viewReportsButton);
-
-        // Settings Button
-        RoundedButton settingsButton = new RoundedButton("Settings", 20);
-        settingsButton.setBounds(300, 160, 200, 50);
-        settingsButton.setForeground(Color.WHITE);
-        settingsButton.setBackground(new Color(100, 100, 100));
-        settingsButton.setFont(new Font("Segoe UI", Font.BOLD, 16));
-        settingsButton.addActionListener(e -> {
-            // Action to open settings
-            JOptionPane.showMessageDialog(null, "Settings clicked!");
-        });
-        quickActionsPanel.add(settingsButton);
-//--------------------------------about theater--------------
-        JPanel theaterDashboard = new JPanel();
-        theaterDashboard.setLayout(null);
-        theaterDashboard.setBounds(0, 0, 1400, 750);
-        theaterDashboard.setBackground(new Color(30, 30, 30));
-        MiddlePanel.add(theaterDashboard);
-
-        JLabel TheaterTitlePanellbl = new JLabel("Theater  Dashboard");
-        TheaterTitlePanellbl.setBounds(35, 26, 300, 30);
-        TheaterTitlePanellbl.setForeground(Color.WHITE);
-        TheaterTitlePanellbl.setFont(new Font("Bebas Neue", Font.BOLD, 23));
-        theaterDashboard.add(TheaterTitlePanellbl);
-
-        RoundedPanel UserPanelTheater = new RoundedPanel(50);
-        UserPanelTheater.setLayout(null);
-        UserPanelTheater.setBounds(650, 20, 90, 46);
-        UserPanelTheater.setBackground(Color.darkGray);
-        theaterDashboard.add(UserPanelTheater);
-
-        JLabel UserLabeltheater = new JLabel("User");
-        UserLabeltheater.setBounds(40, 3, 30, 30);
-        UserLabeltheater.setForeground(Color.WHITE);
-        UserLabeltheater.setFont(new Font("Segoe UI", Font.BOLD, 10));
-        UserPanelTheater.add(UserLabeltheater);
-
-        RoundedPanel UserPHOTOtheater = new RoundedPanel(80);
-        UserPHOTOtheater.setLayout(null);
-        UserPHOTOtheater.setBackgroundImage("Rayan\\bookingTICKET\\img\\UserIcon1.png");
-        UserPHOTOtheater.setBounds(5, 10, 30, 30);
-        UserPHOTOtheater.setBackground(Color.red);
-        UserPanelTheater.add(UserPHOTOtheater);
-
-        RoundedPanel SearchPaneltheater = new RoundedPanel(30);
-        SearchPaneltheater.setLayout(null);
-        SearchPaneltheater.setBounds(280, 100, 460, 35);
-        SearchPaneltheater.setBackground(new Color(30, 30, 30));
-        SearchPaneltheater.setRoundedBorder(Color.WHITE, 1);
-        theaterDashboard.add(SearchPaneltheater);
-
-        JTextField SearchFieldtheater = new JTextField("Search with Theater");
-        SearchFieldtheater.setBounds(10, 5, 400, 25);
-        SearchFieldtheater.setBackground(new Color(30, 30, 30));
-        SearchFieldtheater.setForeground(Color.WHITE);
-        SearchFieldtheater.setFont(new Font("Segoe UI", Font.PLAIN, 13));
-        SearchFieldtheater.setBorder(null);
-        TextfieldBehave(SearchFieldtheater, "Search with Theater");
-        SearchPaneltheater.add(SearchFieldtheater);
-
-        JLabel Selectlbltheater = new JLabel("Select");
-        Selectlbltheater.setBounds(30, 157, 200, 30);
-        Selectlbltheater.setForeground(Color.WHITE);
-        Selectlbltheater.setFont(new Font("Bebas Neue", Font.PLAIN, 13));
-        theaterDashboard.add(Selectlbltheater);
-
-        JLabel namelblTheater = new JLabel("Name");
-        namelblTheater.setBounds(200, 157, 200, 30);
-        namelblTheater.setForeground(Color.WHITE);
-        namelblTheater.setFont(new Font("Bebas Neue", Font.PLAIN, 13));
-        theaterDashboard.add(namelblTheater);
-
-        JLabel NormalSeatslbl = new JLabel("NORMAl Seats");
-        NormalSeatslbl.setBounds(420, 157, 200, 30);
-        NormalSeatslbl.setForeground(Color.WHITE);
-        NormalSeatslbl.setFont(new Font("Bebas Neue", Font.PLAIN, 13));
-        theaterDashboard.add(NormalSeatslbl);
-
-        JLabel Vipseatlbl = new JLabel("VIP Seats");
-        Vipseatlbl.setBounds(640, 157, 200, 30);
-        Vipseatlbl.setForeground(Color.WHITE);
-        Vipseatlbl.setFont(new Font("Bebas Neue", Font.PLAIN, 13));
-        theaterDashboard.add(Vipseatlbl);  
-
-
-        JSeparator separatorhorTheater = new JSeparator();
-        separatorhorTheater.setOrientation(SwingConstants.HORIZONTAL);
-        separatorhorTheater.setBackground(Color.white);
-        separatorhorTheater.setForeground(Color.white); 
-        separatorhorTheater.setBounds(21, 190, 720, 1);
-        theaterDashboard.add(separatorhorTheater);
-
-        JPanel TheaterPanelList = new JPanel();
-        TheaterPanelList.setLayout(null);
-        TheaterPanelList.setBounds(35, 200, 700, 440);
-        TheaterPanelList.setBackground(new Color(30, 30, 30));
-
-        JPanel contentPanelTheaterList = new JPanel();
-        contentPanelTheaterList.setLayout(null);
-        contentPanelTheaterList.setBackground(new Color(30, 30, 30));
-
-        int totalHeightTheaterList = clientManager.clients.size() * 50; 
-        contentPanelTheaterList.setPreferredSize(new Dimension(650, Math.max(500, totalHeightTheaterList)));
-
-        ArrayList<JCheckBox> checkBoxesTheaterList = new ArrayList<JCheckBox>();
-
-            try (Connection conn = DatabaseConnection.connect();
-        Statement stmt = conn.createStatement();
-        ResultSet rs = stmt.executeQuery("SELECT * FROM theaters")) {
-
-        int rowIndex = 0;
-        while (rs.next()) {
-            JPanel TheaterListRow = new JPanel();
-            TheaterListRow.setLayout(null);
-            TheaterListRow.setBounds(0, rowIndex * 50, 700, 40);
-            TheaterListRow.setBackground(new Color(30, 30, 30));
-
-            JLabel NameTheater = new JLabel(rs.getString("TheaterName"));
-            NameTheater.setBounds(165, 5, 200, 30);
-            NameTheater.setForeground(Color.white);
-            NameTheater.setFont(new Font("Bebas Neue", Font.PLAIN, 13));
-            TheaterListRow.add(NameTheater);
-
-            JLabel NormalSeats = new JLabel(String.valueOf(rs.getInt("NormalSeats")));
-            NormalSeats.setBounds(420, 5, 200, 30);
-            NormalSeats.setForeground(Color.white);
-            NormalSeats.setFont(new Font("Bebas Neue", Font.PLAIN, 13));
-            TheaterListRow.add(NormalSeats);
-
-            JLabel VIPSeats = new JLabel(String.valueOf(rs.getInt("VipSeats")));
-            VIPSeats.setBounds(616, 5, 200, 30);
-            VIPSeats.setForeground(Color.white);
-            VIPSeats.setFont(new Font("Bebas Neue", Font.PLAIN, 13));
-            TheaterListRow.add(VIPSeats);
-
-            JCheckBox selectCheckBox = new JCheckBox();
-            selectCheckBox.setBounds(4, 5, 20, 20);
-            selectCheckBox.setBackground(new Color(30, 30, 30));
-            selectCheckBox.setForeground(Color.white);
-            selectCheckBox.setFont(new Font("Bebas Neue", Font.PLAIN, 13));
-            TheaterListRow.add(selectCheckBox);
-            checkBoxesTheaterList.add(selectCheckBox);
-
-            contentPanelTheaterList.add(TheaterListRow);
-            rowIndex++;
-        }
-
-        // Update the preferred size of the content panel based on the number of rows
-        contentPanelTheaterList.setPreferredSize(new Dimension(650, Math.max(500, rowIndex * 50)));
-        contentPanelTheaterList.revalidate();
-        contentPanelTheaterList.repaint();
-
-    } catch (SQLException e) {
-        e.printStackTrace();
-        JOptionPane.showMessageDialog(null, "Error fetching theater data from the database!", "Error", JOptionPane.ERROR_MESSAGE);
-    }
-
-        JScrollPane scrollPanelTheaterList = new JScrollPane(contentPanelTheaterList);
-        scrollPanelTheaterList.setBounds(35, 200, 700, 440);
-        scrollPanelTheaterList.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
-        scrollPanelTheaterList.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-        scrollPanelTheaterList.setBorder(null);
-        scrollPanelTheaterList.getVerticalScrollBar().setUnitIncrement(16);
-        scrollPanelTheaterList.getViewport().setBackground(new Color(30, 30, 30));
-
-        contentPanelTheaterList.addMouseWheelListener(e -> {
-            JScrollBar verticalScrollBar = scrollPanelTheaterList.getVerticalScrollBar();
-            int notches = e.getWheelRotation();
-            int currentValue = verticalScrollBar.getValue();
-            int scrollAmount = 30; 
-            verticalScrollBar.setValue(currentValue + (notches * scrollAmount));
-        });
-
-        theaterDashboard.add(scrollPanelTheaterList);
-
-        RoundedButton UnSelectAllTheater = new RoundedButton("Unselected All" , 5);
-        UnSelectAllTheater.setBounds(64, 650, 97, 27);
-        UnSelectAllTheater.setForeground(Color.BLACK);
-        UnSelectAllTheater.setBackground(Color.white);
-        UnSelectAllTheater.addActionListener(e->{
-            for(JCheckBox checkBox : checkBoxesTheaterList) {
-                if(checkBox.isSelected()){
-                    checkBox.setSelected(false);
-                }
-                
-            }
-        });
-        theaterDashboard.add(UnSelectAllTheater);
-
-        int buttonwidth1 = 97 ;
-        int gap1 = 20 ;
-        RoundedButton selectAllTheaters = new RoundedButton("Selected All" , 5);
-        selectAllTheaters.setBounds(64 + buttonwidth1 + gap1, 650, 120, 27);
-        selectAllTheaters.setForeground(Color.BLACK);
-        selectAllTheaters.setBackground(Color.white);
-        selectAllTheaters.addActionListener(e->{
-            for(JCheckBox checkBox : checkBoxesTheaterList) {
-                if(!checkBox.isSelected()){
-                    checkBox.setSelected(true);
-                }
-            }
-        });
-        theaterDashboard.add(selectAllTheaters);
-
-        RoundedButton EditTheater = new RoundedButton("Edit" , 5);
-        EditTheater.setBounds(70 + buttonwidth1*2 + gap1*2, 650, 97, 27);
-        EditTheater.setForeground(Color.BLACK);
-        EditTheater.setBackground(Color.white);
-
-        theaterDashboard.add(EditTheater);
-
-        RoundedButton AddTheater = new RoundedButton("Add" , 5);
-        AddTheater.setBounds(64 + buttonwidth1*3 + gap1*3, 650, 97, 27);
-        AddTheater.setForeground(Color.BLACK);
-        AddTheater.setBackground(Color.white);
-        theaterDashboard.add(AddTheater);
-
-        RoundedButton Deletetheater = new RoundedButton("Delete" , 5);
-        Deletetheater.setBounds(64 + buttonwidth1*4 + gap1*4, 650, 97, 27);
-        Deletetheater.setForeground(Color.BLACK);
-        Deletetheater.setBackground(Color.white);
-        theaterDashboard.add(Deletetheater);
-
-        // slide panel 
-        JPanel EditTheaterpanel = new JPanel();
-        EditTheaterpanel.setLayout(null);
-        EditTheaterpanel.setBounds(1200,0, 270, 750);
-        EditTheaterpanel.setBackground(new Color(30,30,30));
-        theaterDashboard.add(EditTheaterpanel);
-
-        JLabel Edittheaterlbl = new JLabel("Edit Theater ");
-        Edittheaterlbl.setBounds(30 ,30 ,191,36);
-        Edittheaterlbl.setFont(new Font("Segoe UI" , Font.BOLD , 24));
-        Edittheaterlbl.setForeground(Color.white);
-        EditTheaterpanel.add(Edittheaterlbl); 
-
-        JLabel editJLabelTheaterName = new JLabel("Edit Theater Title");
-        editJLabelTheaterName.setBounds(20,120,130,24);
-        editJLabelTheaterName.setFont(new Font("Segoe UI" , Font.BOLD ,14));
-        editJLabelTheaterName.setForeground(Color.white);
-        EditTheaterpanel.add(editJLabelTheaterName);
-
-        JCheckBox CheckEditTheatername = new JCheckBox();
-        CheckEditTheatername.setBounds(160,123, 20, 20);
-        CheckEditTheatername.setBackground(new Color(30, 30, 30));
-        CheckEditTheatername.setForeground(Color.white);
-        CheckEditTheatername.setFont(new Font("Bebas Neue", Font.PLAIN, 13));
-        CheckEditTheatername.setSelected(true);
-        EditTheaterpanel.add(CheckEditTheatername);
-
-        JTextField editJTextFieldNameTheater = new JTextField(" Theater Name");
-        editJTextFieldNameTheater.setBounds(20,160,200,38);
-        editJTextFieldNameTheater.setFont(new Font("Segoe UI" , Font.PLAIN , 14));
-        editJTextFieldNameTheater.setForeground(Color.white);
-        editJTextFieldNameTheater.setBackground(new Color(30,30,30));
-        TextfieldBehave(editJTextFieldNameTheater, " Theater Name");
-        CheckEditTheatername.addItemListener(e -> {
-            if (CheckEditTheatername.isSelected()) {
-                editJTextFieldNameTheater.setEnabled(true);
-            } else {
-                editJTextFieldNameTheater.setEnabled(false);
-            }
-        });
-        EditTheaterpanel.add(editJTextFieldNameTheater);
-
-        JLabel editJLabelnbrseatsnrml = new JLabel("Number of Normal Seats ");
-        editJLabelnbrseatsnrml.setBounds(20,230,180,24);
-        editJLabelnbrseatsnrml.setFont(new Font("Segoe UI" , Font.BOLD ,14));
-        editJLabelnbrseatsnrml.setForeground(Color.white);
-        EditTheaterpanel.add(editJLabelnbrseatsnrml);
-
-        JCheckBox CheckEditNrmlseats = new JCheckBox();
-        CheckEditNrmlseats.setBounds(190,233, 20, 20);
-        CheckEditNrmlseats.setBackground(new Color(30, 30, 30));
-        CheckEditNrmlseats.setForeground(Color.white);
-        CheckEditNrmlseats.setFont(new Font("Bebas Neue", Font.PLAIN, 13));
-        CheckEditNrmlseats.setSelected(true);
-        EditTheaterpanel.add(CheckEditNrmlseats);
-
-        JTextField editJTextFieldnbrseatnrml = new JTextField();
-        editJTextFieldnbrseatnrml.setBounds(20,273,200,38);
-        editJTextFieldnbrseatnrml.setFont(new Font("Segoe UI" , Font.PLAIN , 14));
-        editJTextFieldnbrseatnrml.setForeground(Color.white);
-        editJTextFieldnbrseatnrml.setBackground(new Color(30,30,30));
-        //TextfieldBehave(editJTextFieldnbrseatnrml, " ");
-        CheckEditNrmlseats.addItemListener(e -> {
-            if (CheckEditNrmlseats.isSelected()) {
-                editJTextFieldnbrseatnrml.setEnabled(true);
-            } else {
-                editJTextFieldnbrseatnrml.setEnabled(false);
-            }
-        });
-        EditTheaterpanel.add(editJTextFieldnbrseatnrml);
-
-        JLabel editJLabelnbrseatsvip = new JLabel("Number of VIP Seats");
-        editJLabelnbrseatsvip.setBounds(20,343,150,24);
-        editJLabelnbrseatsvip.setFont(new Font("Segoe UI" , Font.BOLD ,14));
-        editJLabelnbrseatsvip.setForeground(Color.white);
-        EditTheaterpanel.add(editJLabelnbrseatsvip);
-
-        JCheckBox CheckEditnbrseatsvip = new JCheckBox();
-        CheckEditnbrseatsvip.setBounds(170,346, 20, 20);
-        CheckEditnbrseatsvip.setBackground(new Color(30, 30, 30));
-        CheckEditnbrseatsvip.setForeground(Color.white);
-        CheckEditnbrseatsvip.setFont(new Font("Bebas Neue", Font.PLAIN, 13));
-        CheckEditnbrseatsvip.setSelected(true);
-        EditTheaterpanel.add(CheckEditnbrseatsvip);
-
-        JTextField editJTextFieldnbrseatsvip = new JTextField();
-        editJTextFieldnbrseatsvip.setBounds(20,386,200,38);
-        editJTextFieldnbrseatsvip.setFont(new Font("Segoe UI" , Font.PLAIN , 14));
-        editJTextFieldnbrseatsvip.setForeground(Color.white);
-        editJTextFieldnbrseatsvip.setBackground(new Color(30,30,30));
-        //TextfieldBehave(editJTextFieldnbrseatsvip, " Title");
-        CheckEditnbrseatsvip.addItemListener(e -> {
-            if (CheckEditnbrseatsvip.isSelected()) {
-                editJTextFieldnbrseatsvip.setEnabled(true);
-            } else {
-                editJTextFieldnbrseatsvip.setEnabled(false);
-            }
-        });
-        EditTheaterpanel.add(editJTextFieldnbrseatsvip);
-
-        RoundedButton EditButtontheaterEdit = new RoundedButton("Edit ", 5);
-        EditButtontheaterEdit.setBounds(35, 550, 170, 36);
-        EditButtontheaterEdit.setBackground(Color.white);
-        EditTheaterpanel.add(EditButtontheaterEdit);
-
-        RoundedButton CancelButtonEdit = new RoundedButton("Cancel" , 5);
-        CancelButtonEdit.setBackground(Color.white);
-        CancelButtonEdit.setBounds(35, 600, 170, 36);
-        CancelButtonEdit.addActionListener(e -> {
-            if (isPanelVisible) {
-                slidePanel(EditTheaterpanel, 782, 1200, 0, 270, 750);
-                isPanelVisible = false;
-            }
-        });
-        EditTheaterpanel.add(CancelButtonEdit);
-
-        EditTheater.addActionListener(e->{
-            if (!isPanelVisible) {
-                slidePanel(EditTheaterpanel, 1200, 782, 0, 270, 750);
-                isPanelVisible = true;
-            }
-        });
-
-        //----------right Things
-
-
-        JSeparator separator1Theater = new JSeparator();
-        separator1Theater.setOrientation(SwingConstants.VERTICAL);
-        separator1Theater.setBackground(Color.white);
-        separator1Theater.setForeground(Color.white);
-        separator1Theater.setBounds(780, 00, 2, 750);
-        theaterDashboard.add(separator1Theater);
-
-
-        // Right-Side Section: Total Number of Theaters
-        JLabel nbrTheaterLabel = new JLabel("Total Number of Theaters");
-        nbrTheaterLabel.setBounds(815, 20, 200, 30);
-        nbrTheaterLabel.setForeground(Color.WHITE);
-        nbrTheaterLabel.setFont(new Font("Bebas Neue", Font.BOLD, 15));
-        theaterDashboard.add(nbrTheaterLabel);
-
-        RoundedPanel CircleTheater = new RoundedPanel(100);
-        CircleTheater.setLayout(null);
-        CircleTheater.setBounds(855, 80, 100, 100);
-        CircleTheater.setBackground(new Color(0, 0, 0, 0));
-        CircleTheater.setRoundedBorder(Color.WHITE, 2);
-        theaterDashboard.add(CircleTheater);
-
-        // Fetch the total number of theaters
-        int totalTheaters = TheaterManager.numberOfTheaters();
-
-        JLabel nbrTotalTheater = new JLabel();
-        if (totalTheaters < 10) {
-            nbrTotalTheater.setBounds(40, 32, 100, 30);
-            nbrTotalTheater.setText(String.valueOf(totalTheaters));
-        } else {
-            nbrTotalTheater.setBounds(33, 32, 100, 30);
-            nbrTotalTheater.setText(String.valueOf(totalTheaters));
-        }
-
-        nbrTotalTheater.setForeground(Color.WHITE);
-        nbrTotalTheater.setFont(new Font("Bebas Neue", Font.BOLD, 30));
-        CircleTheater.add(nbrTotalTheater);
-
-        // Right-Side Section: Total VIP Seats
-        JLabel nbrVIPSeatsLabel = new JLabel("Total VIP Seats");
-        nbrVIPSeatsLabel.setBounds(815, 200, 200, 30);
-        nbrVIPSeatsLabel.setForeground(Color.WHITE);
-        nbrVIPSeatsLabel.setFont(new Font("Bebas Neue", Font.BOLD, 15));
-        theaterDashboard.add(nbrVIPSeatsLabel);
-
-        RoundedPanel CircleVIPSeats = new RoundedPanel(100);
-        CircleVIPSeats.setLayout(null);
-        CircleVIPSeats.setBounds(855, 260, 100, 100);
-        CircleVIPSeats.setBackground(new Color(0, 0, 0, 0));
-        CircleVIPSeats.setRoundedBorder(Color.WHITE, 2);
-        theaterDashboard.add(CircleVIPSeats);
-
-        // Fetch the total number of VIP seats
-        int totalVIPSeats = TheaterManager.totalVIPSeats();
-
-        JLabel nbrTotalVIPSeats = new JLabel();
-        if (totalVIPSeats < 10) {
-            nbrTotalVIPSeats.setBounds(40, 32, 100, 30);
-            nbrTotalVIPSeats.setText(String.valueOf(totalVIPSeats));
-        } else {
-            nbrTotalVIPSeats.setBounds(33, 32, 100, 30);
-            nbrTotalVIPSeats.setText(String.valueOf(totalVIPSeats));
-        }
-
-        nbrTotalVIPSeats.setForeground(Color.WHITE);
-        nbrTotalVIPSeats.setFont(new Font("Bebas Neue", Font.BOLD, 30));
-        CircleVIPSeats.add(nbrTotalVIPSeats);
-
-        // Right-Side Section: Total Normal Seats
-        JLabel nbrNormalSeatsLabel = new JLabel("Total Normal Seats");
-        nbrNormalSeatsLabel.setBounds(815, 380, 200, 30);
-        nbrNormalSeatsLabel.setForeground(Color.WHITE);
-        nbrNormalSeatsLabel.setFont(new Font("Bebas Neue", Font.BOLD, 15));
-        theaterDashboard.add(nbrNormalSeatsLabel);
-
-        RoundedPanel CircleNormalSeats = new RoundedPanel(100);
-        CircleNormalSeats.setLayout(null);
-        CircleNormalSeats.setBounds(855, 440, 100, 100);
-        CircleNormalSeats.setBackground(new Color(0, 0, 0, 0));
-        CircleNormalSeats.setRoundedBorder(Color.WHITE, 2);
-        theaterDashboard.add(CircleNormalSeats);
-
-        // Fetch the total number of normal seats
-        int totalNormalSeats = TheaterManager.totalNormalSeats();
-
-        JLabel nbrTotalNormalSeats = new JLabel();
-        if (totalNormalSeats < 10) {
-            nbrTotalNormalSeats.setBounds(40, 32, 100, 30);
-            nbrTotalNormalSeats.setText(String.valueOf(totalNormalSeats));
-        } else {
-            nbrTotalNormalSeats.setBounds(33, 32, 100, 30);
-            nbrTotalNormalSeats.setText(String.valueOf(totalNormalSeats));
-        }
-
-        nbrTotalNormalSeats.setForeground(Color.WHITE);
-        nbrTotalNormalSeats.setFont(new Font("Bebas Neue", Font.BOLD, 30));
-        CircleNormalSeats.add(nbrTotalNormalSeats);
-
-        JLabel Datetodaytheater = new JLabel("Date:");
-        Datetodaytheater.setBounds(840, 675, 200, 30);
-        Datetodaytheater.setForeground(Color.WHITE);
-        Datetodaytheater.setFont(new Font("Bebas Neue", Font.BOLD, 13));
-        theaterDashboard.add(Datetodaytheater);
-
-        JLabel datenowTheater = new JLabel(LocalDate.now().toString());
-        datenowTheater.setBounds(880, 675, 200, 30);
-        datenowTheater.setForeground(Color.WHITE);
-        datenowTheater.setFont(new Font("Bebas Neue", Font.BOLD, 13));
-        theaterDashboard.add(datenowTheater);
-        //-------------------------------about Admins--------------------------------
-        JPanel adminDashboard = new JPanel();
-        adminDashboard.setLayout(null);
-        adminDashboard.setBounds(0, 0, 1400, 750);
-        adminDashboard.setBackground(new Color(30, 30, 30));
-
-        // Title
-        JLabel adminTitle = new JLabel("Admin Dashboard");
-        adminTitle.setBounds(35, 26, 300, 30);
-        adminTitle.setForeground(Color.WHITE);
-        adminTitle.setFont(new Font("Bebas Neue", Font.BOLD, 23));
-        adminDashboard.add(adminTitle);
-
-        // Search Panel
-        RoundedPanel searchPanelAdmin = new RoundedPanel(30);
-        searchPanelAdmin.setLayout(null);
-        searchPanelAdmin.setBounds(280, 100, 460, 35);
-        searchPanelAdmin.setBackground(new Color(30, 30, 30));
-        searchPanelAdmin.setRoundedBorder(Color.WHITE, 1);
-        adminDashboard.add(searchPanelAdmin);
-
-        JTextField searchFieldAdmin = new JTextField("Search with Email");
-        searchFieldAdmin.setBounds(10, 5, 400, 25);
-        searchFieldAdmin.setBackground(new Color(30, 30, 30));
-        searchFieldAdmin.setForeground(Color.WHITE);
-        searchFieldAdmin.setFont(new Font("Segoe UI", Font.PLAIN, 13));
-        searchFieldAdmin.setBorder(null);
-        TextfieldBehave(searchFieldAdmin, "Search with Email");
-        searchPanelAdmin.add(searchFieldAdmin);
-
-        // Table Headers
-        JLabel selectedLblAdmin = new JLabel("Selected");
-        selectedLblAdmin.setBounds(30, 157, 60, 30);
-        selectedLblAdmin.setForeground(Color.WHITE);
-        selectedLblAdmin.setFont(new Font("Bebas Neue", Font.PLAIN, 13));
-        adminDashboard.add(selectedLblAdmin);
-
-        JLabel nameLblAdmin = new JLabel("Name");
-        nameLblAdmin.setBounds(110, 157, 60, 30);
-        nameLblAdmin.setForeground(Color.WHITE);
-        nameLblAdmin.setFont(new Font("Bebas Neue", Font.PLAIN, 13));
-        adminDashboard.add(nameLblAdmin);
-
-        JLabel emailLblAdmin = new JLabel("Email");
-        emailLblAdmin.setBounds(235, 157, 60, 30);
-        emailLblAdmin.setForeground(Color.WHITE);
-        emailLblAdmin.setFont(new Font("Bebas Neue", Font.PLAIN, 13));
-        adminDashboard.add(emailLblAdmin);
-
-        JLabel roleLblAdmin = new JLabel("Last Name");
-        roleLblAdmin.setBounds(380, 157, 80, 30);
-        roleLblAdmin.setForeground(Color.WHITE);
-        roleLblAdmin.setFont(new Font("Bebas Neue", Font.PLAIN, 13));
-        adminDashboard.add(roleLblAdmin);
-
-        JLabel statusLblAdmin = new JLabel("Status");
-        statusLblAdmin.setBounds(570, 157, 60, 30);
-        statusLblAdmin.setForeground(Color.WHITE);
-        statusLblAdmin.setFont(new Font("Bebas Neue", Font.PLAIN, 13));
-        adminDashboard.add(statusLblAdmin);
-
-        // Separator
-        JSeparator separatorHorAdmin = new JSeparator();
-        separatorHorAdmin.setOrientation(SwingConstants.HORIZONTAL);
-        separatorHorAdmin.setBackground(Color.WHITE);
-        separatorHorAdmin.setForeground(Color.WHITE);
-        separatorHorAdmin.setBounds(21, 190, 720, 1);
-        adminDashboard.add(separatorHorAdmin);
-
-        // Admin List Panel
-        JPanel adminPanelList = new JPanel();
-        adminPanelList.setLayout(null);
-        adminPanelList.setBounds(35, 200, 700, 440);
-        adminPanelList.setBackground(new Color(30, 30, 30));
-
-        JPanel contentPanelAdminList = new JPanel();
-        contentPanelAdminList.setLayout(null);
-        contentPanelAdminList.setBackground(new Color(30, 30, 30));
-
-        int totalHeightAdminList = adminManager.admins.size() * 50;
-        contentPanelAdminList.setPreferredSize(new Dimension(650, Math.max(500, totalHeightAdminList)));
-
-        ArrayList<JCheckBox> checkBoxesAdminList = new ArrayList<>();
-
-        try (Connection conn = DatabaseConnection.connect();
-            Statement stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT * FROM admins")) {
-
-            int rowIndex = 0;
-            while (rs.next()) {
-                JPanel adminListRow = new JPanel();
-                adminListRow.setLayout(null);
-                adminListRow.setBounds(0, rowIndex * 50, 700, 40);
-                adminListRow.setBackground(new Color(30, 30, 30));
-
-                JLabel nameAdmin = new JLabel(rs.getString("Name"));
-                nameAdmin.setBounds(67, 5, 200, 30);
-                nameAdmin.setForeground(Color.WHITE);
-                nameAdmin.setFont(new Font("Bebas Neue", Font.PLAIN, 13));
-                adminListRow.add(nameAdmin);
-
-                JLabel emailAdmin = new JLabel(rs.getString("Email"));
-                emailAdmin.setBounds(190, 5, 200, 30);
-                emailAdmin.setForeground(Color.WHITE);
-                emailAdmin.setFont(new Font("Bebas Neue", Font.PLAIN, 13));
-                adminListRow.add(emailAdmin);
-
-                JLabel roleAdmin = new JLabel(rs.getString("LastName"));
-                roleAdmin.setBounds(370, 5, 200, 30);
-                roleAdmin.setForeground(Color.WHITE);
-                roleAdmin.setFont(new Font("Bebas Neue", Font.PLAIN, 13));
-                adminListRow.add(roleAdmin);
-
-                JLabel statusAdmin = new JLabel(rs.getString("Status"));
-                statusAdmin.setBounds(540, 5, 200, 30);
-                statusAdmin.setForeground(Color.WHITE);
-                statusAdmin.setFont(new Font("Bebas Neue", Font.PLAIN, 13));
-                adminListRow.add(statusAdmin);
-
-                JCheckBox selectCheckBox = new JCheckBox();
-                selectCheckBox.setBounds(4, 5, 20, 20);
-                selectCheckBox.setBackground(new Color(30, 30, 30));
-                selectCheckBox.setForeground(Color.WHITE);
-                selectCheckBox.setFont(new Font("Bebas Neue", Font.PLAIN, 13));
-                adminListRow.add(selectCheckBox);
-                checkBoxesAdminList.add(selectCheckBox);
-
-                contentPanelAdminList.add(adminListRow);
-                rowIndex++;
-            }
-
-            // Update the preferred size of the content panel based on the number of rows
-            contentPanelAdminList.setPreferredSize(new Dimension(650, Math.max(500, rowIndex * 50)));
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Error fetching admin data from the database!", "Error", JOptionPane.ERROR_MESSAGE);
-        }
-
-        JScrollPane scrollPanelAdminList = new JScrollPane(contentPanelAdminList);
-        scrollPanelAdminList.setBounds(35, 200, 700, 440);
-        scrollPanelAdminList.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
-        scrollPanelAdminList.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-        scrollPanelAdminList.setBorder(null);
-        scrollPanelAdminList.getVerticalScrollBar().setUnitIncrement(16);
-        scrollPanelAdminList.getViewport().setBackground(new Color(30, 30, 30));
-
-        contentPanelAdminList.addMouseWheelListener(e -> {
-            JScrollBar verticalScrollBar = scrollPanelAdminList.getVerticalScrollBar();
-            int notches = e.getWheelRotation();
-            int currentValue = verticalScrollBar.getValue();
-            int scrollAmount = 30;
-            verticalScrollBar.setValue(currentValue + (notches * scrollAmount));
-        });
-
-        adminDashboard.add(scrollPanelAdminList);
-
-        // Buttons
-        RoundedButton unselectAllAdmin = new RoundedButton("Unselect All", 5);
-        unselectAllAdmin.setBounds(20, 650, 120, 30);
-        unselectAllAdmin.setForeground(Color.BLACK);
-        unselectAllAdmin.setBackground(Color.WHITE);
-        unselectAllAdmin.addActionListener(e -> {
-            for (JCheckBox checkBox : checkBoxesAdminList) {
-                if (checkBox.isSelected()) {
-                    checkBox.setSelected(false);
-                }
-            }
-        });
-        adminDashboard.add(unselectAllAdmin);
-
-        RoundedButton selectAllAdmin = new RoundedButton("Select All", 5);
-        selectAllAdmin.setBounds(180, 650, 120, 30);
-        selectAllAdmin.setForeground(Color.BLACK);
-        selectAllAdmin.setBackground(Color.WHITE);
-        selectAllAdmin.addActionListener(e -> {
-            for (JCheckBox checkBox : checkBoxesAdminList) {
-                if (!checkBox.isSelected()) {
-                    checkBox.setSelected(true);
-                }
-            }
-        });
-        adminDashboard.add(selectAllAdmin);
-
-//------------------------------About Broadcast--------------------------------
-
-        JPanel BroadcastDashboard = new JPanel();
-        BroadcastDashboard.setLayout(null);
-        BroadcastDashboard.setBounds(0, 0, 1400, 750);
-        BroadcastDashboard.setBackground(new Color(30, 30, 30));
-        MiddlePanel.add(BroadcastDashboard);
-
-        JLabel Broadcastlbl = new JLabel("Broadcast  Dashboard");
-        Broadcastlbl.setBounds(35, 26, 300, 30);
-        Broadcastlbl.setForeground(Color.WHITE);
-        Broadcastlbl.setFont(new Font("Bebas Neue", Font.BOLD, 23));
-        BroadcastDashboard.add(Broadcastlbl);
-
-        RoundedPanel UserPanel = new RoundedPanel(50);
-        UserPanel.setLayout(null);
-        UserPanel.setBounds(650, 20, 90, 46);
-        UserPanel.setBackground(Color.darkGray);
-        BroadcastDashboard.add(UserPanel);
-
-        JLabel UserLabel = new JLabel("User");
-        UserLabel.setBounds(40, 3, 30, 30);
-        UserLabel.setForeground(Color.WHITE);
-        UserLabel.setFont(new Font("Segoe UI", Font.BOLD, 10));
-        UserPanel.add(UserLabel);
-
-        RoundedPanel UserPHOTO = new RoundedPanel(80);
-        UserPHOTO.setLayout(null);
-        UserPHOTO.setBackgroundImage("CINEMA/img/UserIcon1.png");
-
-        UserPHOTO.setBounds(5, 10, 30, 30);
-        UserPHOTO.setBackground(Color.red);
-        UserPanel.add(UserPHOTO);
-
-        RoundedPanel SearchPanel = new RoundedPanel(30);
-        SearchPanel.setLayout(null);
-        SearchPanel.setBounds(280, 100, 460, 35);
-        SearchPanel.setBackground(new Color(30, 30, 30));
-        SearchPanel.setRoundedBorder(Color.WHITE, 1);
-        BroadcastDashboard.add(SearchPanel);
-
-        JTextField SearchFieldbroadcast = new JTextField("Search with Theater");
-        SearchFieldbroadcast.setBounds(10, 5, 400, 25);
-        SearchFieldbroadcast.setBackground(new Color(30, 30, 30));
-        SearchFieldbroadcast.setForeground(Color.WHITE);
-        SearchFieldbroadcast.setFont(new Font("Segoe UI", Font.PLAIN, 13));
-        SearchFieldbroadcast.setBorder(null);
-        TextfieldBehave(SearchFieldbroadcast, "Search with Theater");
-        SearchPanel.add(SearchFieldbroadcast);
-
-        JLabel Movielblbroad = new JLabel("   Movie");
-        Movielblbroad.setBounds(200, 157, 200, 30);
-        Movielblbroad.setForeground(Color.WHITE);
-        Movielblbroad.setFont(new Font("Bebas Neue", Font.PLAIN, 13));
-        BroadcastDashboard.add(Movielblbroad);
-
-        JLabel Theaterlblbroad = new JLabel("Theater");
-        Theaterlblbroad.setBounds(420, 157, 200, 30);
-        Theaterlblbroad.setForeground(Color.WHITE);
-        Theaterlblbroad.setFont(new Font("Bebas Neue", Font.PLAIN, 13));
-        BroadcastDashboard.add(Theaterlblbroad);
-
-        JLabel Datelblbroad = new JLabel("Date");
-        Datelblbroad.setBounds(640, 157, 200, 30);
-        Datelblbroad.setForeground(Color.WHITE);
-        Datelblbroad.setFont(new Font("Bebas Neue", Font.PLAIN, 13));
-        BroadcastDashboard.add(Datelblbroad);  
-
-        JLabel SelectlblBroad = new JLabel("Select");
-        SelectlblBroad.setBounds(60, 157, 200, 30);
-        SelectlblBroad.setForeground(Color.WHITE);
-        SelectlblBroad.setFont(new Font("Bebas Neue", Font.PLAIN, 13));
-        BroadcastDashboard.add(SelectlblBroad);
-
-        JSeparator separatorhorBroad = new JSeparator();
-        separatorhorBroad.setOrientation(SwingConstants.HORIZONTAL);
-        separatorhorBroad.setBackground(Color.white);
-        separatorhorBroad.setForeground(Color.white); 
-        separatorhorBroad.setBounds(21, 190, 720, 1);
-        BroadcastDashboard.add(separatorhorBroad);
-   
-        JPanel Broadcast = new JPanel();
-        Broadcast.setLayout(null);
-        Broadcast.setBounds(35, 200, 700, 440);
-        Broadcast.setBackground(new Color(30, 30, 30));
-        
-
-        JPanel contentPanelBroad = new JPanel();
-        contentPanelBroad.setLayout(null);
-        contentPanelBroad.setBackground(new Color(30, 30, 30));
-
-
-        int totalHeightBroad = broadcastManager.broadcasts.size() * 50; 
-        contentPanelBroad.setPreferredSize(new Dimension(650, Math.max(500, totalHeightBroad)));
-
-        ArrayList<JCheckBox> checkBoxesBroadcast = new ArrayList<JCheckBox>();
-
-                try (Connection conn = DatabaseConnection.connect();
-            Statement stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery(
-                "SELECT broadcasts.BroadcastID, movies.Title AS MovieTitle, theaters.TheaterName AS TheaterName, " +
-                "broadcasts.Language, broadcasts.BroadcastDate " +
-                "FROM broadcasts " +
-                "JOIN movies ON broadcasts.MovieID = movies.MovieID " +
-                "JOIN theaters ON broadcasts.TheaterID = theaters.TheaterID")) {
-
-            int rowIndex = 0;
-            while (rs.next()) {
-                JPanel BroadcastRow = new JPanel();
-                BroadcastRow.setLayout(null);
-                BroadcastRow.setBounds(0, rowIndex * 50, 700, 40);
-                BroadcastRow.setBackground(new Color(30, 30, 30));
-
-                JLabel MovieTitleLabel = new JLabel(rs.getString("MovieTitle"));
-                MovieTitleLabel.setBounds(67, 5, 200, 30);
-                MovieTitleLabel.setForeground(Color.white);
-                MovieTitleLabel.setFont(new Font("Bebas Neue", Font.PLAIN, 13));
-                BroadcastRow.add(MovieTitleLabel);
-
-                JLabel TheaterNameLabel = new JLabel(rs.getString("TheaterName"));
-                TheaterNameLabel.setBounds(190, 5, 200, 30);
-                TheaterNameLabel.setForeground(Color.white);
-                TheaterNameLabel.setFont(new Font("Bebas Neue", Font.PLAIN, 13));
-                BroadcastRow.add(TheaterNameLabel);
-
-
-                JLabel BroadcastDateLabel = new JLabel(rs.getDate("BroadcastDate").toString());
-                BroadcastDateLabel.setBounds(540, 5, 200, 30);
-                BroadcastDateLabel.setForeground(Color.white);
-                BroadcastDateLabel.setFont(new Font("Bebas Neue", Font.PLAIN, 13));
-                BroadcastRow.add(BroadcastDateLabel);
-
-                JCheckBox selectCheckBox = new JCheckBox();
-                selectCheckBox.setBounds(4, 5, 20, 20);
-                selectCheckBox.setBackground(new Color(30, 30, 30));
-                selectCheckBox.setForeground(Color.white);
-                selectCheckBox.setFont(new Font("Bebas Neue", Font.PLAIN, 13));
-                BroadcastRow.add(selectCheckBox);
-                checkBoxesBroadcast.add(selectCheckBox);
-
-                contentPanelBroad.add(BroadcastRow);
-                rowIndex++;
-            }
-
-            // Update the preferred size of the content panel based on the number of rows
-            contentPanelBroad.setPreferredSize(new Dimension(650, Math.max(500, rowIndex * 50)));
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Error fetching broadcast data from the database!", "Error", JOptionPane.ERROR_MESSAGE);
-        }
-
-      
-        JScrollPane scrollPanelBroadcast = new JScrollPane(contentPanelBroad);
-        scrollPanelBroadcast.setBounds(35, 200, 700, 440);
-        scrollPanelBroadcast.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
-        scrollPanelBroadcast.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-        scrollPanelBroadcast.setBorder(null);
-        scrollPanelBroadcast.getVerticalScrollBar().setUnitIncrement(16);
-        scrollPanelBroadcast.getViewport().setBackground(new Color(30, 30, 30));
-
-       
-        contentPanelBroad.addMouseWheelListener(e -> {
-            JScrollBar verticalScrollBar = scrollPanelBroadcast.getVerticalScrollBar();
-            int notches = e.getWheelRotation();
-            int currentValue = verticalScrollBar.getValue();
-            int scrollAmount = 30; 
-            verticalScrollBar.setValue(currentValue + (notches * scrollAmount));
-        });
-
-        BroadcastDashboard.add(scrollPanelBroadcast);
-
-        int buttonwidth = 97 ;
-        int gap = 20 ;
-
-        RoundedButton UnSelectAllBroad = new RoundedButton("Unselected All" , 5);
-        UnSelectAllBroad.setBounds(64, 650, 97, 27);
-        UnSelectAllBroad.setForeground(Color.BLACK);
-        UnSelectAllBroad.setBackground(Color.white);
-        UnSelectAllBroad.addActionListener(e->{
-            for(JCheckBox checkBox : checkBoxesBroadcast) {
-                if(checkBox.isSelected()){
-                    checkBox.setSelected(false);
-                }
-                
-            }
-        });
-        BroadcastDashboard.add(UnSelectAllBroad);
-
-        
-        RoundedButton selectAllBroad = new RoundedButton("Selected All" , 5);
-        selectAllBroad.setBounds(64 + buttonwidth + gap , 650, 97, 27);
-        selectAllBroad.setForeground(Color.BLACK);
-        selectAllBroad.setBackground(Color.white);
-        selectAllBroad.addActionListener(e->{
-            for(JCheckBox checkBox : checkBoxesBroadcast) {
-                if(!checkBox.isSelected()){
-                    checkBox.setSelected(true);
-                }
-            }
-        });
-        BroadcastDashboard.add(selectAllBroad);
-
-        JPanel EditBroadcast = new JPanel();
-        EditBroadcast.setLayout(null);
-        EditBroadcast.setBounds(1200,0, 270, 750);
-        EditBroadcast.setBackground(new Color(30,30,30));
-        BroadcastDashboard.add(EditBroadcast);
-
-        JLabel LabelBroadcast = new JLabel("Edit Broadcast");
-        LabelBroadcast.setBounds(30 ,30 ,191,36);
-        LabelBroadcast.setFont(new Font("Segoe UI" , Font.BOLD , 24));
-        LabelBroadcast.setForeground(Color.white);
-        EditBroadcast.add(LabelBroadcast);  
-
-
-        JLabel editJLabelBroadcast = new JLabel("Edit Theater");
-        editJLabelBroadcast.setBounds(20,120,105,24);
-        editJLabelBroadcast.setFont(new Font("Segoe UI" , Font.BOLD ,14));
-        editJLabelBroadcast.setForeground(Color.white);
-        EditBroadcast.add(editJLabelBroadcast);
-        
-        JCheckBox CheckEditBroadcastHall = new JCheckBox();
-        CheckEditBroadcastHall.setBounds(146,123, 20, 20);
-        CheckEditBroadcastHall.setBackground(new Color(30, 30, 30));
-        CheckEditBroadcastHall.setForeground(Color.white);
-        CheckEditBroadcastHall.setFont(new Font("Bebas Neue", Font.PLAIN, 13));
-        CheckEditBroadcastHall.setSelected(true);
-        EditBroadcast.add(CheckEditBroadcastHall);
-
-
-        JTextField editJTextFieldBroadcastNamehall = new JTextField("Big Hall");
-        editJTextFieldBroadcastNamehall.setBounds(20,160,200,38);
-        editJTextFieldBroadcastNamehall.setFont(new Font("Segoe UI" , Font.PLAIN , 14));
-        editJTextFieldBroadcastNamehall.setForeground(Color.white);
-        editJTextFieldBroadcastNamehall.setBackground(new Color(30,30,30));
-        TextfieldBehave(editJTextFieldBroadcastNamehall, "Big Hall");
-        CheckEditBroadcastHall.addItemListener(e -> {
-            if (CheckEditBroadcastHall.isSelected()) {
-                editJTextFieldBroadcastNamehall.setEnabled(true);
-            } else {
-                editJTextFieldBroadcastNamehall.setEnabled(false);
-            }
-        });
-        EditBroadcast.add(editJTextFieldBroadcastNamehall);
-
-
-        JLabel edittime = new JLabel("Edit Time");
-        edittime.setBounds(20,270,105,24);
-        edittime.setFont(new Font("Segoe UI" , Font.BOLD ,14));
-        edittime.setForeground(Color.white);
-        EditBroadcast.add(edittime);
-
-        JCheckBox CheckEditBroadcastTime = new JCheckBox();
-        CheckEditBroadcastTime.setBounds(146,273, 20, 20);
-        CheckEditBroadcastTime.setBackground(new Color(30, 30, 30));
-        CheckEditBroadcastTime.setForeground(Color.white);
-        CheckEditBroadcastTime.setFont(new Font("Bebas Neue", Font.PLAIN, 13));
-        //inisialise the checkbox like not checked
-        CheckEditBroadcastTime.setSelected(true);
-
-        EditBroadcast.add(CheckEditBroadcastTime);
-
-        JDialog timeDialogBroadcast = new JDialog(this, "Select Time", true);
-        timeDialogBroadcast.setLayout(new BorderLayout());
-        timeDialogBroadcast.setSize(300, 200);
-        timeDialogBroadcast.setLocationRelativeTo(this);
-
-        
-
-
-        RoundedButton showTimeBtn = new RoundedButton(LocalDate.now().toString() , 7);
-        showTimeBtn.setBounds(20, 310, 200, 30);
-        showTimeBtn.setFont(new Font("Arial", Font.PLAIN, 14));
-        showTimeBtn.setForeground(Color.white);
-        showTimeBtn.setBackground(new Color(30,30,30));
-        showTimeBtn.setRoundedBorder(Color.white, 1);
-        CheckEditBroadcastTime.addItemListener(new ItemListener() {
-            @Override
-            public void itemStateChanged(ItemEvent e) {
-                if (CheckEditBroadcastTime.isSelected()) {
-                    showTimeBtn.setEnabled(true);
-                } else {
-                    showTimeBtn.setEnabled(false);
-                }
-            }
-        });
-        showTimeBtn.addActionListener(e -> {
-            timeDialogBroadcast.setVisible(true); 
-        });
-        EditBroadcast.add(showTimeBtn);
-
-        JPanel TimePanelBroadcast = new JPanel(new FlowLayout());
-        SpinnerDateModel timeModelbroad = new SpinnerDateModel();
-        JSpinner timeSpinnerbroad = new JSpinner(timeModelbroad);
-        JSpinner.DateEditor timeEditorbroad = new JSpinner.DateEditor(timeSpinnerbroad, "yyyy/MM/dd");//yyyy/MM/dd HH:mm
-        timeSpinnerbroad.setEditor(timeEditorbroad);
-        TimePanelBroadcast.add(new JLabel("Select Time: "));
-        TimePanelBroadcast.add(timeSpinnerbroad);
-
-        
-        JPanel buttonPanelbroad = new JPanel(new FlowLayout());
-        JButton okButtonbroad = new JButton("OK");
-        JButton cancelButtonbroad = new JButton("Cancel");
-        buttonPanelbroad.add(okButtonbroad);
-        buttonPanelbroad.add(cancelButtonbroad);
-
-        timeDialogBroadcast.add(TimePanelBroadcast, BorderLayout.CENTER);
-        timeDialogBroadcast.add(buttonPanelbroad, BorderLayout.SOUTH);
-      
-
-        
-        okButtonbroad.addActionListener(e -> {
-            Date selectedTime = (Date) timeSpinnerbroad.getValue();
-            localTime = selectedTime.toInstant()
-                .atZone(ZoneId.systemDefault())
-                .toLocalTime();
-            String formattedTime = selectedTime.toInstant()
-                .atZone(ZoneId.systemDefault())
-                .toLocalDateTime()
-                .format(java.time.format.DateTimeFormatter.ofPattern("yyyy/MM/dd"));
-           showTimeBtn.setText(formattedTime);
-            timeDialogBroadcast.dispose();
-        });
-
-
-        cancelButtonbroad.addActionListener(e -> {
-            
-            timeDialogBroadcast.dispose();
-        });
-
-        JLabel editmovie = new JLabel("Edit Movie");
-        editmovie.setBounds(20,410,105,24);
-        editmovie.setFont(new Font("Segoe UI" , Font.BOLD ,14));
-        editmovie.setForeground(Color.white);
-        EditBroadcast.add(editmovie);
-
-        JCheckBox CheckEditBroadcastMovie = new JCheckBox();
-        CheckEditBroadcastMovie.setBounds(146,413, 20, 20);
-        CheckEditBroadcastMovie.setBackground(new Color(30, 30, 30));
-        CheckEditBroadcastMovie.setForeground(Color.white);
-        CheckEditBroadcastMovie.setFont(new Font("Bebas Neue", Font.PLAIN, 13));
-        CheckEditBroadcastMovie.setSelected(true);
-        EditBroadcast.add(CheckEditBroadcastMovie);
-
-        JComboBox<String> Moviesbox = new JComboBox<>(movieManager.movies.stream().map(movie -> movie.Title).toArray(String[]::new));
-        Moviesbox.setBounds(20, 450, 200, 30);
-        Moviesbox.setForeground(Color.white);
-        Moviesbox.setFocusable(false);
-        Moviesbox.setBorder(BorderFactory.createEmptyBorder());
-        Moviesbox.setBackground(new Color(30,30,30));
-        Moviesbox.setFont(new Font("Arial", Font.PLAIN, 16));
-        EditBroadcast.add(Moviesbox);
-
-        RoundedButton EditButtonBroadcastEdit = new RoundedButton("Edit" , 5);
-        EditButtonBroadcastEdit.setBackground(Color.white);
-        EditButtonBroadcastEdit.setBounds(35, 520, 170, 36);
-        EditBroadcast.add(EditButtonBroadcastEdit);
-
-        RoundedButton CancelButtonBroadcastedit = new RoundedButton("Cancel" , 5);
-        CancelButtonBroadcastedit.setBackground(Color.white);
-        CancelButtonBroadcastedit.setBounds(35, 580, 170, 36);
-        CancelButtonBroadcastedit.addActionListener(e -> {
-            if (isPanelVisible) {
-                slidePanel(EditBroadcast, 782, 1200, 0, 270, 750);
-                isPanelVisible = false;
-            }
-        });
-        EditBroadcast.add(CancelButtonBroadcastedit);
-
-
-
-        RoundedButton EditBroad = new RoundedButton("Edit" , 5);
-        EditBroad.setBounds(64 + buttonwidth*2 + gap*2, 650, 97, 27);
-        EditBroad.setForeground(Color.BLACK);
-        EditBroad.setBackground(Color.white);
-        EditBroad.addActionListener(e->{
-            if (!isPanelVisible) {
-                slidePanel(EditBroadcast, 1200, 782, 0, 270, 750);
-                isPanelVisible = true;
-            }
-            
-        });
-        BroadcastDashboard.add(EditBroad);
-
-        RoundedButton AddBroad = new RoundedButton("Add" , 5);
-        AddBroad.setBounds(64 + buttonwidth*3 + gap*3, 650, 97, 27);
-        AddBroad.setForeground(Color.BLACK);
-        AddBroad.setBackground(Color.white);
-        BroadcastDashboard.add(AddBroad);
-
-        RoundedButton DeleteBroad = new RoundedButton("Delete" , 5);
-        DeleteBroad.setBounds(64 + buttonwidth*4 + gap*4, 650, 97, 27);
-        DeleteBroad.setForeground(Color.BLACK);
-        DeleteBroad.setBackground(Color.white);
-        BroadcastDashboard.add(DeleteBroad);
-
-
-
-
-        //-------right things
-
-        JSeparator separator1Broad = new JSeparator();
-        separator1Broad.setOrientation(SwingConstants.VERTICAL);
-        separator1Broad.setBackground(Color.white);
-        separator1Broad.setForeground(Color.white);
-        separator1Broad.setBounds(780, 00, 2, 750);
-        BroadcastDashboard.add(separator1Broad);
-        
-
-        JLabel nbrBroad = new JLabel("Total Number of Broadcast");
-        nbrBroad.setBounds(800, 20, 200, 30);
-        nbrBroad.setForeground(Color.WHITE);
-        nbrBroad.setFont(new Font("Bebas Neue", Font.BOLD, 15));
-        BroadcastDashboard.add(nbrBroad);
-
-
-        RoundedPanel CircleBroad = new RoundedPanel(100);
-        CircleBroad.setLayout(null);
-        CircleBroad.setBounds(855, 80, 100, 100);
-        CircleBroad.setBackground( new Color(0, 0, 0, 0));
-        CircleBroad.setRoundedBorder(Color.WHITE, 2);
-        BroadcastDashboard.add(CircleBroad);
-
-        JLabel nbrUserLabelBroad = new JLabel();
-
-        if(broadcastManager.broadcasts.size() < 10){
-            nbrUserLabelBroad.setBounds(40, 32, 100, 30);
-            nbrUserLabelBroad.setText(String.valueOf(broadcastManager.broadcasts.size()));
-        }else{
-            nbrUserLabelBroad.setBounds(33, 32, 100, 30);
-            nbrUserLabelBroad.setText(String.valueOf(broadcastManager.broadcasts.size()));
-        }
-        
-        nbrUserLabelBroad.setForeground(Color.WHITE);
-        nbrUserLabelBroad.setFont(new Font("Bebas Neue", Font.BOLD, 30));
-        CircleBroad.add(nbrUserLabelBroad);
-        
-        JSeparator separatorRght1Broadcast = new JSeparator();
-        separatorRght1Broadcast.setOrientation(SwingConstants.HORIZONTAL);
-        separatorRght1Broadcast.setBackground(Color.white);
-        separatorRght1Broadcast.setForeground(Color.white); 
-        separatorRght1Broadcast.setBounds(790, 240, 220, 1);
-        BroadcastDashboard.add(separatorRght1Broadcast);
-
-        JLabel TopWatchedMovie = new JLabel("Top Watched Movie");
-        TopWatchedMovie.setBounds(830, 255, 250, 30);
-        TopWatchedMovie.setForeground(Color.WHITE);
-        TopWatchedMovie.setFont(new Font("Bebas Neue", Font.BOLD, 15));
-        BroadcastDashboard.add(TopWatchedMovie);
-
-        JLabel NameTopMovie = new JLabel(); 
-        NameTopMovie.setBounds(850, 300, 250, 30);
-        NameTopMovie.setForeground(Color.WHITE);
-        NameTopMovie.setFont(new Font("Roboto", Font.TYPE1_FONT, 13));
-        String mostFrequentMovie = null;
-        int maxCount = 0;
-
-        
-        for (int i = 0; i < broadcastManager.broadcasts.size(); i++) {
-            String currentMovie = broadcastManager.broadcasts.get(i).movie.Title;
-            int currentCount = 0;
-
-            
-            for (int j = 0; j <  broadcastManager.broadcasts.size(); j++) {
-                if (broadcastManager.broadcasts.get(j).movie.Title.equals(currentMovie)) {
-                    currentCount++;
-                }
-            }
-
-            
-            if (currentCount > maxCount) {
-                maxCount = currentCount;
-                mostFrequentMovie = currentMovie;
-            }
-        }
-        NameTopMovie.setText(mostFrequentMovie);
-        BroadcastDashboard.add(NameTopMovie);
-
-        JLabel nbrofbroadcast = new JLabel();
-        nbrofbroadcast.setBounds(860, 350, 250, 30);
-        nbrofbroadcast.setForeground(Color.WHITE);
-        nbrofbroadcast.setFont(new Font("Bebas Neue", Font.PLAIN, 13));
-        nbrofbroadcast.setText(String.valueOf(maxCount + "   Broadcasts"));
-        BroadcastDashboard.add(nbrofbroadcast);
-
-        JSeparator separatorRght2Broadcast = new JSeparator();
-        separatorRght2Broadcast.setOrientation(SwingConstants.HORIZONTAL);
-        separatorRght2Broadcast.setBackground(Color.white);
-        separatorRght2Broadcast.setForeground(Color.white);
-        separatorRght2Broadcast.setBounds(790, 400, 220, 1);
-        BroadcastDashboard.add(separatorRght2Broadcast);
-
-        JSeparator separatorRght3Broadcast = new JSeparator();
-        separatorRght3Broadcast.setOrientation(SwingConstants.HORIZONTAL);
-        separatorRght3Broadcast.setBackground(Color.white);
-        separatorRght3Broadcast.setForeground(Color.white);
-        separatorRght3Broadcast.setBounds(790, 660, 220, 1);
-        BroadcastDashboard.add(separatorRght3Broadcast);
-
-        JLabel DatetodayBroad = new JLabel("Date:");
-        DatetodayBroad.setBounds(840, 675, 200, 30);
-        DatetodayBroad.setForeground(Color.WHITE);
-        DatetodayBroad.setFont(new Font("Bebas Neue", Font.BOLD, 13));
-        BroadcastDashboard.add(DatetodayBroad);
-        
-        JLabel datenowBroad = new JLabel(LocalDate.now().toString());
-        datenowBroad.setBounds(880, 675, 200, 30);
-        datenowBroad.setForeground(Color.WHITE);
-        datenowBroad.setFont(new Font("Bebas Neue", Font.BOLD, 13));
-        BroadcastDashboard.add(datenowBroad);
-
-
-
- 
-
-//----------------------Movies Panel------------------------
-
-
-        JPanel MoviesDashboard = new JPanel();
-        MoviesDashboard.setLayout(null);
-        MoviesDashboard.setBounds(0, 0, 750, 750);
-        MoviesDashboard.setBackground(new Color(30 , 30 ,30));
-        MiddlePanel.add(MoviesDashboard);
-
-        JLabel Moviecastlbl = new JLabel("Movies  Dashboard");
-        Moviecastlbl.setBounds(35, 26, 300, 30);
-        Moviecastlbl.setForeground(Color.WHITE);
-        Moviecastlbl.setFont(new Font("Bebas Neue", Font.BOLD, 23));
-        MoviesDashboard.add(Moviecastlbl);
-
-        RoundedPanel UserPanelMovie = new RoundedPanel(50);
-        UserPanelMovie.setLayout(null);
-        UserPanelMovie.setBounds(650, 20, 90, 46);
-        UserPanelMovie.setBackground(Color.darkGray);
-        MoviesDashboard.add(UserPanelMovie);
-
-        JLabel UserLabelmovie = new JLabel("User");
-        UserLabelmovie.setBounds(40, 3, 30, 30);
-        UserLabelmovie.setForeground(Color.WHITE);
-        UserLabelmovie.setFont(new Font("Segoe UI", Font.BOLD, 10));
-        UserPanelMovie.add(UserLabelmovie);
-
-        RoundedPanel UserPHOTOMovie = new RoundedPanel(80);
-        UserPHOTOMovie.setLayout(null);
-        UserPHOTOMovie.setBackgroundImage("CINEMA/img/UserIcon1.png");
-        UserPHOTOMovie.setBounds(5, 10, 30, 30);
-        UserPHOTOMovie.setBackground(Color.red);
-        UserPanelMovie.add(UserPHOTOMovie);
-
-        RoundedPanel SearchPanelMovie = new RoundedPanel(30);
-        SearchPanelMovie.setLayout(null);
-        SearchPanelMovie.setBounds(280, 100, 460, 35);
-        SearchPanelMovie.setBackground(new Color(30, 30, 30));
-        SearchPanelMovie.setRoundedBorder(Color.WHITE, 1);
-        MoviesDashboard.add(SearchPanelMovie);
-
-        JTextField SearchFieldMovie = new JTextField("Search with Theater");
-        SearchFieldMovie.setBounds(10, 5, 400, 25);
-        SearchFieldMovie.setBackground(new Color(30, 30, 30));
-        SearchFieldMovie.setForeground(Color.WHITE);
-        SearchFieldMovie.setFont(new Font("Segoe UI", Font.PLAIN, 13));
-        SearchFieldMovie.setBorder(null);
-        TextfieldBehave(SearchFieldMovie, "Search with Theater");
-        SearchPanelMovie.add(SearchFieldMovie);
-
-        JSeparator separatorhorMovie = new JSeparator();
-        separatorhorMovie.setOrientation(SwingConstants.HORIZONTAL);
-        separatorhorMovie.setBackground(Color.white);
-        separatorhorMovie.setForeground(Color.white); 
-        separatorhorMovie.setBounds(21, 190, 720, 1);
-        MoviesDashboard.add(separatorhorMovie);
-
-        JLabel selectedlblMovie = new JLabel ("Selected");
-        selectedlblMovie.setBounds(40, 157, 200, 30);
-        selectedlblMovie.setForeground(Color.white);
-        selectedlblMovie.setFont(new Font("Bebas Neue", Font.PLAIN, 13));
-        MoviesDashboard.add(selectedlblMovie);
-
-        JLabel MovieTitlelbl = new JLabel("Title");
-        MovieTitlelbl.setBounds(160, 157, 200, 30);
-        MovieTitlelbl.setForeground(Color.WHITE);
-        MovieTitlelbl.setFont(new Font("Bebas Neue", Font.PLAIN, 13));
-        MoviesDashboard.add(MovieTitlelbl);
-
-        JLabel GenrelblMovie = new JLabel("Genre");
-        GenrelblMovie.setBounds(300, 157, 200, 30);
-        GenrelblMovie.setForeground(Color.WHITE);
-        GenrelblMovie.setFont(new Font("Bebas Neue", Font.PLAIN, 13));
-        MoviesDashboard.add(GenrelblMovie);
-
-        JLabel RatinglblMovie = new JLabel("Rating");
-        RatinglblMovie.setBounds(395, 157, 200, 30);
-        RatinglblMovie.setForeground(Color.WHITE);
-        RatinglblMovie.setFont(new Font("Bebas Neue", Font.PLAIN, 13));
-        MoviesDashboard.add(RatinglblMovie);
-        
-        JLabel AgeRatinglblMovie = new JLabel("Age rating");
-        AgeRatinglblMovie.setBounds(505, 157, 200, 30);
-        AgeRatinglblMovie.setForeground(Color.WHITE);
-        AgeRatinglblMovie.setFont(new Font("Bebas Neue", Font.PLAIN, 13));
-        MoviesDashboard.add(AgeRatinglblMovie); 
-
-        JLabel releaseDatelbl = new JLabel("Release Date");
-        releaseDatelbl.setBounds(625, 157, 200, 30);
-        releaseDatelbl.setForeground(Color.WHITE);
-        releaseDatelbl.setFont(new Font("Bebas Neue", Font.PLAIN, 13));
-        MoviesDashboard.add(releaseDatelbl); 
-
-        JPanel MoviePanelList = new JPanel();
-        MoviePanelList.setLayout(null);
-        MoviePanelList.setBounds(35, 200, 700, 440);
-        MoviePanelList.setBackground(new Color(30, 30, 30));
-
-        JPanel contentPanelMovieList = new JPanel();
-        contentPanelMovieList.setLayout(null);
-        contentPanelMovieList.setBackground(new Color(30, 30, 30));
-
-        int totalHeightMovieList = movieManager.movies.size() * 50; 
-        contentPanelMovieList.setPreferredSize(new Dimension(650, Math.max(500, totalHeightMovieList)));
-
-        ArrayList<JCheckBox> checkBoxesMovieList = new ArrayList<JCheckBox>();
-
-                try (Connection conn = DatabaseConnection.connect();
-            Statement stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT Title, Genre, Rating, AgeRating, ReleaseDate FROM movies")) {
-
-            int rowIndex = 0;
-            while (rs.next()) {
-                JPanel MovieListRow = new JPanel();
-                MovieListRow.setLayout(null);
-                MovieListRow.setBounds(0, rowIndex * 50, 700, 40);
-                MovieListRow.setBackground(new Color(30, 30, 30));
-
-                JLabel TitleLabel = new JLabel(rs.getString("Title"));
-                TitleLabel.setBounds(67, 5, 200, 30);
-                TitleLabel.setForeground(Color.white);
-                TitleLabel.setFont(new Font("Bebas Neue", Font.PLAIN, 13));
-                MovieListRow.add(TitleLabel);
-
-                JLabel GenreLabel = new JLabel(rs.getString("Genre"));
-                GenreLabel.setBounds(190, 5, 200, 30);
-                GenreLabel.setForeground(Color.white);
-                GenreLabel.setFont(new Font("Bebas Neue", Font.PLAIN, 13));
-                MovieListRow.add(GenreLabel);
-
-                JLabel RatingLabel = new JLabel(String.valueOf(rs.getDouble("Rating")));
-                RatingLabel.setBounds(370, 5, 200, 30);
-                RatingLabel.setForeground(Color.white);
-                RatingLabel.setFont(new Font("Bebas Neue", Font.PLAIN, 13));
-                MovieListRow.add(RatingLabel);
-
-                JLabel AgeRatingLabel = new JLabel(rs.getString("AgeRating"));
-                AgeRatingLabel.setBounds(540, 5, 200, 30);
-                AgeRatingLabel.setForeground(Color.white);
-                AgeRatingLabel.setFont(new Font("Bebas Neue", Font.PLAIN, 13));
-                MovieListRow.add(AgeRatingLabel);
-
-                JLabel ReleaseDateLabel = new JLabel(rs.getDate("ReleaseDate").toString());
-                ReleaseDateLabel.setBounds(635, 5, 400, 30);
-                ReleaseDateLabel.setForeground(Color.white);
-                ReleaseDateLabel.setFont(new Font("Bebas Neue", Font.PLAIN, 13));
-                MovieListRow.add(ReleaseDateLabel);
-
-                JCheckBox selectCheckBox = new JCheckBox();
-                selectCheckBox.setBounds(4, 5, 20, 20);
-                selectCheckBox.setBackground(new Color(30, 30, 30));
-                selectCheckBox.setForeground(Color.white);
-                selectCheckBox.setFont(new Font("Bebas Neue", Font.PLAIN, 13));
-                MovieListRow.add(selectCheckBox);
-                checkBoxesMovieList.add(selectCheckBox);
-
-                contentPanelMovieList.add(MovieListRow);
-                rowIndex++;
-            }
-
-            // Update the preferred size of the content panel based on the number of rows
-            contentPanelMovieList.setPreferredSize(new Dimension(650, Math.max(500, rowIndex * 50)));
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Error fetching movie data from the database!", "Error", JOptionPane.ERROR_MESSAGE);
-        }
-
-        JScrollPane scrollPanelMovieList = new JScrollPane(contentPanelMovieList);
-        scrollPanelMovieList.setBounds(35, 200, 700, 440);
-        scrollPanelMovieList.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
-        scrollPanelMovieList.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-        scrollPanelMovieList.setBorder(null);
-        scrollPanelMovieList.getVerticalScrollBar().setUnitIncrement(16);
-        scrollPanelMovieList.getViewport().setBackground(new Color(30, 30, 30));
-
-        contentPanelMovieList.addMouseWheelListener(e -> {
-            JScrollBar verticalScrollBar = scrollPanelMovieList.getVerticalScrollBar();
-            int notches = e.getWheelRotation();
-            int currentValue = verticalScrollBar.getValue();
-            int scrollAmount = 30; 
-            verticalScrollBar.setValue(currentValue + (notches * scrollAmount));
-        });
-
-        MoviesDashboard.add(scrollPanelMovieList);
-
-
-        RoundedButton UnSelectAllMovie = new RoundedButton("Unselected All" , 5);
-        UnSelectAllMovie.setBounds(64, 650, 97, 27);
-        UnSelectAllMovie.setForeground(Color.BLACK);
-        UnSelectAllMovie.setBackground(Color.white);
-        UnSelectAllMovie.addActionListener(e->{
-            for(JCheckBox checkBox : checkBoxesMovieList) {
-                if(checkBox.isSelected()){
-                    checkBox.setSelected(false);
-                }
-                
-            }
-        });
-        MoviesDashboard.add(UnSelectAllMovie);
-
-        
-        RoundedButton selectAllMovie = new RoundedButton("Selected All" , 5);
-        selectAllMovie.setBounds(64 + buttonwidth + gap , 650, 97, 27);
-        selectAllMovie.setForeground(Color.BLACK);
-        selectAllMovie.setBackground(Color.white);
-        selectAllMovie.addActionListener(e->{
-            for(JCheckBox checkBox : checkBoxesMovieList) {
-                if(!checkBox.isSelected()){
-                    checkBox.setSelected(true);
-                }
-            }
-        });
-        MoviesDashboard.add(selectAllMovie);
-
-        RoundedButton EditMovie = new RoundedButton("Edit" , 5);
-        EditMovie.setBounds(64 + buttonwidth*2 + gap*2, 650, 97, 27);
-        EditMovie.setForeground(Color.BLACK);
-        EditMovie.setBackground(Color.white);
-        MoviesDashboard.add(EditMovie);
-
-        RoundedButton AddMovie = new RoundedButton("Add" , 5);
-        AddMovie.setBounds(64 + buttonwidth*3 + gap*3, 650, 97, 27);
-        AddMovie.setForeground(Color.BLACK);
-        AddMovie.setBackground(Color.white);
-        MoviesDashboard.add(AddMovie);
-
-        AddMovie.addActionListener(e -> {
-            // Create the Add Movie panel directly
-            JPanel addMovieModal = new JPanel();
-            addMovieModal.setLayout(null);
-            addMovieModal.setPreferredSize(new Dimension(1000, 500)); // Adjust size to make it smaller
-            addMovieModal.setBackground(new Color(30, 30, 30));
-        
-            // Title for the panel
-            JLabel panelTitle = new JLabel("Add New Movie");
-            panelTitle.setBounds(50, 10, 200, 30);
-            panelTitle.setForeground(Color.WHITE);
-            panelTitle.setFont(new Font("Segoe UI", Font.BOLD, 22));
-            addMovieModal.add(panelTitle);
-        
-            // Title Label and TextField
-            JLabel titleLabel = new JLabel("Title");
-            titleLabel.setBounds(50, 50, 100, 30);
-            titleLabel.setForeground(Color.WHITE);
-            JTextField titleTextField = new JTextField();
-            titleTextField.setBounds(50, 80, 300, 30);
-            titleTextField.setBackground(new Color(50, 50, 50));
-            titleTextField.setForeground(Color.WHITE);
-            titleTextField.setCaretColor(Color.WHITE);
-            titleTextField.setBorder(BorderFactory.createCompoundBorder(
-                BorderFactory.createLineBorder(Color.GRAY),
-                BorderFactory.createEmptyBorder(5, 5, 5, 5) // Padding
-            ));
-            addMovieModal.add(titleLabel);
-            addMovieModal.add(titleTextField);
-        
-            // Genre Label and TextField
-            JLabel genreLabel = new JLabel("Genre");
-            genreLabel.setBounds(50, 130, 100, 30); // Same x as Title, different y
-            genreLabel.setForeground(Color.WHITE);
-            JComboBox<Movie.MovieGenre> genreComboBox = new JComboBox<>(Movie.MovieGenre.values());
-            genreComboBox.setBounds(50, 160, 300, 30); // Same x as Title, different y
-            genreComboBox.setBackground(new Color(50, 50, 50));
-            genreComboBox.setForeground(Color.WHITE);
-            addMovieModal.add(genreLabel);
-            addMovieModal.add(genreComboBox);
-        
-            // Age Rating Label and TextField
-            JLabel ageRatingLabel = new JLabel("Age Rating");
-            ageRatingLabel.setBounds(50, 210, 100, 30); // Same x as Title, different y
-            ageRatingLabel.setForeground(Color.WHITE);
-            JComboBox<Movie.MovieAgeRating> ageRatingComboBox = new JComboBox<>(Movie.MovieAgeRating.values());
-            ageRatingComboBox.setBounds(50, 240, 300, 30); // Same x as Title, different y
-            ageRatingComboBox.setBackground(new Color(50, 50, 50));
-            ageRatingComboBox.setForeground(Color.WHITE);
-            addMovieModal.add(ageRatingLabel);
-            addMovieModal.add(ageRatingComboBox);
-        
-            // Rating Label and TextField
-            JLabel ratingLabel = new JLabel("Rating (0.0 - 10.0)");
-            ratingLabel.setBounds(50, 300, 150, 30);
-            ratingLabel.setForeground(Color.WHITE);
-            JTextField ratingTextField = new JTextField();
-            ratingTextField.setBounds(50, 330, 300, 30);
-            ratingTextField.setBackground(new Color(50, 50, 50));
-            ratingTextField.setForeground(Color.WHITE);
-            ratingTextField.setCaretColor(Color.WHITE);
-            ratingTextField.setBorder(BorderFactory.createCompoundBorder(
-                BorderFactory.createLineBorder(Color.GRAY),
-                BorderFactory.createEmptyBorder(5, 5, 5, 5) // Padding
-            ));
-            addMovieModal.add(ratingLabel);
-            addMovieModal.add(ratingTextField);
-        
-            // Trailer URL Label and TextField
-            JLabel trailerUrlLabel = new JLabel("Trailer URL");
-            trailerUrlLabel.setBounds(380, 50, 100, 30);
-            trailerUrlLabel.setForeground(Color.WHITE);
-            JTextField trailerUrlTextField = new JTextField();
-            trailerUrlTextField.setBounds(380, 80, 300, 30);
-            trailerUrlTextField.setBackground(new Color(50, 50, 50));
-            trailerUrlTextField.setForeground(Color.WHITE);
-            trailerUrlTextField.setCaretColor(Color.WHITE);
-            trailerUrlTextField.setBorder(BorderFactory.createCompoundBorder(
-                BorderFactory.createLineBorder(Color.GRAY),
-                BorderFactory.createEmptyBorder(5, 5, 5, 5) // Padding
-            ));
-            addMovieModal.add(trailerUrlLabel);
-            addMovieModal.add(trailerUrlTextField);
-        
-            // Release Date Label and Date Picker
-            JLabel releaseDateLabel = new JLabel("Release Date");
-            releaseDateLabel.setBounds(380, 130, 100, 30);
-            releaseDateLabel.setForeground(Color.WHITE);
-            JSpinner releaseDateSpinner = new JSpinner(new SpinnerDateModel());
-            releaseDateSpinner.setBounds(380, 160, 300, 30);
-            releaseDateSpinner.setEditor(new JSpinner.DateEditor(releaseDateSpinner, "yyyy-MM-dd"));
-            releaseDateSpinner.setBackground(new Color(50, 50, 50));
-            releaseDateSpinner.setForeground(Color.WHITE);
-            addMovieModal.add(releaseDateLabel);
-            addMovieModal.add(releaseDateSpinner);
-        
-            // Director Label and TextField
-            JLabel directorLabel = new JLabel("Director");
-            directorLabel.setBounds(50, 380, 100, 30);
-            directorLabel.setForeground(Color.WHITE);
-            JTextField directorTextField = new JTextField();
-            directorTextField.setBounds(50, 410, 300, 30);
-            directorTextField.setBackground(new Color(50, 50, 50));
-            directorTextField.setForeground(Color.WHITE);
-            directorTextField.setCaretColor(Color.WHITE);
-            directorTextField.setBorder(BorderFactory.createCompoundBorder(
-                BorderFactory.createLineBorder(Color.GRAY),
-                BorderFactory.createEmptyBorder(5, 5, 5, 5) // Padding
-            ));
-            addMovieModal.add(directorLabel);
-            addMovieModal.add(directorTextField);
-        
-            // Description Label and TextArea
-            JLabel descriptionLabel = new JLabel("Description");
-            descriptionLabel.setBounds(380, 210, 100, 30);
-            descriptionLabel.setForeground(Color.WHITE);
-            JTextArea descriptionTextArea = new JTextArea();
-            descriptionTextArea.setBounds(380, 240, 300, 100);
-            descriptionTextArea.setBackground(new Color(50, 50, 50));
-            descriptionTextArea.setForeground(Color.WHITE);
-            descriptionTextArea.setCaretColor(Color.WHITE);
-            descriptionTextArea.setBorder(BorderFactory.createCompoundBorder(
-                BorderFactory.createLineBorder(Color.GRAY),
-                BorderFactory.createEmptyBorder(5, 5, 5, 5) // Padding
-            ));
-            descriptionTextArea.setLineWrap(true);
-            descriptionTextArea.setWrapStyleWord(true);
-            addMovieModal.add(descriptionLabel);
-            addMovieModal.add(descriptionTextArea);
-        
-            // Image Panel
-            JPanel imagePanel = new JPanel();
-            imagePanel.setBounds(720, 130, 250, 300); // Adjusted position
-            imagePanel.setBackground(new Color(50, 50, 50));
-            imagePanel.setBorder(BorderFactory.createLineBorder(Color.GRAY));
-            addMovieModal.add(imagePanel);
-        
-            // Choose Image Button
-            JLabel imageLabelHolder = new JLabel();
-            String[] imagePathHolder = new String[1]; // Use an array to hold the image path
-            RoundedButton chooseImageButton = new RoundedButton("Choose Image", 5);
-            chooseImageButton.setBounds(720, 60, 130, 30); // Moved to the top of the image panel
-            chooseImageButton.setForeground(Color.BLACK);
-            chooseImageButton.setBackground(Color.WHITE);
-            chooseImageButton.addActionListener(event -> {
-                JFileChooser fileChooser = new JFileChooser();
-                int result = fileChooser.showOpenDialog(null);
-                if (result == JFileChooser.APPROVE_OPTION) {
-                    File selectedFile = fileChooser.getSelectedFile();
-                    imagePathHolder[0] = selectedFile.getAbsolutePath(); // Store the image path in the array
-                    ImageIcon imageIcon = new ImageIcon(imagePathHolder[0]);
-                    Image image = imageIcon.getImage().getScaledInstance(imagePanel.getWidth(), imagePanel.getHeight(), Image.SCALE_SMOOTH);
-                    ImageIcon scaledImageIcon = new ImageIcon(image);
-                    imageLabelHolder.setIcon(scaledImageIcon);
-                    imagePanel.removeAll();
-                    imagePanel.add(imageLabelHolder);
-                    imagePanel.revalidate();
-                    imagePanel.repaint();
-                }
-            });
-            addMovieModal.add(chooseImageButton);
-        
-            // Add Movie Button
-            RoundedButton addMovieButton2 = new RoundedButton("Add Movie", 5);
-            addMovieButton2.setBounds(380, 450, 130, 30); // Adjusted position
-            addMovieButton2.setForeground(Color.BLACK);
-            addMovieButton2.setBackground(Color.WHITE);
-            addMovieButton2.addActionListener(event -> {
-                String title = titleTextField.getText();
-                Movie.MovieGenre genre = (Movie.MovieGenre) genreComboBox.getSelectedItem();
-                Movie.MovieAgeRating ageRating = (Movie.MovieAgeRating) ageRatingComboBox.getSelectedItem();
-                String ratingText = ratingTextField.getText();
-                String trailerUrl = trailerUrlTextField.getText();
-                Date releaseDate = (Date) releaseDateSpinner.getValue();
-                String director = directorTextField.getText();
-                String description = descriptionTextArea.getText();
-        
-                // Use imagePathHolder[0] to access the image path
-                if (!title.isEmpty() && genre != null && !ratingText.isEmpty() && !director.isEmpty() && !description.isEmpty() && imagePathHolder[0] != null) {
-                    try {
-                        float rating = Float.parseFloat(ratingText);
-        
-                        // Validate rating
-                        if (rating < 0 || rating > 10) {
-                            JOptionPane.showMessageDialog(null, "Rating must be between 0.0 and 10.0!", "Error", JOptionPane.ERROR_MESSAGE);
-                            return;
-                        }
-        
-                        // Format rating to one decimal place
-                        rating = Math.round(rating * 10) / 10.0f;
-        
-                        LocalDate localReleaseDate = new java.sql.Date(releaseDate.getTime()).toLocalDate();
-        
-                        // Call MovieManager.addMovieToDatabase
-                        boolean added = MovieManager.addMovieToDatabase(title, genre, description, rating, ageRating, imagePathHolder[0], trailerUrl, localReleaseDate, director);
-        
-                        if (added) {
-                            JOptionPane.showMessageDialog(null, "Movie added successfully!");
-                            SwingUtilities.getWindowAncestor(addMovieModal).dispose();
-                        } else {
-                            JOptionPane.showMessageDialog(null, "Failed to add movie. See console for details.", "Error", JOptionPane.ERROR_MESSAGE);
-                        }
-        
-                    } catch (NumberFormatException ex) {
-                        JOptionPane.showMessageDialog(null, "Invalid rating format!", "Error", JOptionPane.ERROR_MESSAGE);
-                    }
-                } else {
-                    JOptionPane.showMessageDialog(null, "Please fill in all fields and choose an image!", "Error", JOptionPane.ERROR_MESSAGE);
-                }
-            });
-            addMovieModal.add(addMovieButton2);
-        
-            // Cancel Button
-            RoundedButton cancelButton = new RoundedButton("Cancel", 5);
-            cancelButton.setBounds(550, 450, 130, 30); // Adjusted position
-            cancelButton.setForeground(Color.BLACK);
-            cancelButton.setBackground(Color.WHITE);
-            cancelButton.addActionListener(event -> {
-                SwingUtilities.getWindowAncestor(addMovieModal).dispose();
-            });
-            addMovieModal.add(cancelButton);
-        
-            // Show the modal in a JDialog
-            JDialog dialog = new JDialog();
-            dialog.getRootPane().setBorder(BorderFactory.createLineBorder(Color.WHITE, 2));
-            dialog.setModal(true); // Prevent interaction with other windows
-            dialog.getContentPane().add(addMovieModal);
-            dialog.pack();
-            dialog.setLocationRelativeTo(null); // Center on screen
-            dialog.setVisible(true);
-        });
-
-        RoundedButton DeleteMovie = new RoundedButton("Delete" , 5);
-        DeleteMovie.setBounds(64 + buttonwidth*4 + gap*4, 650, 97, 27);
-        DeleteMovie.setForeground(Color.BLACK);
-        DeleteMovie.setBackground(Color.white);
-        MoviesDashboard.add(DeleteMovie);
-
-        JPanel EditMoviepanel = new JPanel();
-        EditMoviepanel.setLayout(null);
-        EditMoviepanel.setBounds(1200,0, 270, 750);
-        EditMoviepanel.setBackground(new Color(30,30,30));
-        MoviesDashboard.add(EditMoviepanel);
-
-        EditMovie.addActionListener(e->{
-            if (!isPanelVisible) {
-                slidePanel(EditMoviepanel, 1200, 782, 0, 270, 750);
-                isPanelVisible = true;
-            }
-        });
-
-        JLabel EditMovielbl = new JLabel("Edit Movie ");
-        EditMovielbl.setBounds(30 ,30 ,191,36);
-        EditMovielbl.setFont(new Font("Segoe UI" , Font.BOLD , 24));
-        EditMovielbl.setForeground(Color.white);
-        EditMoviepanel.add(EditMovielbl); 
-
-        JLabel editJLabelMovietitle = new JLabel("Edit Movie Title");
-        editJLabelMovietitle.setBounds(20,120,105,24);
-        editJLabelMovietitle.setFont(new Font("Segoe UI" , Font.BOLD ,14));
-        editJLabelMovietitle.setForeground(Color.white);
-        EditMoviepanel.add(editJLabelMovietitle);
-        
-        JCheckBox CheckEditMovie = new JCheckBox();
-        CheckEditMovie.setBounds(146,123, 20, 20);
-        CheckEditMovie.setBackground(new Color(30, 30, 30));
-        CheckEditMovie.setForeground(Color.white);
-        CheckEditMovie.setFont(new Font("Bebas Neue", Font.PLAIN, 13));
-        CheckEditMovie.setSelected(true);
-        EditMoviepanel.add(CheckEditMovie);
-
-        JTextField editJTextFieldNameMovie = new JTextField(" Title");
-        editJTextFieldNameMovie.setBounds(20,160,200,38);
-        editJTextFieldNameMovie.setFont(new Font("Segoe UI" , Font.PLAIN , 14));
-        editJTextFieldNameMovie.setForeground(Color.white);
-        editJTextFieldNameMovie.setBackground(new Color(30,30,30));
-        TextfieldBehave(editJTextFieldNameMovie, " Title");
-        CheckEditMovie.addItemListener(e -> {
-            if (CheckEditMovie.isSelected()) {
-                editJTextFieldNameMovie.setEnabled(true);
-            } else {
-                editJTextFieldNameMovie.setEnabled(false);
-            }
-        });
-        EditMoviepanel.add(editJTextFieldNameMovie);
-
-
-
-        JLabel editJLabelGenreMovie = new JLabel("Edit Genre ");
-        editJLabelGenreMovie.setBounds(20,236,105,24);
-        editJLabelGenreMovie.setFont(new Font("Segoe UI" , Font.BOLD ,14));
-        editJLabelGenreMovie.setForeground(Color.white);
-        EditMoviepanel.add(editJLabelGenreMovie);
-        
-        JCheckBox CheckEditGenreMovie = new JCheckBox();
-        CheckEditGenreMovie.setBounds(146,239, 20, 20);
-        CheckEditGenreMovie.setBackground(new Color(30, 30, 30));
-        CheckEditGenreMovie.setForeground(Color.white);
-        CheckEditGenreMovie.setFont(new Font("Bebas Neue", Font.PLAIN, 13));
-        CheckEditGenreMovie.setSelected(true);
-        EditMoviepanel.add(CheckEditGenreMovie);
-
-        Movie.MovieGenre[] genres = Movie.MovieGenre.values(); 
-        JComboBox<Movie.MovieGenre> genreMovieComboBox = new JComboBox<>(genres);
-        genreMovieComboBox.setBounds(20, 280, 150, 30); 
-        genreMovieComboBox.setForeground(Color.white);
-        genreMovieComboBox.setFocusable(false);
-        genreMovieComboBox.setBackground(new Color(30,30,30));
-        genreMovieComboBox.setFont(new Font("Arial", Font.PLAIN, 16));
-        EditMoviepanel.add(genreMovieComboBox);
-
-        JLabel editJLabeleditrating = new JLabel("Edit Rating");
-        editJLabeleditrating.setBounds(20,330,105,24);
-        editJLabeleditrating.setFont(new Font("Segoe UI" , Font.BOLD ,14));
-        editJLabeleditrating.setForeground(Color.white);
-        EditMoviepanel.add(editJLabeleditrating);
-        
-        JCheckBox CheckEditrating = new JCheckBox();
-        CheckEditrating.setBounds(146,333, 20, 20);
-        CheckEditrating.setBackground(new Color(30, 30, 30));
-        CheckEditrating.setForeground(Color.white);
-        CheckEditrating.setFont(new Font("Bebas Neue", Font.PLAIN, 13));
-        CheckEditrating.setSelected(true);
-        EditMoviepanel.add(CheckEditrating);
-
-        JTextField editJTextFieldnewmovierating = new JTextField();
-        editJTextFieldnewmovierating.setBounds(20,373,200,38);
-        editJTextFieldnewmovierating.setFont(new Font("Segoe UI" , Font.PLAIN , 14));
-        editJTextFieldnewmovierating.setForeground(Color.white);
-        editJTextFieldnewmovierating.setBackground(new Color(30,30,30));
-        //TextfieldBehave(editJTextFieldnewmovierating, "Big Hall");
-        CheckEditrating.addItemListener(e -> {
-            if (CheckEditrating.isSelected()) {
-                editJTextFieldnewmovierating.setEnabled(true);
-            } else {
-                editJTextFieldnewmovierating.setEnabled(false);
-            }
-        });
-        EditMoviepanel.add(editJTextFieldnewmovierating);
-
-
-        JLabel editJLabelAgeRating = new JLabel("Edit Age Rating");
-        editJLabelAgeRating.setBounds(20,450,105,24);
-        editJLabelAgeRating.setFont(new Font("Segoe UI" , Font.BOLD ,14));
-        editJLabelAgeRating.setForeground(Color.white);
-        EditMoviepanel.add(editJLabelAgeRating);
-        
-        JCheckBox CheckEditAgeRating = new JCheckBox();
-        CheckEditAgeRating.setBounds(146,453, 20, 20);
-        CheckEditAgeRating.setBackground(new Color(30, 30, 30));
-        CheckEditAgeRating.setForeground(Color.white);
-        CheckEditAgeRating.setFont(new Font("Bebas Neue", Font.PLAIN, 13));
-        CheckEditAgeRating.setSelected(true);
-        EditMoviepanel.add(CheckEditAgeRating);
-
-        Movie.MovieAgeRating[] AgeRatingMovie = Movie.MovieAgeRating.values(); 
-        JComboBox<Movie.MovieAgeRating> AgeRatingMovieComboBox = new JComboBox<>(AgeRatingMovie);
-        AgeRatingMovieComboBox.setBounds(20, 490, 150, 30); 
-        AgeRatingMovieComboBox.setForeground(Color.white);
-        AgeRatingMovieComboBox.setFocusable(false);
-        AgeRatingMovieComboBox.setBackground(new Color(30,30,30));
-        AgeRatingMovieComboBox.setFont(new Font("Arial", Font.PLAIN, 16));
-        EditMoviepanel.add(AgeRatingMovieComboBox);
-
-
-        JLabel editJLabelreleasedate = new JLabel("Edit Date Release");
-        editJLabelreleasedate.setBounds(20,550,105,24);
-        editJLabelreleasedate.setFont(new Font("Segoe UI" , Font.BOLD ,14));
-        editJLabelreleasedate.setForeground(Color.white);
-        EditMoviepanel.add(editJLabelreleasedate);
-        
-        JCheckBox CheckEditreleasedate = new JCheckBox();
-        CheckEditreleasedate.setBounds(146,553, 20, 20);
-        CheckEditreleasedate.setBackground(new Color(30, 30, 30));
-        CheckEditreleasedate.setForeground(Color.white);
-        CheckEditreleasedate.setFont(new Font("Bebas Neue", Font.PLAIN, 13));
-        CheckEditreleasedate.setSelected(true);
-        EditMoviepanel.add(CheckEditreleasedate);
-
-        
-
-        JDialog timeDialogeditmovie = new JDialog(this, "Select Time", true);
-        timeDialogeditmovie.setLayout(new BorderLayout());
-        timeDialogeditmovie.setSize(300, 200);
-        timeDialogeditmovie.setLocationRelativeTo(this);
-
-        
-
-
-        RoundedButton showTimeBtnEditmovie = new RoundedButton(LocalDate.now().toString() , 7);
-        showTimeBtnEditmovie.setBounds(20, 580, 200, 30);
-        showTimeBtnEditmovie.setFont(new Font("Arial", Font.PLAIN, 14));
-        showTimeBtnEditmovie.setForeground(Color.white);
-        showTimeBtnEditmovie.setBackground(new Color(30,30,30));
-        showTimeBtnEditmovie.setRoundedBorder(Color.white, 1);
-        CheckEditBroadcastTime.addItemListener(new ItemListener() {
-            @Override
-            public void itemStateChanged(ItemEvent e) {
-                if (CheckEditBroadcastTime.isSelected()) {
-                    showTimeBtnEditmovie.setEnabled(true);
-                } else {
-                    showTimeBtnEditmovie.setEnabled(false);
-                }
-            }
-        });
-        showTimeBtnEditmovie.addActionListener(e -> {
-            timeDialogeditmovie.setVisible(true); 
-        });
-        EditMoviepanel.add(showTimeBtnEditmovie);
-
-        JPanel TimePanelMovieedit = new JPanel(new FlowLayout());
-        SpinnerDateModel timeModelMovie = new SpinnerDateModel();
-        JSpinner timeSpinnerMovie = new JSpinner(timeModelMovie);
-        JSpinner.DateEditor timeEditorMovie = new JSpinner.DateEditor(timeSpinnerMovie, "yyyy/MM/dd");//yyyy/MM/dd HH:mm
-        timeSpinnerMovie.setEditor(timeEditorMovie);
-        TimePanelMovieedit.add(new JLabel("Select Time: "));
-        TimePanelMovieedit.add(timeSpinnerMovie);
-
-        
-        JPanel buttonPanelMovie = new JPanel(new FlowLayout());
-        JButton okButtonMovie = new JButton("OK");
-        JButton cancelButtonMovie = new JButton("Cancel");
-        buttonPanelMovie.add(okButtonMovie);
-        buttonPanelMovie.add(cancelButtonMovie);
-
-        timeDialogeditmovie.add(TimePanelMovieedit, BorderLayout.CENTER);
-        timeDialogeditmovie.add(buttonPanelMovie, BorderLayout.SOUTH);
-      
-
-        
-        okButtonMovie.addActionListener(e -> {
-            Date selectedTime = (Date) timeSpinnerMovie.getValue();
-            localTime = selectedTime.toInstant()
-                .atZone(ZoneId.systemDefault())
-                .toLocalTime();
-            String formattedTime = selectedTime.toInstant()
-                .atZone(ZoneId.systemDefault())
-                .toLocalDateTime()
-                .format(java.time.format.DateTimeFormatter.ofPattern("yyyy/MM/dd"));
-           showTimeBtn.setText(formattedTime);
-            timeDialogeditmovie.dispose();
-        });
-
-
-        cancelButtonMovie.addActionListener(e -> {
-            
-            timeDialogeditmovie.dispose();
-        });
-
-        RoundedButton EditButtonmovieEdit = new RoundedButton("Edit ", 5);
-        EditButtonmovieEdit.setBounds(35, 620, 170, 36);
-        EditButtonmovieEdit.setBackground(Color.white);
-        EditMoviepanel.add(EditButtonmovieEdit);
-
-        RoundedButton CancelButtonMovieEdit = new RoundedButton("Cancel" , 5);
-        CancelButtonMovieEdit.setBackground(Color.white);
-        CancelButtonMovieEdit.setBounds(35, 670, 170, 36);
-        CancelButtonMovieEdit.addActionListener(e -> {
-            if (isPanelVisible) {
-                slidePanel(EditMoviepanel, 782, 1200, 0, 270, 750);
-                isPanelVisible = false;
-            }
-        });
-        EditMoviepanel.add(CancelButtonMovieEdit);
-
-
-    //------------------------Right Things Movie------------
-
-    JSeparator separator1Movie = new JSeparator();
-    separator1Movie.setOrientation(SwingConstants.VERTICAL);
-    separator1Movie.setBackground(Color.white);
-    separator1Movie.setForeground(Color.white);
-    separator1Movie.setBounds(780, 00, 2, 750);
-    MoviesDashboard.add(separator1Movie);
-
-    // right side number of movies
-        JLabel nbrmovie = new JLabel("Total Number of Movies");
-        nbrmovie.setBounds(815, 20, 200, 30);
-        nbrmovie.setForeground(Color.WHITE);
-        nbrmovie.setFont(new Font("Bebas Neue", Font.BOLD, 15));
-        MoviesDashboard.add(nbrmovie);
-
-        RoundedPanel CircleMovie = new RoundedPanel(100);
-        CircleMovie.setLayout(null);
-        CircleMovie.setBounds(855, 80, 100, 100);
-        CircleMovie.setBackground(new Color(0, 0, 0, 0));
-        CircleMovie.setRoundedBorder(Color.WHITE, 2);
-        MoviesDashboard.add(CircleMovie);
-
-        // Fetch the total number of movies using the method
-        int totalMovies = MovieManager.numberofmovies();
-
-        JLabel nbrTotalMovie = new JLabel();
-        if (totalMovies < 10) {
-            nbrTotalMovie.setBounds(40, 32, 100, 30);
-            nbrTotalMovie.setText(String.valueOf(totalMovies));
-        } else {
-            nbrTotalMovie.setBounds(33, 32, 100, 30);
-            nbrTotalMovie.setText(String.valueOf(totalMovies));
-        }
-
-        nbrTotalMovie.setForeground(Color.WHITE);
-        nbrTotalMovie.setFont(new Font("Bebas Neue", Font.BOLD, 30));
-        CircleMovie.add(nbrTotalMovie);
-
-    JSeparator separatorRght1Movie = new JSeparator();
-    separatorRght1Movie.setOrientation(SwingConstants.HORIZONTAL);
-    separatorRght1Movie.setBackground(Color.white);
-    separatorRght1Movie.setForeground(Color.white); 
-    separatorRght1Movie.setBounds(790, 220, 220, 1);
-    MoviesDashboard.add(separatorRght1Movie);
-
-    JLabel NewReleaseMovielbl = new JLabel("Top Watched Movie");
-    NewReleaseMovielbl.setBounds(830, 255, 250, 30);
-    NewReleaseMovielbl.setForeground(Color.WHITE);
-    NewReleaseMovielbl.setFont(new Font("Bebas Neue", Font.BOLD, 15));
-    MoviesDashboard.add(NewReleaseMovielbl);
-
-    JLabel NamereleaseMovie = new JLabel(); 
-    NamereleaseMovie.setBounds(880, 300, 250, 30);
-    NamereleaseMovie.setForeground(Color.WHITE);
-    NamereleaseMovie.setFont(new Font("Roboto", Font.TYPE1_FONT, 13));
-    NamereleaseMovie.setText(String.valueOf(movieManager.movies.get(movieManager.movies.size()-1).Title));
-    MoviesDashboard.add(NamereleaseMovie);
-
-    JSeparator separatorRght2Movie = new JSeparator();
-    separatorRght2Movie.setOrientation(SwingConstants.HORIZONTAL);
-    separatorRght2Movie.setBackground(Color.white);
-    separatorRght2Movie.setForeground(Color.white);
-    separatorRght2Movie.setBounds(790, 400, 220, 1);
-    MoviesDashboard.add(separatorRght2Movie);
-
-    JLabel MostPopularGenrelbl = new JLabel("Most Watched Genre");
-    MostPopularGenrelbl.setBounds(830, 423, 250, 30);
-    MostPopularGenrelbl.setForeground(Color.WHITE);
-    MostPopularGenrelbl.setFont(new Font("Bebas Neue", Font.BOLD, 15));
-    MoviesDashboard.add(MostPopularGenrelbl);
-
-    JLabel MostPopularGenre = new JLabel();
-    MostPopularGenre.setBounds(880, 460, 250, 30);
-    MostPopularGenre.setForeground(Color.WHITE);
-    MostPopularGenre.setFont(new Font("Roboto", Font.TYPE1_FONT, 13));
-    String MostGenre = null;
-    int maxappeare = 0;
-    
-        for (int i = 0; i < movieManager.movies.size(); i++) {
-            String currentGenre = String.valueOf(movieManager.movies.get(i).Genre);
-            int currentCount = 0;
-
-            
-            for (int j = 0; j <  movieManager.movies.size(); j++) {
-                if (String.valueOf(movieManager.movies.get(j).Genre).equals(currentGenre)) {
-                    currentCount++;
-                }
-            }
-
-            
-            if (currentCount > maxappeare) {
-                maxappeare = currentCount;
-                MostGenre = currentGenre;
-            }
-        }
-    MostPopularGenre.setText(MostGenre);
-    MoviesDashboard.add(MostPopularGenre);
-
-    JPanel firstgenrepanel = new JPanel();
-    firstgenrepanel.setBounds(820, 550, 12, 12);
-    firstgenrepanel.setBackground(new Color(255,130,37));
-    firstgenrepanel.setBorder(BorderFactory.createLineBorder(Color.white));
-    MoviesDashboard.add(firstgenrepanel);
-
-    JLabel firstgenre = new JLabel();
-    firstgenre.setBounds(845,544,100,20);
-    firstgenre.setForeground(Color.WHITE);
-    firstgenre.setFont(new Font("Bebas Neue", Font.BOLD, 12));
-    firstgenre.setText(MostGenre);
-    MoviesDashboard.add(firstgenre);
-
-
-    JPanel secondgenrepanel = new JPanel(); 
-    secondgenrepanel.setBounds(820, 575, 12, 12);
-    secondgenrepanel.setBackground(new  Color(180,63,63));
-    secondgenrepanel.setBorder(BorderFactory.createLineBorder(Color.white));
-    MoviesDashboard.add(secondgenrepanel);
-
-    JLabel Secondgenre = new JLabel();
-    Secondgenre.setBounds(845,569,100,20);
-    Secondgenre.setForeground(Color.WHITE);
-    Secondgenre.setFont(new Font("Bebas Neue", Font.BOLD, 12));
-    Secondgenre.setText(MostGenre);
-    MoviesDashboard.add(Secondgenre);
-
-    JPanel thirdgenrepanel = new JPanel(); 
-    thirdgenrepanel.setBounds(820, 600, 12, 12);
-    thirdgenrepanel.setBackground(new Color(23,59,69));
-    thirdgenrepanel.setBorder(BorderFactory.createLineBorder(Color.white));
-    MoviesDashboard.add(thirdgenrepanel);
-
-    JLabel thirdgenre = new JLabel();
-    thirdgenre.setBounds(845,594,100,20);
-    thirdgenre.setForeground(Color.WHITE);
-    thirdgenre.setFont(new Font("Bebas Neue", Font.BOLD, 12));
-    thirdgenre.setText(MostGenre);
-    MoviesDashboard.add(thirdgenre);
-
-    String Mostgenre = null;
-    String secondMostFrequentMovie = null;
-    String thirdMostFrequentMovie = null;
-    int maxcounte = 0;
-    int secondMaxCount = 0;
-    int thirdMaxCount = 0;
-
-    
-    for (int i = 0; i < movieManager.movies.size(); i++) {
-        String currentGenre = String.valueOf(movieManager.movies.get(i).Genre);
-        int currentCount = 0;
-
- 
-        for (int j = 0; j < movieManager.movies.size(); j++) {
-            if (String.valueOf(movieManager.movies.get(j).Genre).equals(currentGenre)) {
-                currentCount++;
-            }
-        }
-
-        
-        if (currentCount > maxcounte) {
-
-            thirdMaxCount = secondMaxCount;
-            thirdMostFrequentMovie = secondMostFrequentMovie;
-
-            secondMaxCount = maxcounte;
-            secondMostFrequentMovie = mostFrequentMovie;
-
-           
-            maxcounte = currentCount;
-            mostFrequentMovie = currentGenre;
-        } else if (currentCount > secondMaxCount && !currentGenre.equals(mostFrequentMovie)) {
-
-            thirdMaxCount = secondMaxCount;
-            thirdMostFrequentMovie = secondMostFrequentMovie;
-
-            secondMaxCount = currentCount;
-            secondMostFrequentMovie = currentGenre;
-        } else if (currentCount > thirdMaxCount && !currentGenre.equals(mostFrequentMovie) && !currentGenre.equals(secondMostFrequentMovie)) {
-
-            thirdMaxCount = currentCount;
-            thirdMostFrequentMovie = currentGenre;
-        }
-    }
-    Secondgenre.setText(secondMostFrequentMovie);
-    thirdgenre.setText(thirdMostFrequentMovie);
-
-    JLabel nbrfirstgenrelbl = new JLabel();
-    nbrfirstgenrelbl.setBounds(950,544,100,20);
-    nbrfirstgenrelbl.setForeground(Color.WHITE);
-    nbrfirstgenrelbl.setFont(new Font("Bebas Neue", Font.BOLD, 12));
-    MoviesDashboard.add(nbrfirstgenrelbl);
-
-    int count = 0;
-    for(int i = 0; i < movieManager.movies.size(); i++){
-        if(String.valueOf(movieManager.movies.get(i).Genre).equals(MostGenre)){
-            count++;
-        }
-    }
-    nbrfirstgenrelbl.setText(String.valueOf((count*100)/movieManager.movies.size() + "%"));
-
-    count =0;
-    JLabel nbrsecondgenrelbl = new JLabel();
-    nbrsecondgenrelbl.setBounds(950,575,100,20);
-    nbrsecondgenrelbl.setForeground(Color.WHITE);
-    nbrsecondgenrelbl.setFont(new Font("Bebas Neue", Font.BOLD, 12));
-    MoviesDashboard.add(nbrsecondgenrelbl);
-
-    for(int i = 0; i < movieManager.movies.size(); i++){
-        if(String.valueOf(movieManager.movies.get(i).Genre).equals(secondMostFrequentMovie)){
-            count++;
-        }
-    }
-    nbrsecondgenrelbl.setText(String.valueOf((count*100)/movieManager.movies.size() + "%"));
-
-    JLabel nbrthirdgenrelbl = new JLabel();
-    nbrthirdgenrelbl.setBounds(950,600,100,20);
-    nbrthirdgenrelbl.setForeground(Color.WHITE);
-    nbrthirdgenrelbl.setFont(new Font("Bebas Neue", Font.BOLD, 12));
-    MoviesDashboard.add(nbrthirdgenrelbl);
-
-    count = 0;
-    for(int i = 0; i < movieManager.movies.size(); i++){
-        if(String.valueOf(movieManager.movies.get(i).Genre).equals(thirdMostFrequentMovie)){
-            count++;
-        }
-    }
-    nbrthirdgenrelbl.setText(String.valueOf((count*100)/movieManager.movies.size() + "%"));
-
-
-    JSeparator separatorRght3Movie = new JSeparator();
-    separatorRght3Movie.setOrientation(SwingConstants.HORIZONTAL);
-    separatorRght3Movie.setBackground(Color.white);
-    separatorRght3Movie.setForeground(Color.white); 
-    separatorRght3Movie.setBounds(790, 670, 220, 1);
-    MoviesDashboard.add(separatorRght3Movie);
-
-    JLabel DatetodayMovie = new JLabel("Date:");
-    DatetodayMovie.setBounds(840, 675, 200, 30);
-    DatetodayMovie.setForeground(Color.WHITE);
-    DatetodayMovie.setFont(new Font("Bebas Neue", Font.BOLD, 13));
-    MoviesDashboard.add(DatetodayMovie);
-    
-    JLabel datenowMovie = new JLabel(LocalDate.now().toString());
-    datenowMovie.setBounds(880, 675, 200, 30);
-    datenowMovie.setForeground(Color.WHITE);
-    datenowMovie.setFont(new Font("Bebas Neue", Font.BOLD, 13));
-    MoviesDashboard.add(datenowMovie);
-
-    
-
-
-
-
-
-
-
-
-
-//---------------User Insights DashBoard--------------------------------
-
-        JPanel UserInsightsDashboard = new JPanel();
-        UserInsightsDashboard.setLayout(null);
-        UserInsightsDashboard.setBounds(100, 0, 1200, 750);
-        UserInsightsDashboard.setBackground(new Color(30 ,30,30));
-        MiddlePanel.add(UserInsightsDashboard);
-
-
-        JLabel UserInsightlbl = new JLabel("User Insights Dashboard");
-        UserInsightlbl.setBounds(35, 26, 300, 30);
-        UserInsightlbl.setForeground(Color.WHITE);
-        UserInsightlbl.setFont(new Font("Bebas Neue", Font.BOLD, 23));
-        UserInsightsDashboard.add(UserInsightlbl);
-
-        RoundedPanel UserPanelUser = new RoundedPanel(50);
-        UserPanelUser.setLayout(null);
-        UserPanelUser.setBounds(650, 20, 90, 46);
-        UserPanelUser.setBackground(Color.darkGray);
-        UserInsightsDashboard.add(UserPanelUser);
-
-        JLabel UserLabelUser = new JLabel("User");
-        UserLabelUser.setBounds(40, 3, 30, 30);
-        UserLabelUser.setForeground(Color.WHITE);
-        UserLabelUser.setFont(new Font("Segoe UI", Font.BOLD, 10));
-        UserPanelUser.add(UserLabelUser);
-
-        RoundedPanel UserPHOTOUser = new RoundedPanel(80);
-        UserPHOTOUser.setLayout(null);
-        UserPHOTOUser.setBackgroundImage("CINEMA/img/UserIcon1.png");
-        UserPHOTOUser.setBounds(5, 10, 30, 30);
-        UserPHOTOUser.setBackground(Color.red);
-        UserPanelUser.add(UserPHOTOUser);
-
-        RoundedPanel SearchPanelUser = new RoundedPanel(30);
-        SearchPanelUser.setLayout(null);
-        SearchPanelUser.setBounds(280, 100, 460, 35);
-        SearchPanelUser.setBackground(new Color(30, 30, 30));
-        SearchPanelUser.setRoundedBorder(Color.WHITE, 1);
-        UserInsightsDashboard.add(SearchPanelUser);
-
-        JTextField SearchFieldUser = new JTextField("Search with Email");
-        SearchFieldUser.setBounds(10, 5, 400, 25);
-        SearchFieldUser.setBackground(new Color(30, 30, 30));
-        SearchFieldUser.setForeground(Color.WHITE);
-        SearchFieldUser.setFont(new Font("Segoe UI", Font.PLAIN, 13));
-        SearchFieldUser.setBorder(null);
-        TextfieldBehave(SearchFieldUser, "Search with Email");
-        SearchPanelUser.add(SearchFieldUser);
-
-        JSeparator separatorhorUser = new JSeparator();
-        separatorhorUser.setOrientation(SwingConstants.HORIZONTAL);
-        separatorhorUser.setBackground(Color.white);
-        separatorhorUser.setForeground(Color.white); 
-        separatorhorUser.setBounds(21, 190, 720, 1);
-        UserInsightsDashboard.add(separatorhorUser);
-
-        JLabel selectedlblUser = new JLabel ("Selected");
-        selectedlblUser.setBounds(30, 157, 60, 30);
-        selectedlblUser.setForeground(Color.white);
-        selectedlblUser.setFont(new Font("Bebas Neue", Font.PLAIN, 13));
-        UserInsightsDashboard.add(selectedlblUser);
-
-        JLabel NamelblUser = new JLabel("Name");
-        NamelblUser.setBounds(110, 157, 60, 30);
-        NamelblUser.setForeground(Color.WHITE);
-        NamelblUser.setFont(new Font("Bebas Neue", Font.PLAIN, 13));
-        UserInsightsDashboard.add(NamelblUser);
-
-        JLabel EmaillblUser = new JLabel("Email");
-        EmaillblUser.setBounds(235, 157, 60, 30);
-        EmaillblUser.setForeground(Color.WHITE);
-        EmaillblUser.setFont(new Font("Bebas Neue", Font.PLAIN, 13));
-        UserInsightsDashboard.add(EmaillblUser);
-
-        JLabel PhoneNumberLblUser = new JLabel("PhoneNumber");
-        PhoneNumberLblUser.setBounds(380, 157, 80, 30);
-        PhoneNumberLblUser.setForeground(Color.WHITE);
-        PhoneNumberLblUser.setFont(new Font("Bebas Neue", Font.PLAIN, 13));
-        UserInsightsDashboard.add(PhoneNumberLblUser); 
-        
-
-        JLabel AgelblUser = new JLabel("Age");
-        AgelblUser.setBounds(570, 157, 60, 30);
-        AgelblUser.setForeground(Color.WHITE);
-        AgelblUser.setFont(new Font("Bebas Neue", Font.PLAIN, 13));
-        UserInsightsDashboard.add(AgelblUser); 
-
-
-        JLabel BalancelblUser = new JLabel("Balance");
-        BalancelblUser.setBounds(655, 157, 60, 30);
-        BalancelblUser.setForeground(Color.WHITE);
-        BalancelblUser.setFont(new Font("Bebas Neue", Font.PLAIN, 13));
-        UserInsightsDashboard.add(BalancelblUser); 
-
-        JPanel UsersPanelList = new JPanel();
-        UsersPanelList.setLayout(null);
-        UsersPanelList.setBounds(35, 200, 700, 440);
-        UsersPanelList.setBackground(new Color(30, 30, 30));
-
-        JPanel contentPanelUserList = new JPanel();
-        contentPanelUserList.setLayout(null);
-        contentPanelUserList.setBackground(new Color(30, 30, 30));
-
-        int totalHeightUserList = clientManager.clients.size() * 50; 
-        contentPanelUserList.setPreferredSize(new Dimension(650, Math.max(500, totalHeightUserList)));
-
-        ArrayList<JCheckBox> checkBoxesUserList = new ArrayList<JCheckBox>();
-
-
-            try (Connection conn = DatabaseConnection.connect();
-            Statement stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT * FROM users")) {
-
-            int rowIndex = 0;
-            while (rs.next()) {
-            JPanel UserListRow = new JPanel();
-            UserListRow.setLayout(null);
-            UserListRow.setBounds(0, rowIndex * 50, 700, 40);
-            UserListRow.setBackground(new Color(30, 30, 30));
-
-            JLabel NameUser = new JLabel(rs.getString("Name"));
-            NameUser.setBounds(67, 5, 200, 30);
-            NameUser.setForeground(Color.white);
-            NameUser.setFont(new Font("Bebas Neue", Font.PLAIN, 13));
-            UserListRow.add(NameUser);
-
-            JLabel EmailUser = new JLabel(rs.getString("Email"));
-            EmailUser.setBounds(190, 5, 200, 30);
-            EmailUser.setForeground(Color.white);
-            EmailUser.setFont(new Font("Bebas Neue", Font.PLAIN, 13));
-            UserListRow.add(EmailUser);
-
-            JLabel PhonenumberUser = new JLabel(rs.getString("PhoneNumber"));
-            PhonenumberUser.setBounds(370, 5, 200, 30);
-            PhonenumberUser.setForeground(Color.white);
-            PhonenumberUser.setFont(new Font("Bebas Neue", Font.PLAIN, 13));
-            UserListRow.add(PhonenumberUser);
-
-            JLabel AgeUser = new JLabel(String.valueOf(rs.getInt("Age")));
-            AgeUser.setBounds(540, 5, 200, 30);
-            AgeUser.setForeground(Color.white);
-            AgeUser.setFont(new Font("Bebas Neue", Font.PLAIN, 13));
-            UserListRow.add(AgeUser);
-
-            JLabel BalanceUser = new JLabel(String.valueOf(rs.getInt("Balance")));
-            BalanceUser.setBounds(635, 5, 400, 30);
-            BalanceUser.setForeground(Color.white);
-            BalanceUser.setFont(new Font("Bebas Neue", Font.PLAIN, 13));
-            UserListRow.add(BalanceUser);
-
-            JCheckBox selectCheckBox = new JCheckBox();
-            selectCheckBox.setBounds(4, 5, 20, 20);
-            selectCheckBox.setBackground(new Color(30, 30, 30));
-            selectCheckBox.setForeground(Color.white);
-            selectCheckBox.setFont(new Font("Bebas Neue", Font.PLAIN, 13));
-            UserListRow.add(selectCheckBox);
-            checkBoxesUserList.add(selectCheckBox);
-
-            contentPanelUserList.add(UserListRow);
-            rowIndex++;
-            }
-
-            // Update the preferred size of the content panel based on the number of rows
-            contentPanelUserList.setPreferredSize(new Dimension(650, Math.max(500, rowIndex * 50)));
-
-            } catch (SQLException e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Error fetching user data from the database!", "Error", JOptionPane.ERROR_MESSAGE);
-            }
-
-        JScrollPane scrollPanelUserList = new JScrollPane(contentPanelUserList);
-        scrollPanelUserList.setBounds(35, 200, 700, 440);
-        scrollPanelUserList.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
-        scrollPanelUserList.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-        scrollPanelUserList.setBorder(null);
-        scrollPanelUserList.getVerticalScrollBar().setUnitIncrement(16);
-        scrollPanelUserList.getViewport().setBackground(new Color(30, 30, 30));
-
-        contentPanelUserList.addMouseWheelListener(e -> {
-            JScrollBar verticalScrollBar = scrollPanelUserList.getVerticalScrollBar();
-            int notches = e.getWheelRotation();
-            int currentValue = verticalScrollBar.getValue();
-            int scrollAmount = 30; 
-            verticalScrollBar.setValue(currentValue + (notches * scrollAmount));
-        });
-
-        UserInsightsDashboard.add(scrollPanelUserList);
-
-        RoundedButton UnSelectAllUser = new RoundedButton("Unselected All" , 5);
-        UnSelectAllUser.setBounds(20, 650, 120, 30);
-        UnSelectAllUser.setForeground(Color.BLACK);
-        UnSelectAllUser.setBackground(Color.white);
-        UnSelectAllUser.addActionListener(e->{
-            for(JCheckBox checkBox : checkBoxesUserList) {
-                if(checkBox.isSelected()){
-                    checkBox.setSelected(false);
-                }
-                
-            }
-        });
-        UserInsightsDashboard.add(UnSelectAllUser);
-        
-        RoundedButton selectAllUser = new RoundedButton("Selected All" , 5);
-        selectAllUser.setBounds(180, 650, 120, 30);
-        selectAllUser.setForeground(Color.BLACK);
-        selectAllUser.setBackground(Color.white);
-        selectAllUser.addActionListener(e->{
-            for(JCheckBox checkBox : checkBoxesUserList) {
-                if(!checkBox.isSelected()){
-                    checkBox.setSelected(true);
-                }
-            }
-        });
-        UserInsightsDashboard.add(selectAllUser);
-
-        //-------right things
-
-        JSeparator separator1User = new JSeparator();
-        separator1User.setOrientation(SwingConstants.VERTICAL);
-        separator1User.setBackground(Color.white);
-        separator1User.setForeground(Color.white);
-        separator1User.setBounds(780, 00, 2, 750);
-        UserInsightsDashboard.add(separator1User);
-        
-
-        JLabel nbrUser = new JLabel("Number of Users");
-        nbrUser.setBounds(840, 20, 200, 30);
-        nbrUser.setForeground(Color.WHITE);
-        nbrUser.setFont(new Font("Bebas Neue", Font.BOLD, 16));
-        UserInsightsDashboard.add(nbrUser);
-
-
-        RoundedPanel CircleUser = new RoundedPanel(100);
-        CircleUser.setLayout(null);
-        CircleUser.setBounds(855, 80, 100, 100);
-        CircleUser.setBackground( new Color(0, 0, 0, 0));
-        CircleUser.setRoundedBorder(Color.WHITE, 2);
-        UserInsightsDashboard.add(CircleUser);
-
-        JLabel nbrUserLabel = new JLabel();
-         if(clientManager.clients.size() < 10){
-            nbrUserLabel.setBounds(40, 32, 100, 30);
-            nbrUserLabel.setText(String.valueOf(clientManager.clients.size()));
-
-         }else{
-            nbrUserLabel.setBounds(33, 32, 100, 30);
-            nbrUserLabel.setText(String.valueOf(clientManager.clients.size()));
-         }
-        
-        nbrUserLabel.setForeground(Color.WHITE);
-        nbrUserLabel.setFont(new Font("Bebas Neue", Font.BOLD, 30));
-        CircleUser.add(nbrUserLabel);
-        
-        JSeparator separatorRght1User = new JSeparator();
-        separatorRght1User.setOrientation(SwingConstants.HORIZONTAL);
-        separatorRght1User.setBackground(Color.white);
-        separatorRght1User.setForeground(Color.white); 
-        separatorRght1User.setBounds(790, 240, 220, 1);
-        UserInsightsDashboard.add(separatorRght1User);
-
-
-
-        RoundedPanel Circle2User = new RoundedPanel(100);
-        Circle2User.setLayout(null);
-        Circle2User.setBounds(855, 320, 100, 100);
-        Circle2User.setBackground(new Color(0, 0, 0, 0));
-        Circle2User.setRoundedBorder(Color.WHITE, 2);
-        UserInsightsDashboard.add(Circle2User);
-
-        JLabel AvgBalancelbl = new JLabel("Average Balance per user ");
-        AvgBalancelbl.setBounds(800, 260, 200, 30);
-        AvgBalancelbl.setForeground(Color.WHITE);
-        AvgBalancelbl.setFont(new Font("Bebas Neue", Font.BOLD, 16));
-        UserInsightsDashboard.add(AvgBalancelbl);
-
-        JLabel AvgBalance = new JLabel();
-        int AvrgBalance = ClientManager.averagebalance(); // Use the averagebalance method
-
-        if (AvrgBalance < 10) {
-            AvgBalance.setBounds(30, 34, 100, 30);
-            AvgBalance.setFont(new Font("Bebas Neue", Font.BOLD, 24));
-            AvgBalance.setText(String.valueOf(AvrgBalance) + "da");
-        } else if (AvrgBalance > 10 && AvrgBalance < 1000) {
-            AvgBalance.setBounds(20, 32, 100, 30);
-            AvgBalance.setFont(new Font("Bebas Neue", Font.BOLD, 24));
-            AvgBalance.setText(String.valueOf(AvrgBalance) + "da");
-        } else if (AvrgBalance > 1000) {
-            AvgBalance.setBounds(15, 32, 100, 30);
-            AvgBalance.setFont(new Font("Bebas Neue", Font.BOLD, 19));
-            AvgBalance.setText(String.valueOf(AvrgBalance) + "da");
-        }
-
-        AvgBalance.setForeground(Color.WHITE);
-        Circle2User.add(AvgBalance);
-
-
-        JSeparator separatorRght2User = new JSeparator();
-        separatorRght2User.setOrientation(SwingConstants.HORIZONTAL);
-        separatorRght2User.setBackground(Color.white);
-        separatorRght2User.setForeground(Color.white); 
-        separatorRght2User.setBounds(790, 470, 220, 1);
-        UserInsightsDashboard.add(separatorRght2User);
-
-        JLabel AvregeAgelbl = new JLabel("Most Common Age Groups");
-        AvregeAgelbl.setBounds(820, 490, 200, 30);
-        AvregeAgelbl.setForeground(Color.WHITE);
-        AvregeAgelbl.setFont(new Font("Bebas Neue", Font.BOLD, 13));
-        UserInsightsDashboard.add(AvregeAgelbl);
-
-        JLabel AvrgAge = new JLabel();
-        int avrgAge = 0;
-        int sumAge = 0;
-        for (Client client : clientManager.clients) {
-            sumAge += client.Age;
-        }
-        avrgAge = sumAge / clientManager.clients.size();
-        AvrgAge.setText(String.valueOf(avrgAge));
-        AvrgAge.setBounds(890, 530, 100, 20);
-        AvrgAge.setForeground(Color.WHITE);
-        AvrgAge.setFont(new Font("Bebas Neue", Font.BOLD, 19));
-        UserInsightsDashboard.add(AvrgAge);
-
-        JPanel down20 = new JPanel();
-        down20.setBounds(820, 575, 12, 12);
-        down20.setBackground(new Color(180,63,63));
-        down20.setBorder(BorderFactory.createLineBorder(Color.white));
-        UserInsightsDashboard.add(down20);
-
-        JLabel down20lbl = new JLabel(">20");
-        down20lbl.setBounds(845,569,100,20);
-        down20lbl.setForeground(Color.WHITE);
-        down20lbl.setFont(new Font("Bebas Neue", Font.BOLD, 12));
-        UserInsightsDashboard.add(down20lbl);
-
-        JLabel nbrofdown20lbl = new JLabel();
-        nbrofdown20lbl.setBounds(950,569,100,20);
-        nbrofdown20lbl.setForeground(Color.WHITE);
-        nbrofdown20lbl.setFont(new Font("Bebas Neue", Font.BOLD, 12));
-        UserInsightsDashboard.add(nbrofdown20lbl);
-
-
-        JPanel btw21_30 = new JPanel();
-        btw21_30.setBounds(820, 600, 12, 12);
-        btw21_30.setBackground(new Color(255,130,37));
-        btw21_30.setBorder(BorderFactory.createLineBorder(Color.white));
-        UserInsightsDashboard.add(btw21_30);
-
-
-        JLabel btw21_30lbl = new JLabel("21 - 30");
-        btw21_30lbl.setBounds(845,594,100,20);
-        btw21_30lbl.setForeground(Color.WHITE);
-        btw21_30lbl.setFont(new Font("Bebas Neue", Font.BOLD, 12));
-        UserInsightsDashboard.add(btw21_30lbl);
-
-        JLabel nbrbtw21_30lbl = new JLabel();
-        nbrbtw21_30lbl.setBounds(950,594,100,20);
-        nbrbtw21_30lbl.setForeground(Color.WHITE);
-        nbrbtw21_30lbl.setFont(new Font("Bebas Neue", Font.BOLD, 12));
-        UserInsightsDashboard.add(nbrbtw21_30lbl);
-
-
-        JPanel up30 = new JPanel();
-        up30.setBounds(820, 625, 12, 12);
-        up30.setBackground(new Color(23,59,69));
-        up30.setBorder(BorderFactory.createLineBorder(Color.white));
-        UserInsightsDashboard.add(up30);
-
-
-        JLabel up30lbl = new JLabel("<30");
-        up30lbl.setBounds(845,619,100,20);
-        up30lbl.setForeground(Color.WHITE);
-        up30lbl.setFont(new Font("Bebas Neue", Font.BOLD, 12));
-        UserInsightsDashboard.add(up30lbl);
-
-        JLabel nbrup30lbl = new JLabel();
-        nbrup30lbl.setBounds(950,619,100,20);
-        nbrup30lbl.setForeground(Color.WHITE);
-        nbrup30lbl.setFont(new Font("Bebas Neue", Font.BOLD, 12));
-        UserInsightsDashboard.add(nbrup30lbl);
-
-        int nbrup30 = 0;
-        for (Client client : clientManager.clients) {
-            if(client.Age > 30)//up30
-                nbrup30++;
-        }
-        int nbrofdown20 = 0;
-        for (Client client : clientManager.clients) {
-            if(client.Age<20)//down 20
-                nbrofdown20++;
-        }
-        int nbrbtw21_30 = 0;
-        for (Client client : clientManager.clients) {
-            if(client.Age >= 21 && client.Age <= 30)//btw 21 30
-                nbrbtw21_30++;
-        }
-
-        nbrup30lbl.setText(String.valueOf((nbrup30 * 100)/clientManager.clients.size()) + "%");
-        nbrbtw21_30lbl.setText(String.valueOf((nbrbtw21_30 * 100)/clientManager.clients.size()) + "%");
-        nbrofdown20lbl.setText(String.valueOf((nbrofdown20 * 100)/clientManager.clients.size()) + "%");
-
-
-        JSeparator separatorRght3User = new JSeparator();
-        separatorRght3User.setOrientation(SwingConstants.HORIZONTAL);
-        separatorRght3User.setBackground(Color.white);
-        separatorRght3User.setForeground(Color.white); 
-        separatorRght3User.setBounds(790, 670, 220, 1);
-        UserInsightsDashboard.add(separatorRght3User);
-
-
-
-
-        JLabel DatetodayUser = new JLabel("Date:");
-        DatetodayUser.setBounds(840, 675, 200, 30);
-        DatetodayUser.setForeground(Color.WHITE);
-        DatetodayUser.setFont(new Font("Bebas Neue", Font.BOLD, 13));
-        UserInsightsDashboard.add(DatetodayUser);
-        
-        JLabel datenowUser = new JLabel(LocalDate.now().toString());
-        datenowUser.setBounds(880, 675, 200, 30);
-        datenowUser.setForeground(Color.WHITE);
-        datenowUser.setFont(new Font("Bebas Neue", Font.BOLD, 13));
-        UserInsightsDashboard.add(datenowUser);
-
-
-
-//---------------------fin middle ----------------------
-
-
-
-
-
-
-
-
-        JPanel cardContainer = new JPanel();
-        cardContainer.setLayout(new CardLayout());
-        cardContainer.setBounds(0, 0, 1200, 750);
-        cardContainer.add(BroadcastDashboard, "broadcast");
-        cardContainer.add(MoviesDashboard, "movies");
-        cardContainer.add(UserInsightsDashboard, "users");
-        cardContainer.add(HomeDashboard, "home");
-        cardContainer.add(theaterDashboard,"theater");
-        cardContainer.add(adminDashboard,"admin");
-
-
-        ((CardLayout) cardContainer.getLayout()).show(cardContainer, "movies");
-
-
-        MiddlePanel.setLayout(null);
-        MiddlePanel.add(cardContainer);
-
-
-
-        RoundedButton homebutton = new RoundedButton("Home", 20);
-        homebutton.setBounds(10, 100, 150, 40);
-        homebutton.setForeground(Color.WHITE);
-        homebutton.setBackground(new Color(0, 0, 0, 0));
-        homebutton.setContentAreaFilled(false);
-        homebutton.setFont(new Font("Segoe UI", Font.BOLD, 14));
-        homebutton.setHoverEffect(new Color(0, 0, 0 , 0), new Color(40, 40, 40));
-        homebutton.addActionListener(e -> ((CardLayout) cardContainer.getLayout()).show(cardContainer, "home"));
-
-        LeftPanel.add(homebutton);
-
-        JLabel HomeButtonicon = new JLabel(resizedIcon("img\\icon\\home 1.png", 20, 20));
-        HomeButtonicon.setBounds(5, 11, 20, 20);
-        homebutton.add(HomeButtonicon);
-
-        RoundedButton moviesButton = new RoundedButton("Movies", 20);
-        moviesButton.setBounds(10, 160, 150, 40);
-        moviesButton.setForeground(Color.WHITE);
-        moviesButton.setBackground(new Color(0, 0, 0, 0));
-        moviesButton.setContentAreaFilled(false);
-        moviesButton.setFont(new Font("Segoe UI", Font.BOLD, 14));
-        moviesButton.addActionListener(e -> {
-        isPanelVisible = false;
-        ((CardLayout) cardContainer.getLayout()).show(cardContainer, "movies");
-        });
-        moviesButton.setHoverEffect(new Color(0, 0, 0 , 0), new Color(40, 40, 40));
-        LeftPanel.add(moviesButton);
-
-        
-        JLabel MovieButtonicon = new JLabel(resizedIcon("img\\icon\\clapperboard.png", 20, 20));
-        MovieButtonicon.setBounds(5, 11, 20, 20);
-        moviesButton.add(MovieButtonicon);
-
-
-
-        RoundedButton usersButton = new RoundedButton("Users", 20);
-        usersButton.setBounds(10, 220, 150, 40);
-        usersButton.setForeground(Color.WHITE);
-        usersButton.setBackground(new Color(0, 0, 0, 0));
-        usersButton.setContentAreaFilled(false);
-        usersButton.setFont(new Font("Segoe UI", Font.BOLD, 14));
-        usersButton.addActionListener(e -> {
-            isPanelVisible = false;
-            ((CardLayout) cardContainer.getLayout()).show(cardContainer, "users");
-        });
-        usersButton.setHoverEffect(new Color(0, 0, 0 , 0), new Color(40, 40, 40));
-        LeftPanel.add(usersButton);
-
-        JLabel usrButtonicon = new JLabel(resizedIcon("img\\icon\\user1.png", 20, 20));
-        usrButtonicon.setBounds(5, 11, 20, 20);
-        usersButton.add(usrButtonicon);
-
-        RoundedButton Theaterbutton = new RoundedButton("Theater", 20);
-        Theaterbutton.setBounds(10, 280, 150, 40);
-        Theaterbutton.setForeground(Color.WHITE);
-        Theaterbutton.setBackground(new Color(0, 0, 0, 0));
-        Theaterbutton.setContentAreaFilled(false);
-        Theaterbutton.setFont(new Font("Segoe UI", Font.BOLD, 14));
-        Theaterbutton.setHoverEffect(new Color(0, 0, 0 , 0), new Color(40, 40, 40));
-        Theaterbutton.addActionListener(e->{
-            isPanelVisible = false;
-            ((CardLayout) cardContainer.getLayout()).show(cardContainer, "theater");
-
-        });
-        LeftPanel.add(Theaterbutton);
-
-        JLabel TheaterButtonicon = new JLabel(resizedIcon("img\\icon\\Theatericon.png", 20, 20));
-        TheaterButtonicon.setBounds(5, 11, 20, 20);
-        Theaterbutton.add(TheaterButtonicon);
-
-
-
-        RoundedButton broadcastButton = new RoundedButton("  Broadcast", 20);
-        broadcastButton.setBounds(10, 350, 150, 40);
-        broadcastButton.setForeground(Color.WHITE);
-        broadcastButton.setBackground(new Color(0, 0, 0, 0));
-        broadcastButton.setContentAreaFilled(false);
-        broadcastButton.setLayout(null);
-        broadcastButton.setFont(new Font("Segoe UI", Font.BOLD, 14));
-        broadcastButton.addActionListener(e ->{
-            isPanelVisible = false;
-            ((CardLayout) cardContainer.getLayout()).show(cardContainer, "broadcast");
-        });
-        broadcastButton.setHoverEffect(new Color(0, 0, 0 , 0), new Color(40, 40, 40));
-        LeftPanel.add(broadcastButton);
-
-
-        JLabel broadcastButtonicon = new JLabel(resizedIcon("img\\icon\\Broadcasticon.png", 20, 20));
-        broadcastButtonicon.setBounds(5, 11, 20, 20);
-        broadcastButton.add(broadcastButtonicon);
-
-
-        RoundedButton Adminbutton = new RoundedButton("Admin", 20);
-        Adminbutton.setBounds(10, 410, 150, 40);
-        Adminbutton.setForeground(Color.WHITE);
-        Adminbutton.setBackground(new Color(0, 0, 0, 0));
-        Adminbutton.setContentAreaFilled(false);
-        Adminbutton.setFont(new Font("Segoe UI", Font.BOLD, 14));
-        Adminbutton.setHoverEffect(new Color(0, 0, 0 , 0), new Color(40, 40, 40));
-        Adminbutton.addActionListener(e -> {
-            isPanelVisible = false;
-            ((CardLayout) cardContainer.getLayout()).show(cardContainer, "admin");
-        });
-        LeftPanel.add(Adminbutton);
-
-        JLabel AdminButtonicon = new JLabel(resizedIcon("img\\icon\\administrator 1.png", 20, 20));
-        AdminButtonicon.setBounds(5, 11, 20, 20);
-        Adminbutton.add(AdminButtonicon);
-
-        JSeparator separatorLeft = new JSeparator();
-        separatorLeft.setOrientation(SwingConstants.HORIZONTAL);
-        separatorLeft.setBackground(Color.white);
-        separatorLeft.setForeground(Color.white);
-        separatorLeft.setBounds(10, 460,  150, 1);
-        LeftPanel.add(separatorLeft);
-
-
-
-
-        RoundedButton Logoutbutton = new RoundedButton("Log out", 20);
-        Logoutbutton.setBounds(10, 630, 150, 40);
-        Logoutbutton.setForeground(Color.WHITE);
-        Logoutbutton.setBackground(new Color(0, 0, 0, 0));
-        Logoutbutton.setContentAreaFilled(false);
-        Logoutbutton.setFont(new Font("Segoe UI", Font.BOLD, 14));
-        Logoutbutton.setHoverEffect(new Color(0, 0, 0 , 0), new Color(40, 40, 40));
-        Logoutbutton.addActionListener(e ->{
-            int response = JOptionPane.showConfirmDialog(
-            null, 
-            "Are you sure you want to proceed?", 
-            "Confirmation", 
-            JOptionPane.YES_NO_OPTION
-        );
-        if (response == JOptionPane.YES_OPTION) {
-            MainCardLayout.show(MainPanel, "LogIn");
-        }  
-        });
-
-        LeftPanel.add(Logoutbutton);
-
-        JLabel LogiutButtonicon = new JLabel(resizedIcon("img\\icon\\logout 1.png", 20, 20));
-        LogiutButtonicon.setBounds(5, 11, 20, 20);
-        Logoutbutton.add(LogiutButtonicon);
-
-
-
-        
-        
-        
-
-        return panel;
-    }
-   
-
-
-
-
-
-    // handle events ------------------------------------------------------------------------
-    public void HandleLogIn(String email, String password) {
-        // handle log in
-    }
-
-    public void HandleSignIn(JTextField username, JPasswordField password, JTextField email, JTextField cardNumber, 
-    JTextField ccvnbr, JTextField PhoneNumber) {
-        // handle SignIn
-    }
-
-
-
-     public ImageIcon resizedIcon(String path , int width , int height){ // hadi bch tbdl l img l size li rak habo w trj3 direct ImageIcon t7yo direct f label ou f button
-
-        ImageIcon icon = new ImageIcon(path);
-        Image image = icon.getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH);
-        ImageIcon resizedIcon = new ImageIcon(image);
-        
-        return  resizedIcon;
-    }
-
-    public void validateInput(JTextField textField, String regex) { // hadi tcoloriyi l border ta3 textfield 3la hsab type li rak hab l user ydkhlo f textfield
-
-        String input = textField.getText().trim();
-        if (input.equals("   Movie Name") || input.equals("   Film duration") || 
-            input.equals("   Film Rating") || input.equals("0da")) {
-            textField.setBorder(BorderFactory.createLineBorder(new Color(80, 77, 74))); 
-            return;
-        }
-    
-       
-        if (input.matches(regex)) {
-            textField.setBorder(BorderFactory.createLineBorder(Color.GREEN));
-        } else {
-            textField.setBorder(BorderFactory.createLineBorder(Color.RED)); 
-         //   JOptionPane.showMessageDialog(this, "Please enter a valid input", "Error", JOptionPane.ERROR_MESSAGE);
-        }
-    }
-
-    public void TextAreaBehave(JTextArea textField, String placeholder) {// hadi tktb dakhel l textarea ida makach focus 3lih ida kayen tfasi klch ida tnha l focus w user maktb walo t3awed tktb wch kan fiha
-        textField.setText(placeholder);
-        textField.setForeground(Color.GRAY);
-
-        textField.addFocusListener(new java.awt.event.FocusAdapter() {
-            @Override
-            public void focusGained(java.awt.event.FocusEvent evt) {
-                if (textField.getText().equals(placeholder)) {
-                    SwingUtilities.invokeLater(() -> {
-                        textField.setText("");
-                        textField.setForeground(Color.WHITE);
-                    });
-                }
-            }
-
-            @Override
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                if (textField.getText().isEmpty()) {
-                    SwingUtilities.invokeLater(() -> {
-                        textField.setText(placeholder);
-                        textField.setForeground(Color.GRAY);
-                    });
-                }
-            }
-        });
-    }
-
-    public void TextfieldBehave(JTextField textField, String placeholder) {// kima TextAreaBehave nrk hadi 3la textfield mais brk 
-        textField.setText(placeholder);
-        textField.setForeground(Color.GRAY);
-
-        textField.addFocusListener(new java.awt.event.FocusAdapter() {
-            @Override
-            public void focusGained(java.awt.event.FocusEvent evt) {
-                if (textField.getText().equals(placeholder)) {
-                    SwingUtilities.invokeLater(() -> {
-                        textField.setText("");
-                        textField.setForeground(Color.WHITE);
-                    });
-                }
-            }
-
-            @Override
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                if (textField.getText().isEmpty()) {
-                    SwingUtilities.invokeLater(() -> {
-                        textField.setText(placeholder);
-                        textField.setForeground(Color.GRAY);
-                    });
-                }
-            }
-        });
-    }
-
-    public void slidePanel(JPanel panel, int startX, int endX, int y, int width, int height) {
-        javax.swing.Timer slideTimer = new javax.swing.Timer(10, new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                int currentX = panel.getX();
-                int step = 10; // Adjust the step size for smoother/faster animation
-    
-                if (startX < endX) {
-                    // Sliding to the right
-                    if (currentX + step >= endX) {
-                        panel.setBounds(endX, y, width, height);
-                        ((javax.swing.Timer) e.getSource()).stop();
-                    } else {
-                        panel.setBounds(currentX + step, y, width, height);
-                    }
-                } else {
-                    // Sliding to the left
-                    if (currentX - step <= endX) {
-                        panel.setBounds(endX, y, width, height);
-                        ((javax.swing.Timer) e.getSource()).stop();
-                    } else {
-                        panel.setBounds(currentX - step, y, width, height);
-                    }
-                }
-            }
-        });
-        slideTimer.start();
-    }
-
-    public static void main(String[] args) {
-        try {
-            CinemaApp Frame = new CinemaApp();
-            Frame.setVisible(true);
-
-            // Revalidate and repaint to ensure the SettingsPanel is displayed
-            Frame.revalidate();
-            Frame.repaint();
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        
     }
 
 
