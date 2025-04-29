@@ -155,50 +155,72 @@ public class BroadcastManager {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    public static void updateBroadcastmovie(int BroadcastId, int MovieID) {
+        String sql = "UPDATE broadcasts SET MovieID = ? WHERE BroadcastID = ?";
+    
+        try (Connection conn = DatabaseConnection.connect();
+            PreparedStatement pstmt = conn.prepareStatement(sql)) {
+    
+            pstmt.setInt(1, MovieID);
+            pstmt.setInt(2, BroadcastId);
+    
+            int rowsUpdated = pstmt.executeUpdate();
+    
+            if (rowsUpdated > 0) {
+            System.out.println("Theater updated successfully!");
+            } else {
+            System.out.println("Braodcast not found. No update performed.");
+            }
+    
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
+    }
 
-        public static void updateBroadcastmovie(int BroadcastId, int MovieID) {
-            String sql = "UPDATE broadcasts SET MovieID = ? WHERE BroadcastID = ?";
-    
-            try (Connection conn = DatabaseConnection.connect();
-                 PreparedStatement pstmt = conn.prepareStatement(sql)) {
-    
-                pstmt.setInt(1, MovieID);
-                pstmt.setInt(2, BroadcastId);
-    
-                int rowsUpdated = pstmt.executeUpdate();
-    
-                if (rowsUpdated > 0) {
+
+    public static void updateBroadcastDate(int BroadcastId, LocalDate Date) {
+        String sql = "UPDATE broadcasts SET BroadcastDate = ? WHERE BroadcastID = ?";
+        
+        try (Connection conn = DatabaseConnection.connect();
+            PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        
+            pstmt.setDate(1, java.sql.Date.valueOf(Date));
+            pstmt.setInt(2, BroadcastId);
+        
+            int rowsUpdated = pstmt.executeUpdate();
+        
+            if (rowsUpdated > 0) {
                 System.out.println("Theater updated successfully!");
-                } else {
+            } else {
                 System.out.println("Braodcast not found. No update performed.");
-                }
+            }
+        
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void deleteBroadcast(int BroadcastId) {
+        String sql = "DELETE FROM broadcasts WHERE BroadcastID = ?";
+        
+        try (Connection conn = DatabaseConnection.connect();
+            PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        
+            pstmt.setInt(1, BroadcastId);
+        
+            int rowsDeleted = pstmt.executeUpdate();
+        
+            if (rowsDeleted > 0) {
+                System.out.println("Broadcast deleted successfully!");
+            } else {
+                System.out.println("Broadcast not found. No deletion performed.");
+            }
+        
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
     
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-            }
-
-
-            public static void updateBroadcastDate(int BroadcastId, LocalDate Date) {
-                String sql = "UPDATE broadcasts SET BroadcastDate = ? WHERE BroadcastID = ?";
-        
-                try (Connection conn = DatabaseConnection.connect();
-                     PreparedStatement pstmt = conn.prepareStatement(sql)) {
-        
-                    pstmt.setDate(1, java.sql.Date.valueOf(Date));
-                    pstmt.setInt(2, BroadcastId);
-        
-                    int rowsUpdated = pstmt.executeUpdate();
-        
-                    if (rowsUpdated > 0) {
-                    System.out.println("Theater updated successfully!");
-                    } else {
-                    System.out.println("Braodcast not found. No update performed.");
-                    }
-        
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-                }
-}
+}            
