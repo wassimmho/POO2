@@ -541,4 +541,20 @@ public class ClientManager {
             }
             return "img\\default.png"; // Return default image path if no image is found
         }
+
+        public static boolean hasSufficientBalance(int userId, int amount) throws SQLException {
+            String sql = "SELECT Balance FROM users WHERE UserID = ?";
+            try (Connection conn = DatabaseConnection.connect();
+                 PreparedStatement pstmt = conn.prepareStatement(sql)) {
+                pstmt.setInt(1, userId);
+                ResultSet rs = pstmt.executeQuery();
+                if (rs.next()) {
+                    return rs.getInt("Balance") >= amount;
+                } else {
+                    System.err.println("User ID: " + userId + " not found.");
+                    return false;
+                }
+            }
+        }
+    
 }
