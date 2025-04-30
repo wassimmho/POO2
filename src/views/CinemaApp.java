@@ -1827,7 +1827,7 @@ public class CinemaApp extends JFrame implements ActionListener {
         addBroadcastButton.setBackground(new Color(60, 120, 180));
         addBroadcastButton.setFont(new Font("Segoe UI", Font.BOLD, 16));
         addBroadcastButton.addActionListener(e -> {
-            // Action to add a broadcast
+            //TODO: Action to add a broadcast
             JOptionPane.showMessageDialog(null, "Add Broadcast clicked!");
         });
         quickActionsPanel.add(addBroadcastButton);
@@ -1839,9 +1839,240 @@ public class CinemaApp extends JFrame implements ActionListener {
         addMovieButton.setBackground(new Color(80, 160, 100));
         addMovieButton.setFont(new Font("Segoe UI", Font.BOLD, 16));
         addMovieButton.addActionListener(e -> {
-            // Action to add a movie
-            JOptionPane.showMessageDialog(null, "Add Movie clicked!");
-        });
+        
+                // Create the Add Movie panel directly
+                JPanel addMovieModal = new JPanel();
+                addMovieModal.setLayout(null);
+                addMovieModal.setPreferredSize(new Dimension(1000, 500)); // Adjust size to make it smaller
+                addMovieModal.setBackground(new Color(30, 30, 30));
+            
+                // Title for the panel
+                JLabel panelTitle = new JLabel("Add New Movie");
+                panelTitle.setBounds(50, 10, 200, 30);
+                panelTitle.setForeground(Color.WHITE);
+                panelTitle.setFont(new Font("Segoe UI", Font.BOLD, 22));
+                addMovieModal.add(panelTitle);
+            
+                // Title Label and TextField
+                JLabel titleLabel = new JLabel("Title");
+                titleLabel.setBounds(50, 50, 100, 30);
+                titleLabel.setForeground(Color.WHITE);
+                JTextField titleTextField = new JTextField();
+                titleTextField.setBounds(50, 80, 300, 30);
+                titleTextField.setBackground(new Color(50, 50, 50));
+                titleTextField.setForeground(Color.WHITE);
+                titleTextField.setCaretColor(Color.WHITE);
+                titleTextField.setBorder(BorderFactory.createCompoundBorder(
+                    BorderFactory.createLineBorder(Color.GRAY),
+                    BorderFactory.createEmptyBorder(5, 5, 5, 5) // Padding
+                ));
+                addMovieModal.add(titleLabel);
+                addMovieModal.add(titleTextField);
+            
+                // Genre Label and TextField
+                JLabel genreLabel = new JLabel("Genre");
+                genreLabel.setBounds(50, 130, 100, 30); // Same x as Title, different y
+                genreLabel.setForeground(Color.WHITE);
+                JComboBox<Movie.MovieGenre> genreComboBox = new JComboBox<>(Movie.MovieGenre.values());
+                genreComboBox.setBounds(50, 160, 300, 30); // Same x as Title, different y
+                genreComboBox.setBackground(new Color(50, 50, 50));
+                genreComboBox.setForeground(Color.WHITE);
+                addMovieModal.add(genreLabel);
+                addMovieModal.add(genreComboBox);
+            
+                // Age Rating Label and TextField
+                JLabel ageRatingLabel = new JLabel("Age Rating");
+                ageRatingLabel.setBounds(50, 210, 100, 30); // Same x as Title, different y
+                ageRatingLabel.setForeground(Color.WHITE);
+                JComboBox<Movie.MovieAgeRating> ageRatingComboBox = new JComboBox<>(Movie.MovieAgeRating.values());
+                ageRatingComboBox.setBounds(50, 240, 300, 30); // Same x as Title, different y
+                ageRatingComboBox.setBackground(new Color(50, 50, 50));
+                ageRatingComboBox.setForeground(Color.WHITE);
+                addMovieModal.add(ageRatingLabel);
+                addMovieModal.add(ageRatingComboBox);
+            
+                // Rating Label and TextField
+                JLabel ratingLabel = new JLabel("Rating (0.0 - 10.0)");
+                ratingLabel.setBounds(50, 300, 150, 30);
+                ratingLabel.setForeground(Color.WHITE);
+                JTextField ratingTextField = new JTextField();
+                ratingTextField.setBounds(50, 330, 300, 30);
+                ratingTextField.setBackground(new Color(50, 50, 50));
+                ratingTextField.setForeground(Color.WHITE);
+                ratingTextField.setCaretColor(Color.WHITE);
+                ratingTextField.setBorder(BorderFactory.createCompoundBorder(
+                    BorderFactory.createLineBorder(Color.GRAY),
+                    BorderFactory.createEmptyBorder(5, 5, 5, 5) // Padding
+                ));
+                addMovieModal.add(ratingLabel);
+                addMovieModal.add(ratingTextField);
+            
+                // Trailer URL Label and TextField
+                JLabel trailerUrlLabel = new JLabel("Trailer URL");
+                trailerUrlLabel.setBounds(380, 50, 100, 30);
+                trailerUrlLabel.setForeground(Color.WHITE);
+                JTextField trailerUrlTextField = new JTextField();
+                trailerUrlTextField.setBounds(380, 80, 300, 30);
+                trailerUrlTextField.setBackground(new Color(50, 50, 50));
+                trailerUrlTextField.setForeground(Color.WHITE);
+                trailerUrlTextField.setCaretColor(Color.WHITE);
+                trailerUrlTextField.setBorder(BorderFactory.createCompoundBorder(
+                    BorderFactory.createLineBorder(Color.GRAY),
+                    BorderFactory.createEmptyBorder(5, 5, 5, 5) // Padding
+                ));
+                addMovieModal.add(trailerUrlLabel);
+                addMovieModal.add(trailerUrlTextField);
+            
+                // Release Date Label and Date Picker
+                JLabel releaseDateLabel = new JLabel("Release Date");
+                releaseDateLabel.setBounds(380, 130, 100, 30);
+                releaseDateLabel.setForeground(Color.WHITE);
+                JSpinner releaseDateSpinner = new JSpinner(new SpinnerDateModel());
+                releaseDateSpinner.setBounds(380, 160, 300, 30);
+                releaseDateSpinner.setEditor(new JSpinner.DateEditor(releaseDateSpinner, "yyyy-MM-dd"));
+                releaseDateSpinner.setBackground(new Color(50, 50, 50));
+                releaseDateSpinner.setForeground(Color.WHITE);
+                addMovieModal.add(releaseDateLabel);
+                addMovieModal.add(releaseDateSpinner);
+            
+                // Director Label and TextField
+                JLabel directorLabel = new JLabel("Director");
+                directorLabel.setBounds(50, 380, 100, 30);
+                directorLabel.setForeground(Color.WHITE);
+                JTextField directorTextField = new JTextField();
+                directorTextField.setBounds(50, 410, 300, 30);
+                directorTextField.setBackground(new Color(50, 50, 50));
+                directorTextField.setForeground(Color.WHITE);
+                directorTextField.setCaretColor(Color.WHITE);
+                directorTextField.setBorder(BorderFactory.createCompoundBorder(
+                    BorderFactory.createLineBorder(Color.GRAY),
+                    BorderFactory.createEmptyBorder(5, 5, 5, 5) // Padding
+                ));
+                addMovieModal.add(directorLabel);
+                addMovieModal.add(directorTextField);
+            
+                // Description Label and TextArea
+                JLabel descriptionLabel = new JLabel("Description");
+                descriptionLabel.setBounds(380, 210, 100, 30);
+                descriptionLabel.setForeground(Color.WHITE);
+                JTextArea descriptionTextArea = new JTextArea();
+                descriptionTextArea.setBounds(380, 240, 300, 100);
+                descriptionTextArea.setBackground(new Color(50, 50, 50));
+                descriptionTextArea.setForeground(Color.WHITE);
+                descriptionTextArea.setCaretColor(Color.WHITE);
+                descriptionTextArea.setBorder(BorderFactory.createCompoundBorder(
+                    BorderFactory.createLineBorder(Color.GRAY),
+                    BorderFactory.createEmptyBorder(5, 5, 5, 5) // Padding
+                ));
+                descriptionTextArea.setLineWrap(true);
+                descriptionTextArea.setWrapStyleWord(true);
+                addMovieModal.add(descriptionLabel);
+                addMovieModal.add(descriptionTextArea);
+            
+                // Image Panel
+                JPanel imagePanel = new JPanel();
+                imagePanel.setBounds(720, 130, 250, 300); // Adjusted position
+                imagePanel.setBackground(new Color(50, 50, 50));
+                imagePanel.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+                addMovieModal.add(imagePanel);
+            
+                // Choose Image Button
+                JLabel imageLabelHolder = new JLabel();
+                String[] imagePathHolder = new String[1]; // Use an array to hold the image path
+                RoundedButton chooseImageButton = new RoundedButton("Choose Image", 5);
+                chooseImageButton.setBounds(720, 60, 130, 30); // Moved to the top of the image panel
+                chooseImageButton.setForeground(Color.BLACK);
+                chooseImageButton.setBackground(Color.WHITE);
+                chooseImageButton.addActionListener(event -> {
+                    JFileChooser fileChooser = new JFileChooser();
+                    int result = fileChooser.showOpenDialog(null);
+                    if (result == JFileChooser.APPROVE_OPTION) {
+                        File selectedFile = fileChooser.getSelectedFile();
+                        imagePathHolder[0] = selectedFile.getAbsolutePath(); // Store the image path in the array
+                        ImageIcon imageIcon = new ImageIcon(imagePathHolder[0]);
+                        Image image = imageIcon.getImage().getScaledInstance(imagePanel.getWidth(), imagePanel.getHeight(), Image.SCALE_SMOOTH);
+                        ImageIcon scaledImageIcon = new ImageIcon(image);
+                        imageLabelHolder.setIcon(scaledImageIcon);
+                        imagePanel.removeAll();
+                        imagePanel.add(imageLabelHolder);
+                        imagePanel.revalidate();
+                        imagePanel.repaint();
+                    }
+                });
+                addMovieModal.add(chooseImageButton);
+            
+                // Add Movie Button
+                RoundedButton addMovieButton2 = new RoundedButton("Add Movie", 5);
+                addMovieButton2.setBounds(380, 450, 130, 30); // Adjusted position
+                addMovieButton2.setForeground(Color.BLACK);
+                addMovieButton2.setBackground(Color.WHITE);
+                addMovieButton2.addActionListener(event -> {
+                    String title = titleTextField.getText();
+                    Movie.MovieGenre genre = (Movie.MovieGenre) genreComboBox.getSelectedItem();
+                    Movie.MovieAgeRating ageRating = (Movie.MovieAgeRating) ageRatingComboBox.getSelectedItem();
+                    String ratingText = ratingTextField.getText();
+                    String trailerUrl = trailerUrlTextField.getText();
+                    Date releaseDate = (Date) releaseDateSpinner.getValue();
+                    String director = directorTextField.getText();
+                    String description = descriptionTextArea.getText();
+            
+                    // Use imagePathHolder[0] to access the image path
+                    if (!title.isEmpty() && genre != null && !ratingText.isEmpty() && !director.isEmpty() && !description.isEmpty() && imagePathHolder[0] != null) {
+                        try {
+                            float rating = Float.parseFloat(ratingText);
+            
+                            // Validate rating
+                            if (rating < 0 || rating > 10) {
+                                JOptionPane.showMessageDialog(null, "Rating must be between 0.0 and 10.0!", "Error", JOptionPane.ERROR_MESSAGE);
+                                return;
+                            }
+            
+                            // Format rating to one decimal place
+                            rating = Math.round(rating * 10) / 10.0f;
+            
+                            LocalDate localReleaseDate = new java.sql.Date(releaseDate.getTime()).toLocalDate();
+            
+                            // Call MovieManager.addMovieToDatabase
+                            boolean added = MovieManager.addMovieToDatabase(title, genre, description, rating, ageRating, imagePathHolder[0], trailerUrl, localReleaseDate, director);
+            
+                            if (added) {
+                                JOptionPane.showMessageDialog(null, "Movie added successfully!");
+                                SwingUtilities.getWindowAncestor(addMovieModal).dispose();
+                            } else {
+                                JOptionPane.showMessageDialog(null, "Failed to add movie. See console for details.", "Error", JOptionPane.ERROR_MESSAGE);
+                            }
+            
+                        } catch (NumberFormatException ex) {
+                            JOptionPane.showMessageDialog(null, "Invalid rating format!", "Error", JOptionPane.ERROR_MESSAGE);
+                        }
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Please fill in all fields and choose an image!", "Error", JOptionPane.ERROR_MESSAGE);
+                    }
+                });
+                addMovieModal.add(addMovieButton2);
+            
+                // Cancel Button
+                RoundedButton cancelButton = new RoundedButton("Cancel", 5);
+                cancelButton.setBounds(550, 450, 130, 30); // Adjusted position
+                cancelButton.setForeground(Color.BLACK);
+                cancelButton.setBackground(Color.WHITE);
+                cancelButton.addActionListener(event -> {
+                    SwingUtilities.getWindowAncestor(addMovieModal).dispose();
+                });
+                addMovieModal.add(cancelButton);
+            
+                // Show the modal in a JDialog
+                JDialog dialog = new JDialog();
+                dialog.getRootPane().setBorder(BorderFactory.createLineBorder(Color.WHITE, 2));
+                dialog.setModal(true); // Prevent interaction with other windows
+                dialog.getContentPane().add(addMovieModal);
+                dialog.pack();
+                dialog.setLocationRelativeTo(null); // Center on screen
+                dialog.setVisible(true);
+            });                
+               
+            
+        
         quickActionsPanel.add(addMovieButton);
 
         // Add Theater Button
@@ -1851,7 +2082,7 @@ public class CinemaApp extends JFrame implements ActionListener {
         addTheaterButton.setBackground(new Color(200, 100, 80));
         addTheaterButton.setFont(new Font("Segoe UI", Font.BOLD, 16));
         addTheaterButton.addActionListener(e -> {
-            // Action to add a theater
+            // TODO: Action to add a theater
             JOptionPane.showMessageDialog(null, "Add Theater clicked!");
         });
         quickActionsPanel.add(addTheaterButton);

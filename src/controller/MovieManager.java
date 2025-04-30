@@ -1,15 +1,12 @@
 package controller;
 
-import controller.DatabaseConnection;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
-
 import javax.swing.JOptionPane;
-
 import model.*;
 
 public class MovieManager {
@@ -240,8 +237,8 @@ public static boolean addMovieToDatabase(String title, Movie.MovieGenre genre, S
         Movie movie = new Movie(0, title, genre, 0, description, director, "", releaseDate, rating, ageRating, Movie.Language.VOSTFR, imagePath);
 
         if (isDuplicate(movie)) {
-                JOptionPane.showMessageDialog(null, "Movie already exists!", "Error", JOptionPane.ERROR_MESSAGE);
-                return false;
+            JOptionPane.showMessageDialog(null, "Movie already exists!", "Error", JOptionPane.ERROR_MESSAGE);
+            return false;
         }
 
         String sql = "INSERT INTO movies (Title, Genre, Description, Rating, AgeRating, ImagePath, TrailerURL, ReleaseDate, Director) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
