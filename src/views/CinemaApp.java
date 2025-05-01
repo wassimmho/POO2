@@ -19,6 +19,7 @@ import model.*;
 
 
 public class CinemaApp extends JFrame implements ActionListener {
+
     // Manager elements ------------------------------------------------
     public static MovieManager movieManager;
     public static ClientManager clientManager;
@@ -2268,19 +2269,46 @@ public class CinemaApp extends JFrame implements ActionListener {
         EditTheater.setBounds(70 + buttonwidth1*2 + gap1*2, 650, 97, 27);
         EditTheater.setForeground(Color.BLACK);
         EditTheater.setBackground(Color.white);
-
         theaterDashboard.add(EditTheater);
 
         RoundedButton AddTheater = new RoundedButton("Add" , 5);
         AddTheater.setBounds(64 + buttonwidth1*3 + gap1*3, 650, 97, 27);
         AddTheater.setForeground(Color.BLACK);
         AddTheater.setBackground(Color.white);
+        AddTheater.addActionListener(e -> {
+            //TODO: Action to add a theater
+        });
         theaterDashboard.add(AddTheater);
 
         RoundedButton Deletetheater = new RoundedButton("Delete" , 5);
         Deletetheater.setBounds(64 + buttonwidth1*4 + gap1*4, 650, 97, 27);
         Deletetheater.setForeground(Color.BLACK);
         Deletetheater.setBackground(Color.white);
+        Deletetheater.addActionListener(e -> {
+            int response = JOptionPane.showConfirmDialog(
+                null, 
+                "Are you sure you want to delete the theater(s) you selected", 
+                "Confirmation", 
+                JOptionPane.YES_NO_OPTION
+            );
+            
+            if (response == JOptionPane.YES_OPTION) {    
+                for (JCheckBox checkBox : checkBoxesTheaterList) {
+                    if (checkBox.isSelected()) {
+                        try (Connection conn = DatabaseConnection.connect();
+                             Statement stmt = conn.createStatement()) {
+                            // Assuming the theater name is unique
+                            String theaterName = ((JLabel) checkBox.getParent().getComponent(1)).getText();
+                            String sql = "DELETE FROM theaters WHERE TheaterName = '" + theaterName + "'";
+                            stmt.executeUpdate(sql);
+                        } catch (SQLException ex) {
+                            ex.printStackTrace();
+                            JOptionPane.showMessageDialog(null, "Error deleting theater from the database!", "Error", JOptionPane.ERROR_MESSAGE);
+                        }
+                    }
+                }
+            }
+        });        
         theaterDashboard.add(Deletetheater);
 
         // slide panel 
@@ -2879,6 +2907,30 @@ public class CinemaApp extends JFrame implements ActionListener {
         DeleteBroad.setBounds(64 + buttonwidth*4 + gap*4, 650, 97, 27);
         DeleteBroad.setForeground(Color.BLACK);
         DeleteBroad.setBackground(Color.white);
+        DeleteBroad.addActionListener(e -> {
+            int response = JOptionPane.showConfirmDialog(
+                null, 
+                "Are you sure you want to delete the broadcast(s) you selected", 
+                "Confirmation", 
+                JOptionPane.YES_NO_OPTION
+            );
+            
+            if (response == JOptionPane.YES_OPTION) {    
+                for (JCheckBox checkBox : checkBoxesBroadcast) {
+                    if (checkBox.isSelected()) {
+                        try (Connection conn = DatabaseConnection.connect();
+                             Statement stmt = conn.createStatement()) {
+                            String movieTitle = ((JLabel) checkBox.getParent().getComponent(1)).getText();
+                            String sql = "DELETE FROM broadcasts WHERE MovieID = '" + movieTitle + "'";
+                            stmt.executeUpdate(sql);
+                        } catch (SQLException ex) {
+                            ex.printStackTrace();
+                            JOptionPane.showMessageDialog(null, "Error deleting broadcast from the database!", "Error", JOptionPane.ERROR_MESSAGE);
+                        }
+                    }
+                }
+            }
+        });
         BroadcastDashboard.add(DeleteBroad);
 
 
@@ -3206,8 +3258,6 @@ public class CinemaApp extends JFrame implements ActionListener {
         AddMovie.setForeground(Color.BLACK);
         AddMovie.setBackground(Color.white);
         MoviesDashboard.add(AddMovie);
-
-// add movies-------- popup panel*****************************************************************************************************************
         AddMovie.addActionListener(e -> {
             // Create the Add Movie panel directly
             JPanel addMovieModal = new JPanel();
@@ -3444,6 +3494,30 @@ public class CinemaApp extends JFrame implements ActionListener {
         DeleteMovie.setBounds(64 + buttonwidth*4 + gap*4, 650, 97, 27);
         DeleteMovie.setForeground(Color.BLACK);
         DeleteMovie.setBackground(Color.white);
+        DeleteMovie.addActionListener(e -> {
+            int response = JOptionPane.showConfirmDialog(
+                null, 
+                "Are you sure you want to delete the movie(s) you selected", 
+                "Confirmation", 
+                JOptionPane.YES_NO_OPTION
+            );
+            
+            if (response == JOptionPane.YES_OPTION) {    
+                for (JCheckBox checkBox : checkBoxesMovieList) {
+                    if (checkBox.isSelected()) {
+                        try (Connection conn = DatabaseConnection.connect();
+                             Statement stmt = conn.createStatement()) {
+                            String movieTitle = ((JLabel) checkBox.getParent().getComponent(1)).getText();
+                            String sql = "DELETE FROM movies WHERE Title = '" + movieTitle + "'";
+                            stmt.executeUpdate(sql);
+                        } catch (SQLException ex) {
+                            ex.printStackTrace();
+                            JOptionPane.showMessageDialog(null, "Error deleting movie from the database!", "Error", JOptionPane.ERROR_MESSAGE);
+                        }
+                    }
+                }
+            }
+        });
         MoviesDashboard.add(DeleteMovie);
 
         JPanel EditMoviepanel = new JPanel();
