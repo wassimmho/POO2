@@ -2083,8 +2083,112 @@ public class CinemaApp extends JFrame implements ActionListener {
         addTheaterButton.setBackground(new Color(200, 100, 80));
         addTheaterButton.setFont(new Font("Segoe UI", Font.BOLD, 16));
         addTheaterButton.addActionListener(e -> {
-            // TODO: Action to add a theater
-            JOptionPane.showMessageDialog(null, "Add Theater clicked!");
+            JPanel addTheaterModal = new JPanel();
+            addTheaterModal.setLayout(null);
+            addTheaterModal.setPreferredSize(new Dimension(1000, 500)); // Adjust size to make it smaller
+            addTheaterModal.setBackground(new Color(30, 30, 30));
+            
+            // Title for the panel
+            JLabel panelTitle = new JLabel("Add New Theater");
+            panelTitle.setBounds(50, 10, 200, 30);
+            panelTitle.setForeground(Color.WHITE);
+            panelTitle.setFont(new Font("Segoe UI", Font.BOLD, 22));
+            addTheaterModal.add(panelTitle);
+            
+            // Title Label and TextField
+            JLabel titleLabel = new JLabel("Name");
+            titleLabel.setBounds(50, 50, 100, 30);
+            titleLabel.setForeground(Color.WHITE);
+            JTextField titleTextField = new JTextField();
+            titleTextField.setBounds(50, 80, 300, 30);
+            titleTextField.setBackground(new Color(50, 50, 50));
+            titleTextField.setForeground(Color.WHITE);
+            titleTextField.setCaretColor(Color.WHITE);
+            titleTextField.setBorder(BorderFactory.createCompoundBorder(
+                BorderFactory.createLineBorder(Color.GRAY),
+                BorderFactory.createEmptyBorder(5, 5, 5, 5) // Padding
+            ));
+            addTheaterModal.add(titleLabel);
+            addTheaterModal.add(titleTextField);
+            
+            // VIPSeats Label and TextField
+            JLabel VIPseatsLabel = new JLabel("Number of VIP Seats");
+            VIPseatsLabel.setBounds(50, 130, 150, 30); // Adjusted width for label
+            VIPseatsLabel.setForeground(Color.WHITE);
+            JTextField VIPSeats = new JTextField();
+            VIPSeats.setBounds(50, 160, 300, 30); // Corrected y position for VIPSeats
+            VIPSeats.setBackground(new Color(50, 50, 50));
+            VIPSeats.setForeground(Color.WHITE);
+            addTheaterModal.add(VIPseatsLabel);
+            addTheaterModal.add(VIPSeats);
+            
+            // NormalSeats Label and TextField
+            JLabel NormalSeatsLabel = new JLabel("Number of Normal Seats");
+            NormalSeatsLabel.setBounds(50, 210, 150, 30); // Adjusted width for label
+            NormalSeatsLabel.setForeground(Color.WHITE);
+            JTextField NormalSeats = new JTextField();
+            NormalSeats.setBounds(50, 240, 300, 30); // Corrected y position for NormalSeats
+            NormalSeats.setBackground(new Color(50, 50, 50));
+            NormalSeats.setForeground(Color.WHITE);
+            addTheaterModal.add(NormalSeatsLabel);
+            addTheaterModal.add(NormalSeats);
+
+            // Add Theater Button
+            RoundedButton addTheaterButton2 = new RoundedButton("Add Theater", 5);
+            addTheaterButton2.setBounds(380, 450, 130, 30); // Adjusted position
+            addTheaterButton2.setForeground(Color.BLACK);
+            addTheaterButton2.setBackground(Color.WHITE);
+            addTheaterButton2.addActionListener(event -> {
+                String Name = titleTextField.getText();
+                Integer VipSeats = null;
+                Integer normalSeats = null;
+                try {
+                    VipSeats = Integer.parseInt(VIPSeats.getText());
+                    normalSeats = Integer.parseInt(NormalSeats.getText());
+                } catch (NumberFormatException ex) {
+                    JOptionPane.showMessageDialog(null, "Invalid format for the seats!", "Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+
+                if (!Name.isEmpty() && VipSeats != null && normalSeats != null) {
+                    if (VipSeats < 0 || normalSeats < 0) {
+                        JOptionPane.showMessageDialog(null, "The number of VIP Seats and Normal Seats must be positive!", "Error", JOptionPane.ERROR_MESSAGE);
+                        return;
+                    }
+
+                    TheaterManager theaterManager = new TheaterManager();
+                    boolean addedTheater = theaterManager.addTheater(Name, normalSeats, VipSeats);
+
+                    if (addedTheater) {
+                        JOptionPane.showMessageDialog(null, "Theater added successfully!");
+                        SwingUtilities.getWindowAncestor(addTheaterModal).dispose();
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Failed to add theater. See console for details.", "Error", JOptionPane.ERROR_MESSAGE);
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(null, "Please fill in all fields!", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            });
+            addTheaterModal.add(addTheaterButton2);
+
+            // Cancel Button
+            RoundedButton cancelButton = new RoundedButton("Cancel", 5);
+            cancelButton.setBounds(550, 450, 130, 30);
+            cancelButton.setForeground(Color.BLACK);
+            cancelButton.setBackground(Color.WHITE);
+            cancelButton.addActionListener(event -> {
+                SwingUtilities.getWindowAncestor(addTheaterModal).dispose();
+            });
+            addTheaterModal.add(cancelButton);
+
+            // Show the modal in a JDialog
+            JDialog dialog = new JDialog();
+            dialog.getRootPane().setBorder(BorderFactory.createLineBorder(Color.WHITE, 2));
+            dialog.setModal(true); // Prevent interaction with other windows
+            dialog.getContentPane().add(addTheaterModal);
+            dialog.pack();
+            dialog.setLocationRelativeTo(null); // Center on screen
+            dialog.setVisible(true);
         });
         quickActionsPanel.add(addTheaterButton);
 
@@ -2276,7 +2380,112 @@ public class CinemaApp extends JFrame implements ActionListener {
         AddTheater.setForeground(Color.BLACK);
         AddTheater.setBackground(Color.white);
         AddTheater.addActionListener(e -> {
-            //TODO: Action to add a theater
+            JPanel addTheaterModal = new JPanel();
+            addTheaterModal.setLayout(null);
+            addTheaterModal.setPreferredSize(new Dimension(1000, 500)); // Adjust size to make it smaller
+            addTheaterModal.setBackground(new Color(30, 30, 30));
+            
+            // Title for the panel
+            JLabel panelTitle = new JLabel("Add New Theater");
+            panelTitle.setBounds(50, 10, 200, 30);
+            panelTitle.setForeground(Color.WHITE);
+            panelTitle.setFont(new Font("Segoe UI", Font.BOLD, 22));
+            addTheaterModal.add(panelTitle);
+            
+            // Title Label and TextField
+            JLabel titleLabel = new JLabel("Name");
+            titleLabel.setBounds(50, 50, 100, 30);
+            titleLabel.setForeground(Color.WHITE);
+            JTextField titleTextField = new JTextField();
+            titleTextField.setBounds(50, 80, 300, 30);
+            titleTextField.setBackground(new Color(50, 50, 50));
+            titleTextField.setForeground(Color.WHITE);
+            titleTextField.setCaretColor(Color.WHITE);
+            titleTextField.setBorder(BorderFactory.createCompoundBorder(
+                BorderFactory.createLineBorder(Color.GRAY),
+                BorderFactory.createEmptyBorder(5, 5, 5, 5) // Padding
+            ));
+            addTheaterModal.add(titleLabel);
+            addTheaterModal.add(titleTextField);
+            
+            // VIPSeats Label and TextField
+            JLabel VIPseatsLabel = new JLabel("Number of VIP Seats");
+            VIPseatsLabel.setBounds(50, 130, 150, 30); // Adjusted width for label
+            VIPseatsLabel.setForeground(Color.WHITE);
+            JTextField VIPSeats = new JTextField();
+            VIPSeats.setBounds(50, 160, 300, 30); // Corrected y position for VIPSeats
+            VIPSeats.setBackground(new Color(50, 50, 50));
+            VIPSeats.setForeground(Color.WHITE);
+            addTheaterModal.add(VIPseatsLabel);
+            addTheaterModal.add(VIPSeats);
+            
+            // NormalSeats Label and TextField
+            JLabel NormalSeatsLabel = new JLabel("Number of Normal Seats");
+            NormalSeatsLabel.setBounds(50, 210, 150, 30); // Adjusted width for label
+            NormalSeatsLabel.setForeground(Color.WHITE);
+            JTextField NormalSeats = new JTextField();
+            NormalSeats.setBounds(50, 240, 300, 30); // Corrected y position for NormalSeats
+            NormalSeats.setBackground(new Color(50, 50, 50));
+            NormalSeats.setForeground(Color.WHITE);
+            addTheaterModal.add(NormalSeatsLabel);
+            addTheaterModal.add(NormalSeats);
+
+            // Add Theater Button
+            RoundedButton addTheaterButton2 = new RoundedButton("Add Theater", 5);
+            addTheaterButton2.setBounds(380, 450, 130, 30); // Adjusted position
+            addTheaterButton2.setForeground(Color.BLACK);
+            addTheaterButton2.setBackground(Color.WHITE);
+            addTheaterButton2.addActionListener(event -> {
+                String Name = titleTextField.getText();
+                Integer VipSeats = null;
+                Integer normalSeats = null;
+                try {
+                    VipSeats = Integer.parseInt(VIPSeats.getText());
+                    normalSeats = Integer.parseInt(NormalSeats.getText());
+                } catch (NumberFormatException ex) {
+                    JOptionPane.showMessageDialog(null, "Invalid format for the seats!", "Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+
+                if (!Name.isEmpty() && VipSeats != null && normalSeats != null) {
+                    if (VipSeats < 0 || normalSeats < 0) {
+                        JOptionPane.showMessageDialog(null, "The number of VIP Seats and Normal Seats must be positive!", "Error", JOptionPane.ERROR_MESSAGE);
+                        return;
+                    }
+
+                    TheaterManager theaterManager = new TheaterManager();
+                    boolean addedTheater = theaterManager.addTheater(Name, normalSeats, VipSeats);
+
+                    if (addedTheater) {
+                        JOptionPane.showMessageDialog(null, "Theater added successfully!");
+                        SwingUtilities.getWindowAncestor(addTheaterModal).dispose();
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Failed to add theater. See console for details.", "Error", JOptionPane.ERROR_MESSAGE);
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(null, "Please fill in all fields!", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            });
+            addTheaterModal.add(addTheaterButton2);
+
+            // Cancel Button
+            RoundedButton cancelButton = new RoundedButton("Cancel", 5);
+            cancelButton.setBounds(550, 450, 130, 30);
+            cancelButton.setForeground(Color.BLACK);
+            cancelButton.setBackground(Color.WHITE);
+            cancelButton.addActionListener(event -> {
+                SwingUtilities.getWindowAncestor(addTheaterModal).dispose();
+            });
+            addTheaterModal.add(cancelButton);
+
+            // Show the modal in a JDialog
+            JDialog dialog = new JDialog();
+            dialog.getRootPane().setBorder(BorderFactory.createLineBorder(Color.WHITE, 2));
+            dialog.setModal(true); // Prevent interaction with other windows
+            dialog.getContentPane().add(addTheaterModal);
+            dialog.pack();
+            dialog.setLocationRelativeTo(null); // Center on screen
+            dialog.setVisible(true);
         });
         theaterDashboard.add(AddTheater);
 
@@ -2297,7 +2506,6 @@ public class CinemaApp extends JFrame implements ActionListener {
                     if (checkBox.isSelected()) {
                         try (Connection conn = DatabaseConnection.connect();
                              Statement stmt = conn.createStatement()) {
-                            // Assuming the theater name is unique
                             String theaterName = ((JLabel) checkBox.getParent().getComponent(1)).getText();
                             String sql = "DELETE FROM theaters WHERE TheaterName = '" + theaterName + "'";
                             stmt.executeUpdate(sql);
@@ -2901,6 +3109,112 @@ public class CinemaApp extends JFrame implements ActionListener {
         AddBroad.setBounds(64 + buttonwidth*3 + gap*3, 650, 97, 27);
         AddBroad.setForeground(Color.BLACK);
         AddBroad.setBackground(Color.white);
+        // AddBroad.addActionListener(e -> {
+        //     JDialog addBroadcastModal = new JDialog(this, "Add Broadcast", true);
+        //     addBroadcastModal.setLayout(null);
+        //     addBroadcastModal.setSize(400, 300);
+        //     addBroadcastModal.setLocationRelativeTo(this);
+        //     addBroadcastModal.getContentPane().setBackground(new Color(30, 30, 30));
+
+        //     JLabel movieLabel = new JLabel("Movie:");
+        //     movieLabel.setBounds(20, 70, 100, 30);
+        //     movieLabel.setForeground(Color.WHITE);
+        //     movieLabel.setFont(new Font("Bebas Neue", Font.PLAIN, 14));
+        //     addBroadcastModal.add(movieLabel);
+
+        //     JComboBox<String> movieComboBox = new JComboBox<>(movieManager.movies.stream().map(movie -> movie.Title).toArray(String[]::new));
+        //     movieComboBox.setBounds(120, 70, 200, 30);
+        //     movieComboBox.setForeground(Color.white);
+        //     movieComboBox.setFocusable(false);
+        //     movieComboBox.setBorder(BorderFactory.createEmptyBorder());
+        //     movieComboBox.setBackground(new Color(30,30,30));
+        //     movieComboBox.setFont(new Font("Arial", Font.PLAIN, 16));
+        //     addBroadcastModal.add(movieComboBox);
+
+            
+        //     JLabel theaterLabel = new JLabel("Theater:");
+        //     theaterLabel.setBounds(20, 120, 100, 30);
+        //     theaterLabel.setForeground(Color.WHITE);
+        //     theaterLabel.setFont(new Font("Bebas Neue", Font.PLAIN, 14));
+        //     addBroadcastModal.add(theaterLabel);
+
+            
+        //     JComboBox<String> theaterComboBox = new JComboBox<>(TheaterManager.theaters.stream().map(theater -> theater.Name).toArray(String[]::new));
+        //     theaterComboBox.setBounds(120, 120, 200, 30);
+        //     theaterComboBox.setForeground(Color.white);
+        //     theaterComboBox.setFocusable(false);
+        //     theaterComboBox.setBorder(BorderFactory.createEmptyBorder());
+        //     theaterComboBox.setBackground(new Color(30,30,30));
+        //     theaterComboBox.setFont(new Font("Arial", Font.PLAIN, 16));
+        //     addBroadcastModal.add(theaterComboBox);
+
+        //     JLabel dateLabel = new JLabel("Date:");
+        //     dateLabel.setBounds(20, 170, 100, 30);
+        //     dateLabel.setForeground(Color.WHITE);
+        //     dateLabel.setFont(new Font("Bebas Neue", Font.PLAIN, 14));
+        //     addBroadcastModal.add(dateLabel);
+        //     //Create a JSpinner for date selection
+        //     JSpinner dateSpinner = new JSpinner(new SpinnerDateModel());
+        //     JSpinner.DateEditor dateEditor = new JSpinner.DateEditor(dateSpinner, "yyyy-MM-dd");
+        //     dateSpinner.setEditor(dateEditor);
+        //     dateSpinner.setBounds(120, 170, 200, 30);
+        //     addBroadcastModal.add(dateSpinner);
+
+        //     JLabel timeLabel = new JLabel("Time:");
+        //     timeLabel.setBounds(20, 220, 100, 30);
+        //     timeLabel.setForeground(Color.WHITE);
+        //     timeLabel.setFont(new Font("Bebas Neue", Font.PLAIN, 14));
+        //     addBroadcastModal.add(timeLabel);
+        //     // Create a JSpinner for time selection
+        //     JSpinner timeSpinner = new JSpinner(new SpinnerDateModel());
+        //     JSpinner.DateEditor timeEditor = new JSpinner.DateEditor(timeSpinner, "HH:mm");
+        //     timeSpinner.setEditor(timeEditor);
+        //     timeSpinner.setBounds(120, 220, 200, 30);
+        //     addBroadcastModal.add(timeSpinner);
+
+
+        //     JButton addbroadcast = new JButton("Add");
+        //     addbroadcast.setBounds(120, 220, 80, 30);
+        //     addbroadcast.setBounds(120, 220, 80, 30);
+        //     addbroadcast.setBackground(new Color(30, 30, 30));
+        //     addbroadcast.setForeground(Color.WHITE);
+        //     addbroadcast.setFont(new Font("Bebas Neue", Font.PLAIN, 14));
+        //     addbroadcast.addActionListener(e1 -> {
+        //         String selectedMovie = (String) movieComboBox.getSelectedItem();
+        //         String selectedTheater = (String) theaterComboBox.getSelectedItem();
+        //         Date selectedDate = (Date) dateSpinner.getValue();
+        //         Time selectedTime = (Time) timeSpinner.getValue();
+        //         try {
+        //             localDate = LocalDate.parse(selectedDate);
+        //         } catch (DateTimeParseException ex) {
+        //             JOptionPane.showMessageDialog(null, "Invalid date format!", "Error", JOptionPane.ERROR_MESSAGE);
+        //             return;
+        //         }
+                
+        //         if (selectedMovie != null && selectedTheater != null && localDate != null) {
+        //             if (VipSeats < 0 || normalSeats < 0) {
+        //                 JOptionPane.showMessageDialog(null, "The number of VIP Seats and Normal Seats must be positive!", "Error", JOptionPane.ERROR_MESSAGE);
+        //                 return;
+        //             }
+
+        //             TheaterManager theaterManager = new TheaterManager();
+        //             boolean addedTheater = theaterManager.addTheater(Name, normalSeats, VipSeats);
+
+        //             if (addedTheater) {
+        //                 JOptionPane.showMessageDialog(null, "Theater added successfully!");
+        //                 SwingUtilities.getWindowAncestor(addTheaterModal).dispose();
+        //             } else {
+        //                 JOptionPane.showMessageDialog(null, "Failed to add theater. See console for details.", "Error", JOptionPane.ERROR_MESSAGE);
+        //             }
+        //         } else {
+        //             JOptionPane.showMessageDialog(null, "Please fill in all fields!", "Error", JOptionPane.ERROR_MESSAGE);
+        //         }
+        //     });
+        //     });
+        //     addBroadcastModal.add(addButton);
+
+        //     addBroadcastModal.setVisible(true);
+        // });
         BroadcastDashboard.add(AddBroad);
 
         RoundedButton DeleteBroad = new RoundedButton("Delete" , 5);
@@ -3052,7 +3366,7 @@ public class CinemaApp extends JFrame implements ActionListener {
 
  
 
-//----------------------Movies Panel------------------------
+//----------------------About Movies Panel------------------------
 
 
         JPanel MoviesDashboard = new JPanel();
@@ -3489,7 +3803,7 @@ public class CinemaApp extends JFrame implements ActionListener {
             dialog.setLocationRelativeTo(null); // Center on screen
             dialog.setVisible(true);
         });
-//************************************************************************************************************************************************************* */
+
         RoundedButton DeleteMovie = new RoundedButton("Delete" , 5);
         DeleteMovie.setBounds(64 + buttonwidth*4 + gap*4, 650, 97, 27);
         DeleteMovie.setForeground(Color.BLACK);
@@ -3525,14 +3839,13 @@ public class CinemaApp extends JFrame implements ActionListener {
         EditMoviepanel.setBounds(1200,0, 270, 750);
         EditMoviepanel.setBackground(new Color(30,30,30));
         MoviesDashboard.add(EditMoviepanel);
-
         EditMovie.addActionListener(e->{
             if (!isPanelVisible) {
                 slidePanel(EditMoviepanel, 1200, 782, 0, 270, 750);
                 isPanelVisible = true;
             }
         });
-
+        
         EditMovie.addActionListener(e -> {
             // Create the Add Movie panel directly
             JPanel addMovieModal = new JPanel();
