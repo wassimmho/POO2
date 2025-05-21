@@ -8,7 +8,7 @@ import model.Client;
 public class ClientManager {
 
 
-    public ArrayList<Client> clients;
+    public static ArrayList<Client> clients;
 
     public ClientManager() {
         clients = new ArrayList<>();
