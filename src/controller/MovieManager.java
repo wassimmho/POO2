@@ -788,4 +788,26 @@ public class MovieManager {
     public void setPromotion(int Id1, int Id2){
         this.PromosId = new int[]{Id1, Id2};
     }
+
+    public Movie GetBestRated() {
+        Movie bestRated = movies.get(0);
+        for (Movie movie : movies) {
+            if (movie.Rating > bestRated.Rating) {
+                bestRated = movie;
+            }
+        }
+        return bestRated;
+    }
+
+    public int GetMovieByName(String name) {
+        for (int i = 0; i < movies.size(); i++) {
+            if (movies.get(i).Title.equals(name)) {
+                return i;
+            }
+        }
+        return -1; // Movie not found
+    }
+
+    
 }
+
