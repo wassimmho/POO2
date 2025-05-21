@@ -322,25 +322,25 @@ public class ClientManager {
             }
         }
 
-        public static boolean userExists(String username, String email, String password) {
-            String sql = "SELECT COUNT(*) FROM users WHERE username = ? AND Email = ? AND Password = ?";
-    
+        public static boolean userExists(String userOrEmail, String password) {
+            String sql = "SELECT COUNT(*) FROM users WHERE (username = ? OR Email = ?) AND Password = ?";
+
             try (Connection conn = DatabaseConnection.connect();
                  PreparedStatement pstmt = conn.prepareStatement(sql)) {
-    
-                pstmt.setString(1, username);
-                pstmt.setString(2, email);
+
+                pstmt.setString(1, userOrEmail);
+                pstmt.setString(2, userOrEmail);
                 pstmt.setString(3, password);
-    
+
                 ResultSet rs = pstmt.executeQuery();
                 if (rs.next()) {
                     return rs.getInt(1) > 0;
                 }
-    
+
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-    
+
             return false;
         }
 
