@@ -557,6 +557,29 @@ public class CinemaApp extends JFrame implements ActionListener {
             cardPanel.add(goToSignUpButton);
 
             loginPanel.add(cardPanel);
+
+            JButton ReturnButton = new JButton("RETURN");
+            ReturnButton.setBounds(600, 391, 300, 20);
+            ReturnButton.setForeground(Color.RED);
+            ReturnButton.setFont(new Font("Roboto", Font.BOLD, 14));
+            ReturnButton.setBorderPainted(false);
+            ReturnButton.setContentAreaFilled(false);
+            ReturnButton.setFocusPainted(false);
+            ReturnButton.addMouseListener(new java.awt.event.MouseAdapter() {
+                public void mouseEntered(java.awt.event.MouseEvent evt) {
+                    ReturnButton.setForeground(new Color(0x550000));
+                }
+    
+                public void mouseExited(java.awt.event.MouseEvent evt) {
+                    ReturnButton.setForeground(Color.RED);
+                }
+            });
+            ReturnButton.addActionListener(event -> MainCardLayout.show(MainPanel, "Welcome"));
+            ReturnButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
+            cardPanel.add(ReturnButton);
+
+            loginPanel.add(cardPanel);
+
             return loginPanel;
     }
 
@@ -905,17 +928,54 @@ public class CinemaApp extends JFrame implements ActionListener {
     
             JButton goToLoginButton = new JButton("Already have an account? Login");
             goToLoginButton.setBounds(395, 95, 250, 30);
-            goToLoginButton.setForeground(Color.white);
-            goToLoginButton.setFont(new Font("Roboto", Font.PLAIN, 12));
+            goToLoginButton.setForeground(Color.WHITE);
+            goToLoginButton.setFont(new Font("Roboto", Font.BOLD, 14));
             goToLoginButton.setBorderPainted(false);
             goToLoginButton.setContentAreaFilled(false);
             goToLoginButton.setFocusPainted(false);
+            goToLoginButton.addMouseListener(new java.awt.event.MouseAdapter() {
+                public void mouseEntered(java.awt.event.MouseEvent evt) {
+                    goToLoginButton.setForeground(Color.RED);
+                }
+    
+                public void mouseExited(java.awt.event.MouseEvent evt) {
+                    goToLoginButton.setForeground(Color.WHITE);
+                }
+            });
+            goToLoginButton.addActionListener(event -> MainCardLayout.show(MainPanel, "Welcome"));
             goToLoginButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
             cardPanel.add(goToLoginButton);
     
             goToLoginButton.addActionListener(event -> MainCardLayout.show(this.MainPanel, "LogIn"));
     
             signUpPanel.add(cardPanel);
+
+
+            JButton ReturnButton = new JButton("RETURN");
+            ReturnButton.setBounds(595, 95, 250, 30);
+            ReturnButton.setForeground(Color.RED);
+            ReturnButton.setFont(new Font("Roboto", Font.BOLD, 14));
+            ReturnButton.setBorderPainted(false);
+            ReturnButton.setContentAreaFilled(false);
+            ReturnButton.setFocusPainted(false);
+            ReturnButton.addMouseListener(new java.awt.event.MouseAdapter() {
+                public void mouseEntered(java.awt.event.MouseEvent evt) {
+                    ReturnButton.setForeground(new Color(0x550000));
+                }
+    
+                public void mouseExited(java.awt.event.MouseEvent evt) {
+                    ReturnButton.setForeground(Color.RED);
+                }
+            });
+            ReturnButton.addActionListener(event -> MainCardLayout.show(MainPanel, "Welcome"));
+            ReturnButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
+            cardPanel.add(ReturnButton);
+    
+            ReturnButton.addActionListener(event -> MainCardLayout.show(this.MainPanel, "LogIn"));
+    
+            signUpPanel.add(cardPanel);
+
+
             return signUpPanel;
     }
     
@@ -5716,6 +5776,7 @@ public class CinemaApp extends JFrame implements ActionListener {
                 moviePanel.add(Author);
 
                 AllMovieList.add(moviePanel);
+
             }else if(movieManager.movies.get(i).Genre == ChosenGenre){
                 RoundedPanel moviePanel = new RoundedPanel(35);
                 moviePanel.setLayout(null);
@@ -6144,7 +6205,7 @@ public class CinemaApp extends JFrame implements ActionListener {
                 if (currentCard.equals("buy movie")) {
                     ContentPanel.remove(BuyMoviePanel);
                 }
-                MainCardLayout.show(MainPanel, "LogIn");
+                MainCardLayout.show(MainPanel, "Welcome");
             }  
         });
         LeftPanel.add(Logoutbutton);
