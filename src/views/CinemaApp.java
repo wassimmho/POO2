@@ -55,6 +55,8 @@ public class CinemaApp extends JFrame implements ActionListener {
     public JPanel ClientPanel;
     public JPanel MainPanel;
     public JPanel BuyMoviePanel;
+    public JPanel AccountPanel;
+    public JPanel ProfileAdminPanel;
 
     public ArrayList<Movie> FavList;
 
@@ -162,11 +164,11 @@ public class CinemaApp extends JFrame implements ActionListener {
         JPanel AdminElements = createInterfaceAdminPanel();
 
         // Account Panel--------------------------------------------------------
-        JPanel AccountPanel = CreateAccountPanel();
+        AccountPanel = CreateAccountPanel();
 
         // Account admin Panel--------------------------------------------------------
         int userId = 0; // Replace with the actual user ID you want to use
-        JPanel ProfileAdminPanel = createprofile(userId);
+        ProfileAdminPanel = createprofile(userId);
 
         // add panels to the main panel ----------------------------------------
         MainPanel.add(WelcomePanel, "Welcome");
@@ -180,7 +182,7 @@ public class CinemaApp extends JFrame implements ActionListener {
 
         // add the main panel to the JFrame ----------------------------------
         setContentPane(MainPanel);
-        MainCardLayout.show(MainPanel, "Client");
+        MainCardLayout.show(MainPanel, "Admin");
 
         // Revalidate and repaint to ensure the SettingsPanel is displayed
         this.revalidate();
@@ -522,9 +524,21 @@ public class CinemaApp extends JFrame implements ActionListener {
                     
                     JOptionPane.showMessageDialog(null, "User logged in successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
                     USERID = ClientManager.getuserid(username);
-                    JPanel ProfilePanel = createprofile(USERID);
-                    MainPanel.add(ProfilePanel, "Profile");
-                    MainCardLayout.show(this.MainPanel, "Profile");
+                    currentClient = ClientManager.clients.get(USERID);
+
+                    AccountPanel.repaint();
+                    AccountPanel.revalidate();
+
+                    MainCardLayout.show(MainPanel, "Home");
+                    passwordField.setText("");
+                    UserField.setText("");
+
+                }else if(AdminManager.adminExists(username, password)){
+                    
+                    JOptionPane.showMessageDialog(null, "User logged in successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
+                    USERID = AdminManager.getAdminid(username);
+                    ProfileAdminPanel = createprofile(USERID);
+                    MainCardLayout.show(this.MainPanel, "Admin");
                     passwordField.setText("");
                     UserField.setText("");
                 }else{
@@ -4627,7 +4641,7 @@ public class CinemaApp extends JFrame implements ActionListener {
         cardContainer.add(theaterDashboard,"theater");
 
 
-        ((CardLayout) cardContainer.getLayout()).show(cardContainer, "movies");
+        ((CardLayout) cardContainer.getLayout()).show(cardContainer, "home");
 
 
         MiddlePanel.setLayout(null);
@@ -4707,8 +4721,23 @@ public class CinemaApp extends JFrame implements ActionListener {
         separatorLeft.setOrientation(SwingConstants.HORIZONTAL);
         separatorLeft.setBackground(Color.white);
         separatorLeft.setForeground(Color.white);
-        separatorLeft.setBounds(10, 460, 150, 1);
+        separatorLeft.setBounds(10, 430, 150, 1);
         LeftPanel.add(separatorLeft);
+
+        RoundedButton ProfileButton = new RoundedButton("Profile", 20);
+        ProfileButton.setBounds(10, 510, 150, 40);
+        ProfileButton.setForeground(Color.WHITE);
+        ProfileButton.setBackground(new Color(0, 0, 0, 0));
+        ProfileButton.setContentAreaFilled(false);
+        ProfileButton.setLayout(null);
+        ProfileButton.setFont(new Font("Segoe UI", Font.BOLD, 14));
+        ProfileButton.setHorizontalAlignment(SwingConstants.LEFT);
+        ProfileButton.addActionListener(e ->{
+            isPanelVisible = false;
+            MainCardLayout.show(MainPanel, "ProfileAdminPanel");
+        });
+        ProfileButton.setHoverEffect(new Color(0, 0, 0 , 0), new Color(40, 40, 40));
+        LeftPanel.add(ProfileButton);
 
         RoundedButton Logoutbutton = new RoundedButton("Log out", 20);
         Logoutbutton.setBounds(10, 630, 150, 40);
