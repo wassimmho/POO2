@@ -8,14 +8,21 @@ import javax.swing.*;
 
 public class RoundedButton extends JButton {
     private int radius;
-    private Color normalColor; // Normal background color
-    private Color hoverColor;  // Background color on hover
     private Color borderColor; // Border color
     private int borderThickness; // Border thickness
 
-    public RoundedButton(String text, int radius) {
-        super(text);
+    public RoundedButton(int radius) {
         this.radius = radius;
+
+        // Disable default button styling
+        setContentAreaFilled(false);
+        setBorderPainted(false);
+        setFocusPainted(false);
+    }
+
+    public RoundedButton(String Text, int radius) {
+        this.radius = radius;
+        this.setText(Text);
 
         // Disable default button styling
         setContentAreaFilled(false);
@@ -25,8 +32,6 @@ public class RoundedButton extends JButton {
 
     // Method to set the hover effect
     public void setHoverEffect(Color normalColor, Color hoverColor) {
-        this.normalColor = normalColor;
-        this.hoverColor = hoverColor;
 
         // Set initial background color
         setBackground(normalColor);
