@@ -1,8 +1,8 @@
 package controller;
 
-import model.*;
 import java.sql.*;
 import java.util.ArrayList;
+import model.*;
 
 public class AdminManager {
 
@@ -210,4 +210,28 @@ public class AdminManager {
             e.printStackTrace();
         }
         }
+
+
+        
+        public static boolean adminExists(String Email, String password) {
+            String sql = "SELECT COUNT(*) FROM admins WHERE  Email = ? AND Password = ?";
+
+            try (Connection conn = DatabaseConnection.connect();
+                 PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+                pstmt.setString(1, Email);
+                pstmt.setString(3, password);
+
+                ResultSet rs = pstmt.executeQuery();
+                if (rs.next()) {
+                    return rs.getInt(1) > 0;
+                }
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
+            return false;
+        }
+
 }
