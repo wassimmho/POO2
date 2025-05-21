@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import model.*;
 
@@ -14,22 +15,6 @@ public class TheaterManager {
     public TheaterManager() {
 
         this.theaters = new ArrayList<>();
-
-        Theater Room1 = new Theater(0, 200, 40, 1, true);
-        Theater Room2 = new Theater(1, 300, 60, 2, true);
-        Theater Room3 = new Theater(2, 400, 80, 3, true);
-        Theater Room4 = new Theater(3, 200, 40, 4, true);
-        Theater Room5 = new Theater(4, 300, 60, 5, true);
-        Theater Room6 = new Theater(5, 200, 40, 6, true);
-        Theater Room7 = new Theater(6, 200, 40, 7, true);
-
-        AddTheater(Room1);
-        AddTheater(Room2);
-        AddTheater(Room3);
-        AddTheater(Room4);
-        AddTheater(Room5);
-        AddTheater(Room6);
-        AddTheater(Room7);
     }
 
     public void AddTheater(Theater theater) {
@@ -269,4 +254,87 @@ public class TheaterManager {
 
             return 0;
         }
+
+        // Get the names of total available theaters by date 
+        public static ArrayList<String> getAvailableTheatersByDate(LocalDate date) {
+            String sql = "SELECT TheaterName FROM theaters WHERE Available = 1 AND Date = ?";
+            ArrayList<String> availableTheaters = new ArrayList<>();
+
+            try (Connection conn = DatabaseConnection.connect();
+                PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+                pstmt.setDate(1, java.sql.Date.valueOf(date));
+
+                ResultSet rs = pstmt.executeQuery();
+                while (rs.next()) {
+                    availableTheaters.add(rs.getString("TheaterName"));
+                }
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
+            return availableTheaters;
+        }
+
+        // Get avaible date by theater name
+        public static ArrayList<LocalDate> getAvailableDatesByTheaterName(String theaterName) {
+            String sql = "SELECT Date FROM theaters WHERE TheaterName = ? AND Available = 1";
+            ArrayList<LocalDate> availableDates = new ArrayList<>();
+
+            try (Connection conn = DatabaseConnection.connect();
+                PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+                pstmt.setString(1, theaterName);
+
+                ResultSet rs = pstmt.executeQuery();
+                while (rs.next()) {
+                    availableDates.add(rs.getDate("Date").toLocalDate());
+                }
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
+            return availableDates;
+        }
+
+        //get all theaters names
+        public static ArrayList<String> getAllTheaterNames() {
+            String sql = "SELECT TheaterName FROM theaters";
+            ArrayList<String> theaterNames = new ArrayList<>();
+
+            try (Connection conn = DatabaseConnection.connect();
+                PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+                ResultSet rs = pstmt.executeQuery();
+                while (rs.next()) {
+                    theaterNames.add(rs.getString("TheaterName"));
+                }
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
+            return theaterNames;
+        }
+
+        //get theater id by name
+        public static int getTheaterIdByName(String theaterName) {
+            String sql = "SELECT TheaterID FROM theaters WHERE TheaterName = ?";
+            try (Connection conn = DatabaseConnection.connect();
+                PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+                pstmt.setString(1, theaterName);
+                ResultSet rs = pstmt.executeQuery();
+                if (rs.next()) {
+                    return rs.getInt("TheaterID");
+                }
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            return -1; // Not found
+        }
 }
+

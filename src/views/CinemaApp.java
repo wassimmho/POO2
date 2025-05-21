@@ -20,6 +20,13 @@ import model.*;
 
 public class CinemaApp extends JFrame implements ActionListener {
 
+
+    // Declare dashboard panels as instance variables so they are accessible throughout the class
+    private JPanel MoviesDashboard;
+    private JPanel UserInsightsDashboard;
+    private JPanel BroadcastDashboard;
+    private JPanel theaterDashboard;
+
     // Manager elements ------------------------------------------------
     public static MovieManager movieManager;
     public static ClientManager clientManager;
@@ -1827,10 +1834,93 @@ public class CinemaApp extends JFrame implements ActionListener {
         addBroadcastButton.setForeground(Color.WHITE);
         addBroadcastButton.setBackground(new Color(60, 120, 180));
         addBroadcastButton.setFont(new Font("Segoe UI", Font.BOLD, 16));
-        addBroadcastButton.addActionListener(e -> {
-            //TODO: Action to add a broadcast
-            JOptionPane.showMessageDialog(null, "Add Broadcast clicked!");
-        });
+        // addBroadcastButton.addActionListener(e -> {
+        //     JPanel addTheaterModal = new JPanel();
+        //     addTheaterModal.setLayout(null);
+        //     addTheaterModal.setPreferredSize(new Dimension(1000, 500)); // Adjust size to make it smaller
+        //     addTheaterModal.setBackground(new Color(30, 30, 30));
+            
+        //     // Title for the panel
+        //     JLabel panelBroadcast = new JLabel("Add New Broadcast");
+        //     panelBroadcast.setBounds(50, 10, 200, 30);
+        //     panelBroadcast.setForeground(Color.WHITE);
+        //     panelBroadcast.setFont(new Font("Segoe UI", Font.BOLD, 22));
+        //     addTheaterModal.add(panelBroadcast);
+
+        //     // Theater choice for broad
+        //     JLabel Theater = new JLabel("Theater Name");
+        //     Theater.setBounds(50, 50, 100, 30);
+        //     Theater.setForeground(Color.WHITE);
+        //     // Replace with a String array of theater names, e.g., from TheaterManager or database
+        //     JComboBox<String> Theaterchoice = new JComboBox<>(TheaterManager.getAllTheaterNames().toArray(new String[0]));
+        //     Theaterchoice.addActionListener(evt -> {
+        //         JSpinner DateSpinner = new JSpinner(new SpinnerDateModel());
+        //         DateSpinner.setBounds(50, 160, 300, 30); // Corrected y position for DateSpinner
+        //         DateSpinner.setBackground(new Color(50, 50, 50));
+        //         DateSpinner.setForeground(Color.WHITE);
+        //         LocalDate selectedDate = ((SpinnerDateModel) DateSpinner.getModel()).getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        //         ArrayList<LocalDate> availableDates = TheaterManager.getAvailableDatesByTheaterName((String) Theaterchoice.getSelectedItem());
+        //         // Update the DateSpinner with available dates
+        //     });
+        //     Theaterchoice.setBounds(50, 80, 300, 30);
+        //     Theaterchoice.setBackground(new Color(50, 50, 50));
+        //     Theaterchoice.setForeground(Color.WHITE);
+        //     Theaterchoice.setBorder(BorderFactory.createCompoundBorder(
+        //         BorderFactory.createLineBorder(Color.GRAY),
+        //         BorderFactory.createEmptyBorder(5, 5, 5, 5) // Padding
+        //     ));
+        //     addTheaterModal.add(Theater);
+        //     addTheaterModal.add(Theaterchoice);
+            
+        //     // Movie choice for broad
+        //     JLabel MovieLabel = new JLabel("Movie Title");
+        //     MovieLabel.setBounds(50, 210, 150, 30); // Adjusted width for label
+        //     MovieLabel.setForeground(Color.WHITE);
+        //     JComboBox<String> MovieChoice = new JComboBox<>(MovieManager.getAllMoviesNames().toArray(new String[0]));
+        //     MovieChoice.setBounds(50, 240, 300, 30); // Corrected y position for MovieChoice
+        //     MovieChoice.setBackground(new Color(50, 50, 50));
+        //     MovieChoice.setForeground(Color.WHITE);
+        //     addTheaterModal.add(MovieLabel);
+        //     addTheaterModal.add(MovieChoice);
+
+        //     RoundedButton addBroadcastButton2 = new RoundedButton("Add Broadcast", 5);
+        //     addBroadcastButton2.setBounds(380, 450, 130, 30); // Adjusted position
+        //     addBroadcastButton2.setForeground(Color.BLACK);
+        //     addBroadcastButton2.setBackground(Color.WHITE);
+        //     addBroadcastButton2.addActionListener(event -> {
+        //         LocalDate Date = DateSpinner.getValue();
+        //         Theater theater = TheaterManager.getTheaterByNaTheaterchoice.getSelectedItem());
+        //         Movie movie = MovieManager.getMovieByTitle((String) MovieChoice.getSelectedItem());
+        //         try{
+        //             BroadcastManager.addBroadcast(theater, movie, Date);
+        //             JOptionPane.showMessageDialog(null, "Broadcast added successfully!");
+        //         } catch (SQLException ex) {
+        //             ex.printStackTrace();
+        //             JOptionPane.showMessageDialog(null, "Failed to add broadcast. See console for details.", "Error", JOptionPane.ERROR_MESSAGE);
+        //         }
+
+        //         if (!Date.isEmpty() && theater != null && movie != null) {
+        //             if (Date <= (LocalDate.now() + 7)) {
+        //                 JOptionPane.showMessageDialog(null, "The broadcast date must be within the next 7 days!", "Error", JOptionPane.ERROR_MESSAGE);
+        //                 return;
+        //             }
+
+        //             BroadcastManager broadcastManager = new BroadcastManager();
+        //             boolean addedBroadcast = broadcastManager.addBroadcast(theater, movie, Date);
+
+        //             if (addedBroadcast) {
+        //                 JOptionPane.showMessageDialog(null, "Broadcast added successfully!");
+        //                 SwingUtilities.getWindowAncestor(addTheaterModal).dispose();
+        //             } else {
+        //                 JOptionPane.showMessageDialog(null, "Failed to add broadcast. See console for details.", "Error", JOptionPane.ERROR_MESSAGE);
+        //             }
+        //         } else {
+        //             JOptionPane.showMessageDialog(null, "Please fill in all fields!", "Error", JOptionPane.ERROR_MESSAGE);
+        //         }
+        //     });    
+        //     addTheaterModal.add(addBroadcastButton2);
+        //     addTheaterModal.setVisible(true);
+              
         quickActionsPanel.add(addBroadcastButton);
 
         // Add Movie Button
@@ -2210,11 +2300,11 @@ public class CinemaApp extends JFrame implements ActionListener {
         settingsButton.setForeground(Color.WHITE);
         settingsButton.setBackground(new Color(100, 100, 100));
         settingsButton.setFont(new Font("Segoe UI", Font.BOLD, 16));
-        settingsButton.addActionListener(e -> {
-            // Action to open settings
-            JOptionPane.showMessageDialog(null, "Settings clicked!");
-        });
-        quickActionsPanel.add(settingsButton);
+        theaterDashboard = new JPanel();
+        theaterDashboard.setLayout(null);
+        theaterDashboard.setBounds(0, 0, 1400, 750);
+        theaterDashboard.setBackground(new Color(30, 30, 30));
+        MiddlePanel.add(theaterDashboard);
 //--------------------------------about theater--------------
         JPanel theaterDashboard = new JPanel();
         theaterDashboard.setLayout(null);
@@ -2373,6 +2463,95 @@ public class CinemaApp extends JFrame implements ActionListener {
         EditTheater.setBounds(70 + buttonwidth1*2 + gap1*2, 650, 97, 27);
         EditTheater.setForeground(Color.BLACK);
         EditTheater.setBackground(Color.white);
+        EditTheater.addActionListener(e -> {
+            int counttheaters = 0;
+            int selectedIndex = -1;
+            String selectedTheaterName = null;
+            for (int i = 0; i < checkBoxesTheaterList.size(); i++) {
+                if (checkBoxesTheaterList.get(i).isSelected()) {
+                    counttheaters++;
+                    selectedIndex = i;
+                    selectedTheaterName = ((JLabel) ((JPanel) contentPanelTheaterList.getComponent(i)).getComponent(1)).getText();
+                }
+            }
+            if (counttheaters == 1 && selectedTheaterName != null) {
+                int theaterId = TheaterManager.getTheaterIdByName(selectedTheaterName);
+                JPanel editTheaterModal = new JPanel();
+                editTheaterModal.setLayout(null);
+                editTheaterModal.setPreferredSize(new Dimension(1000, 500)); // Adjust size to make it smaller
+                editTheaterModal.setBackground(new Color(30, 30, 30));
+                
+                // Title for the panel
+                JLabel panelTitle = new JLabel("Edit Theater");
+                panelTitle.setBounds(50, 10, 200, 30);
+                panelTitle.setForeground(Color.WHITE);
+                panelTitle.setFont(new Font("Segoe UI", Font.BOLD, 22));
+                editTheaterModal.add(panelTitle);
+                
+                // Title Label and TextField
+                JLabel titleLabel = new JLabel("Name");
+                titleLabel.setBounds(50, 50, 100, 30);
+                titleLabel.setForeground(Color.WHITE);
+                JTextField titleTextField = new JTextField();
+                titleTextField.setBounds(50, 80, 300, 30);
+                titleTextField.setBackground(new Color(50, 50, 50));
+                titleTextField.setForeground(Color.WHITE);
+                titleTextField.setCaretColor(Color.WHITE);
+                titleTextField.setBorder(BorderFactory.createCompoundBorder(
+                    BorderFactory.createLineBorder(Color.GRAY),
+                    BorderFactory.createEmptyBorder(5, 5, 5, 5) // Padding
+                ));
+                editTheaterModal.add(titleLabel);
+                editTheaterModal.add(titleTextField);
+
+                // VIPSeats Label and TextField
+                JLabel VIPseatsLabel = new JLabel("Number of VIP Seats");
+                VIPseatsLabel.setBounds(50, 130, 150, 30); // Adjusted width for label
+                VIPseatsLabel.setForeground(Color.WHITE);
+                JTextField VIPSeats = new JTextField();
+                VIPSeats.setBounds(50, 160, 300, 30); // Corrected y position for VIPSeats
+                VIPSeats.setBackground(new Color(50, 50, 50));
+                VIPSeats.setForeground(Color.WHITE);
+                editTheaterModal.add(VIPseatsLabel);
+                editTheaterModal.add(VIPSeats);
+                theaterDashboard.add(editTheaterModal);
+                
+                // NormalSeats Label and TextField
+                JLabel NormalSeatsLabel = new JLabel("Number of Normal Seats");
+                NormalSeatsLabel.setBounds(50, 210, 150, 30); // Adjusted width for label
+                NormalSeatsLabel.setForeground(Color.WHITE);
+                JTextField NormalSeats = new JTextField();
+                NormalSeats.setBounds(50, 240, 300, 30); // Corrected y position for NormalSeats
+                NormalSeats.setBackground(new Color(50, 50, 50));
+                NormalSeats.setForeground(Color.WHITE);
+                editTheaterModal.add(NormalSeatsLabel);
+                editTheaterModal.add(NormalSeats);
+
+                // Edit Theater Button
+                RoundedButton editTheaterButton = new RoundedButton("Edit Theater", 5);
+                editTheaterButton.setBounds(380, 450, 130, 30); // Adjusted position
+                editTheaterButton.setForeground(Color.BLACK);
+                editTheaterButton.setBackground(Color.WHITE);
+                editTheaterButton.addActionListener(event -> {
+                    String name = titleTextField.getText();
+                    Integer vipSeats = VIPSeats.getText().isEmpty() ? null : Integer.parseInt(VIPSeats.getText());
+                    Integer normalSeats = NormalSeats.getText().isEmpty() ? null : Integer.parseInt(NormalSeats.getText());
+                    if(!name.isEmpty()) {
+                        TheaterManager.updateTheaterName(theaterId, name);
+                    }
+                    if(vipSeats != null) {
+                        TheaterManager.updateVIPSeats(theaterId, vipSeats);
+                    }
+                    if(normalSeats != null) {
+                        TheaterManager.updateNormalSeats(theaterId, normalSeats);
+                    }
+                    JOptionPane.showMessageDialog(null, "Theater updated successfully!");
+                });
+                editTheaterModal.add(editTheaterButton);
+            } else {
+                JOptionPane.showMessageDialog(null, "Please select one and only one theater to edit!", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        });
         theaterDashboard.add(EditTheater);
 
         RoundedButton AddTheater = new RoundedButton("Add" , 5);
@@ -2752,11 +2931,11 @@ public class CinemaApp extends JFrame implements ActionListener {
 
         JLabel datenowTheater = new JLabel(LocalDate.now().toString());
         datenowTheater.setBounds(50, 700, 200, 30);
-        datenowTheater.setForeground(Color.WHITE);
-        datenowTheater.setFont(new Font("Bebas Neue", Font.BOLD, 13));
-        centerPanel.add(datenowTheater);
-        
-//------------------------------About Broadcast--------------------------------
+        BroadcastDashboard = new JPanel();
+        BroadcastDashboard.setLayout(null);
+        BroadcastDashboard.setBounds(0, 0, 1400, 750);
+        BroadcastDashboard.setBackground(new Color(30, 30, 30));
+        MiddlePanel.add(BroadcastDashboard);
 
         JPanel BroadcastDashboard = new JPanel();
         BroadcastDashboard.setLayout(null);
@@ -3097,10 +3276,6 @@ public class CinemaApp extends JFrame implements ActionListener {
         EditBroad.setForeground(Color.BLACK);
         EditBroad.setBackground(Color.white);
         EditBroad.addActionListener(e->{
-            if (!isPanelVisible) {
-                slidePanel(EditBroadcast, 1200, 782, 0, 270, 750);
-                isPanelVisible = true;
-            }
             
         });
         BroadcastDashboard.add(EditBroad);
@@ -3363,12 +3538,6 @@ public class CinemaApp extends JFrame implements ActionListener {
         BroadcastDashboard.add(datenowBroad);
 
 
-
- 
-
-//----------------------About Movies Panel------------------------
-
-
         JPanel MoviesDashboard = new JPanel();
         MoviesDashboard.setLayout(null);
         MoviesDashboard.setBounds(0, 0, 750, 750);
@@ -3565,6 +3734,265 @@ public class CinemaApp extends JFrame implements ActionListener {
         EditMovie.setBounds(64 + buttonwidth*2 + gap*2, 650, 97, 27);
         EditMovie.setForeground(Color.BLACK);
         EditMovie.setBackground(Color.white);
+        EditMovie.addActionListener(e->{
+            int countmovies = 0;
+            for(JCheckBox checkBox : checkBoxesMovieList) {
+                if(checkBox.isSelected()){
+                    countmovies++;
+                }
+                
+            }
+            if(countmovies == 1){
+                // Get the selected movie title
+                String selectedMovieTitle = null;
+                for (int i = 0; i < checkBoxesMovieList.size(); i++) {
+                    if (checkBoxesMovieList.get(i).isSelected()) {
+                        selectedMovieTitle = ((JLabel) ((JPanel) contentPanelMovieList.getComponent(i)).getComponent(1)).getText();
+                        break;
+                    }
+                }
+                MovieManager moviemanager = new MovieManager();
+                int movieid = moviemanager.getMovieIdByName(selectedMovieTitle);
+                // Create the Edit Movie panel directly
+                JPanel editMovieModal = new JPanel();
+                editMovieModal.setLayout(null);
+                editMovieModal.setPreferredSize(new Dimension(1000, 500)); // Adjust size to make it smaller
+                editMovieModal.setBackground(new Color(30, 30, 30));
+
+                // Title for the panel
+                JLabel panelTitle = new JLabel("Edit Movie");
+                panelTitle.setBounds(50, 10, 200, 30);
+                panelTitle.setForeground(Color.WHITE);
+                panelTitle.setFont(new Font("Segoe UI", Font.BOLD, 22));
+                editMovieModal.add(panelTitle);
+
+                // Title Label and TextField
+                JLabel titleLabel = new JLabel("Title");
+                titleLabel.setBounds(50, 50, 100, 30);
+                titleLabel.setForeground(Color.WHITE);
+                JTextField titleTextField = new JTextField();
+                titleTextField.setBounds(50, 80, 300, 30);
+                titleTextField.setBackground(new Color(50, 50, 50));
+                titleTextField.setForeground(Color.WHITE);
+                titleTextField.setCaretColor(Color.WHITE);
+                titleTextField.setBorder(BorderFactory.createCompoundBorder(
+                    BorderFactory.createLineBorder(Color.GRAY),
+                    BorderFactory.createEmptyBorder(5, 5, 5, 5) // Padding
+                ));
+                editMovieModal.add(titleLabel);
+                editMovieModal.add(titleTextField);
+
+                // Genre Label and TextField
+                JLabel genreLabel = new JLabel("Genre");
+                genreLabel.setBounds(50, 130, 100, 30); // Same x as Title, different y
+                genreLabel.setForeground(Color.WHITE);
+                JComboBox<Movie.MovieGenre> genreComboBox = new JComboBox<>(Movie.MovieGenre.values());
+                genreComboBox.setBounds(50, 160, 300, 30); // Same x as Title, different y
+                genreComboBox.setBackground(new Color(50, 50, 50));
+                genreComboBox.setForeground(Color.WHITE);
+                editMovieModal.add(genreLabel);
+                editMovieModal.add(genreComboBox);
+            
+                // Age Rating Label and TextField
+                JLabel ageRatingLabel = new JLabel("Age Rating");
+                ageRatingLabel.setBounds(50, 210, 100, 30); // Same x as Title, different y
+                ageRatingLabel.setForeground(Color.WHITE);
+                JComboBox<Movie.MovieAgeRating> ageRatingComboBox = new JComboBox<>(Movie.MovieAgeRating.values());
+                ageRatingComboBox.setBounds(50, 240, 300, 30); // Same x as Title, different y
+                ageRatingComboBox.setBackground(new Color(50, 50, 50));
+                ageRatingComboBox.setForeground(Color.WHITE);
+                editMovieModal.add(ageRatingLabel);
+                editMovieModal.add(ageRatingComboBox);
+            
+                // Rating Label and TextField
+                JLabel ratingLabel = new JLabel("Rating (0.0 - 10.0)");
+                ratingLabel.setBounds(50, 300, 150, 30);
+                ratingLabel.setForeground(Color.WHITE);
+                JTextField ratingTextField = new JTextField();
+                ratingTextField.setBounds(50, 330, 300, 30);
+                ratingTextField.setBackground(new Color(50, 50, 50));
+                ratingTextField.setForeground(Color.WHITE);
+                ratingTextField.setCaretColor(Color.WHITE);
+                ratingTextField.setBorder(BorderFactory.createCompoundBorder(
+                    BorderFactory.createLineBorder(Color.GRAY),
+                    BorderFactory.createEmptyBorder(5, 5, 5, 5) // Padding
+                ));
+                editMovieModal.add(ratingLabel);
+                editMovieModal.add(ratingTextField);
+
+                // Trailer URL Label and TextField
+                JLabel trailerUrlLabel = new JLabel("Trailer URL");
+                trailerUrlLabel.setBounds(380, 50, 100, 30);
+                trailerUrlLabel.setForeground(Color.WHITE);
+                JTextField trailerUrlTextField = new JTextField();
+                trailerUrlTextField.setBounds(380, 80, 300, 30);
+                trailerUrlTextField.setBackground(new Color(50, 50, 50));
+                trailerUrlTextField.setForeground(Color.WHITE);
+                trailerUrlTextField.setCaretColor(Color.WHITE);
+                trailerUrlTextField.setBorder(BorderFactory.createCompoundBorder(
+                    BorderFactory.createLineBorder(Color.GRAY),
+                    BorderFactory.createEmptyBorder(5, 5, 5, 5) // Padding
+                ));
+                editMovieModal.add(trailerUrlLabel);
+                editMovieModal.add(trailerUrlTextField);
+
+                // Release Date Label and Date Picker
+                JLabel releaseDateLabel = new JLabel("Release Date");
+                releaseDateLabel.setBounds(380, 130, 100, 30);
+                releaseDateLabel.setForeground(Color.WHITE);
+                JSpinner releaseDateSpinner = new JSpinner(new SpinnerDateModel());
+                releaseDateSpinner.setBounds(380, 160, 300, 30);
+                releaseDateSpinner.setEditor(new JSpinner.DateEditor(releaseDateSpinner, "yyyy-MM-dd"));
+                releaseDateSpinner.setBackground(new Color(50, 50, 50));
+                releaseDateSpinner.setForeground(Color.WHITE);
+                editMovieModal.add(releaseDateLabel);
+                editMovieModal.add(releaseDateSpinner);
+            
+                // Director Label and TextField
+                JLabel directorLabel = new JLabel("Director");
+                directorLabel.setBounds(50, 380, 100, 30);
+                directorLabel.setForeground(Color.WHITE);
+                JTextField directorTextField = new JTextField();
+                directorTextField.setBounds(50, 410, 300, 30);
+                directorTextField.setBackground(new Color(50, 50, 50));
+                directorTextField.setForeground(Color.WHITE);
+                directorTextField.setCaretColor(Color.WHITE);
+                directorTextField.setBorder(BorderFactory.createCompoundBorder(
+                    BorderFactory.createLineBorder(Color.GRAY),
+                    BorderFactory.createEmptyBorder(5, 5, 5, 5) // Padding
+                ));
+                editMovieModal.add(directorLabel);
+                editMovieModal.add(directorTextField);
+            
+                // Description Label and TextArea
+                JLabel descriptionLabel = new JLabel("Description");
+                descriptionLabel.setBounds(380, 210, 100, 30);
+                descriptionLabel.setForeground(Color.WHITE);
+                JTextArea descriptionTextArea = new JTextArea();
+                descriptionTextArea.setBounds(380, 240, 300, 100);
+                descriptionTextArea.setBackground(new Color(50, 50, 50));
+                descriptionTextArea.setForeground(Color.WHITE);
+                descriptionTextArea.setCaretColor(Color.WHITE);
+                descriptionTextArea.setBorder(BorderFactory.createCompoundBorder(
+                    BorderFactory.createLineBorder(Color.GRAY),
+                    BorderFactory.createEmptyBorder(5, 5, 5, 5) // Padding
+                ));
+                descriptionTextArea.setLineWrap(true);
+                descriptionTextArea.setWrapStyleWord(true);
+                editMovieModal.add(descriptionLabel);
+                editMovieModal.add(descriptionTextArea);
+            
+                // Image Panel
+                JPanel imagePanel = new JPanel();
+                imagePanel.setBounds(720, 130, 250, 300); // Adjusted position
+                imagePanel.setBackground(new Color(50, 50, 50));
+                imagePanel.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+                editMovieModal.add(imagePanel);
+
+                // Choose Image Button
+                JLabel imageLabelHolder = new JLabel();
+                String[] imagePathHolder = new String[1]; // Use an array to hold the image path
+                RoundedButton chooseImageButton = new RoundedButton("Choose Image", 5);
+                chooseImageButton.setBounds(720, 60, 130, 30); // Moved to the top of the image panel
+                chooseImageButton.setForeground(Color.BLACK);
+                chooseImageButton.setBackground(Color.WHITE);
+                chooseImageButton.addActionListener(event -> {
+                    JFileChooser fileChooser = new JFileChooser();
+                    int result = fileChooser.showOpenDialog(null);
+                    if (result == JFileChooser.APPROVE_OPTION) {
+                        File selectedFile = fileChooser.getSelectedFile();
+                        imagePathHolder[0] = selectedFile.getAbsolutePath(); // Store the image path in the array
+                        ImageIcon imageIcon = new ImageIcon(imagePathHolder[0]);
+                        Image image = imageIcon.getImage().getScaledInstance(imagePanel.getWidth(), imagePanel.getHeight(), Image.SCALE_SMOOTH);
+                        ImageIcon scaledImageIcon = new ImageIcon(image);
+                        imageLabelHolder.setIcon(scaledImageIcon);
+                        imagePanel.removeAll();
+                        imagePanel.add(imageLabelHolder);
+                        imagePanel.revalidate();
+                        imagePanel.repaint();
+                    }
+                });
+                editMovieModal.add(chooseImageButton);
+            
+                // Edit Movie Button
+                RoundedButton editMovieButton2 = new RoundedButton("Edit Movie", 5);
+                editMovieButton2.setBounds(380, 450, 130, 30); // Adjusted position
+                editMovieButton2.setForeground(Color.BLACK);
+                editMovieButton2.setBackground(Color.WHITE);
+                editMovieButton2.addActionListener(event -> {
+                    String title = titleTextField.getText();
+                    Movie.MovieGenre genre = (Movie.MovieGenre) genreComboBox.getSelectedItem();
+                    Movie.MovieAgeRating ageRating = (Movie.MovieAgeRating) ageRatingComboBox.getSelectedItem();
+                    String ratingText = ratingTextField.getText();
+                    String trailerUrl = trailerUrlTextField.getText();
+                    Date releaseDate = (Date) releaseDateSpinner.getValue();
+                    String director = directorTextField.getText();
+                    String description = descriptionTextArea.getText();
+            
+                    
+                    if (!title.isEmpty()) {
+                        moviemanager.updateMovieTitle(movieid, title);
+                    }
+                    if (genre != null) {
+                        moviemanager.updateMovieGenre(movieid, genre);
+                    }
+                    if (ageRating != null) {
+                        moviemanager.updateMovieAgeRating(movieid, ageRating);
+                    }
+                    if (!ratingText.isEmpty()) {
+                        try {
+                            float rating = Float.parseFloat(ratingText);
+                            if (rating < 0 || rating > 10) {
+                            JOptionPane.showMessageDialog(null, "Rating must be between 0.0 and 10.0!", "Error", JOptionPane.ERROR_MESSAGE);
+                            return;
+                        }
+                            moviemanager.updateMovieRating(movieid, rating);
+                        } catch (NumberFormatException ex) {
+                            JOptionPane.showMessageDialog(null, "Invalid rating format!", "Error", JOptionPane.ERROR_MESSAGE);
+                        }
+                    }
+                    if (!trailerUrl.isEmpty()) {
+                        moviemanager.updateMovieTrailerURL(movieid, trailerUrl);
+                    }
+                    if (releaseDate != null) {
+                        LocalDate localReleaseDate = new java.sql.Date(releaseDate.getTime()).toLocalDate();
+                        moviemanager.updateMovieReleaseDate(movieid, localReleaseDate);
+                    }
+                    if (!director.isEmpty()) {
+                        moviemanager.updateMovieDirector(movieid, director);
+                    }
+                    if (!description.isEmpty()) {
+                        moviemanager.updateMovieDescription(movieid, description);
+                    }
+                    // Optionally, show a success message and close the dialog
+                    JOptionPane.showMessageDialog(null, "Movie updated successfully!");
+                    SwingUtilities.getWindowAncestor(editMovieModal).dispose();
+
+                });
+                editMovieModal.add(editMovieButton2);
+            
+                // Cancel Button
+                RoundedButton cancelButton = new RoundedButton("Cancel", 5);
+                cancelButton.setBounds(550, 450, 130, 30); // Adjusted position
+                cancelButton.setForeground(Color.BLACK);
+                cancelButton.setBackground(Color.WHITE);
+                cancelButton.addActionListener(event -> {
+                    SwingUtilities.getWindowAncestor(editMovieModal).dispose();
+                });
+                editMovieModal.add(cancelButton);
+            
+                // Show the modal in a JDialog
+                JDialog dialog = new JDialog();
+                dialog.getRootPane().setBorder(BorderFactory.createLineBorder(Color.WHITE, 2));
+                dialog.setModal(true); // Prevent interaction with other windows
+                dialog.getContentPane().add(editMovieModal);
+                dialog.pack();
+                dialog.setLocationRelativeTo(null); // Center on screen
+                dialog.setVisible(true);
+            }else{
+                JOptionPane.showMessageDialog(null, "Please select one and only one movie to edit.", "Error", JOptionPane.ERROR_MESSAGE);
+            }    
+        });
         MoviesDashboard.add(EditMovie);
 
         RoundedButton AddMovie = new RoundedButton("Add" , 5);
@@ -4384,11 +4812,11 @@ public class CinemaApp extends JFrame implements ActionListener {
 
 
 
-
-
-
-
-//---------------User Insights DashBoard--------------------------------
+        UserInsightsDashboard = new JPanel();
+        UserInsightsDashboard.setLayout(null);
+        UserInsightsDashboard.setBounds(100, 0, 1200, 750);
+        UserInsightsDashboard.setBackground(new Color(30 ,30,30));
+        MiddlePanel.add(UserInsightsDashboard);
 
         JPanel UserInsightsDashboard = new JPanel();
         UserInsightsDashboard.setLayout(null);
@@ -4932,13 +5360,15 @@ public class CinemaApp extends JFrame implements ActionListener {
     public void validateInput(JTextField textField, String regex) { // hadi tcoloriyi l border ta3 textfield 3la hsab type li rak hab l user ydkhlo f textfield
 
         String input = textField.getText().trim();
-        if (input.equals("   Movie Name") || input.equals("   Film duration") || 
-            input.equals("   Film Rating") || input.equals("0da")) {
-            textField.setBorder(BorderFactory.createLineBorder(new Color(80, 77, 74))); 
+        if (input.equals("   Movie Name") || input.equals("   Film duration")) {
             return;
         }
-    
-       
+        if (input.isEmpty()) {
+            textField.setBorder(BorderFactory.createLineBorder(Color.RED));
+            return;
+        }
+
+
         if (input.matches(regex)) {
             textField.setBorder(BorderFactory.createLineBorder(Color.GREEN));
         } else {

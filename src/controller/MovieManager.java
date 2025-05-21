@@ -687,4 +687,68 @@ public static boolean addMovieToDatabase(String title, Movie.MovieGenre genre, S
         }
         return null;
     }
+
+    public void reloadMoviesFromDatabase() {
+        movies.clear();
+        String sql = "SELECT * FROM movies";
+        try (Connection conn = DatabaseConnection.connect();
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            ResultSet rs = pstmt.executeQuery()) {
+            while (rs.next()) {
+                Movie movie = new Movie(
+                    rs.getInt("MovieID"),
+                    rs.getString("Title"),
+                    Movie.MovieGenre.valueOf(rs.getString("Genre")),
+                    0, // Duration: add if you have it in DB
+                    rs.getString("Description"),
+                    rs.getString("Director"),
+                    "", // Cast: add if you have it in DB
+                    rs.getDate("ReleaseDate").toLocalDate(),
+                    rs.getFloat("Rating"),
+                    Movie.MovieAgeRating.valueOf(rs.getString("AgeRating")),
+                    Movie.Language.VOSTFR, // Adjust if you store language
+                    rs.getString("ImagePath")
+                );
+                movies.add(movie);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    //get the Titles of movies
+    public static ArrayList<String> getAllMoviesNames() {
+            String sql = "SELECT titles FROM movies";
+            ArrayList<String> moviesNames = new ArrayList<>();
+
+            try (Connection conn = DatabaseConnection.connect();
+                PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+                ResultSet rs = pstmt.executeQuery();
+                while (rs.next()) {
+                    moviesNames.add(rs.getString("titles"));
+                }
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
+            return moviesNames;
+    }
+
+    //get movie id by name
+    public int getMovieIdByName(String title) {
+        String sql = "SELECT MovieID FROM movies WHERE Title = ?";
+        try (Connection conn = DatabaseConnection.connect();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, title);
+            ResultSet rs = pstmt.executeQuery();
+            if (rs.next()) {
+                return rs.getInt("MovieID");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return -1; // Not found
+    }
 }

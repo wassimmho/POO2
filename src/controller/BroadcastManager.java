@@ -222,5 +222,41 @@ public class BroadcastManager {
             e.printStackTrace();
         }
     }
+
+    public void reloadBroadcastsFromDatabase() {
+        broadcasts.clear();
+        String sql = "SELECT * FROM broadcasts";
+        try (Connection conn = DatabaseConnection.connect();
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            ResultSet rs = pstmt.executeQuery()) {
+            while (rs.next()) {
+                int movieId = rs.getInt("MovieID");
+                int theaterId = rs.getInt("TheaterID");
+                LocalDate date = rs.getDate("BroadcastDate").toLocalDate();
+
+                // Find movie and theater objects from managers
+                Movie movie = null;
+                Theater theater = null;
+                for (Movie m : MovieManager.movies) {
+                    if (m.id == movieId) {
+                        movie = m;
+                        break;
+                    }
+                }
+                for (Theater t : theaterManager.theaters) {
+                    if (t.TheaterId == theaterId) {
+                        theater = t;
+                        break;
+                    }
+                }
+                if (movie != null && theater != null) {
+                    Broadcast broadcast = new Broadcast(movie, theater, date);
+                    broadcasts.add(broadcast);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
     
 }            

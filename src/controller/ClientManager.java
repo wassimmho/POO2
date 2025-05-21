@@ -556,5 +556,29 @@ public class ClientManager {
                 }
             }
         }
+
+    public void reloadClientsFromDatabase() {
+        clients.clear();
+        String sql = "SELECT * FROM users";
+        try (Connection conn = DatabaseConnection.connect();
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            ResultSet rs = pstmt.executeQuery()) {
+            while (rs.next()) {
+                Client client = new Client(
+                    rs.getString("Name"),
+                    rs.getString("LastName"),
+                    rs.getInt("Age"),
+                    rs.getInt("Balance"),
+                    rs.getString("Email"),
+                    rs.getString("PhoneNumber"),
+                    rs.getString("username"),
+                    rs.getString("Password")
+                );
+                clients.add(client);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
     
 }
