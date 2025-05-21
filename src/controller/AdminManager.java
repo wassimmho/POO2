@@ -128,6 +128,27 @@ public class AdminManager {
         return null;
     }
 
+    public static int getAdminid(String email){
+            String sql = "SELECT AdminID FROM admins WHERE Email = ?";
+
+            try (Connection conn = DatabaseConnection.connect();
+                 PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+                pstmt.setString(1, email);
+
+                ResultSet rs = pstmt.executeQuery();
+                if (rs.next()) {
+                    return rs.getInt(1);
+                }
+    
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+    
+            return 0;
+
+        }
+
     
     public static ResultSet findAdminsbyEmail(String email) {
         String sql = "SELECT FROM admins Where Email = ?";
