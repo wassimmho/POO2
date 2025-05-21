@@ -14,7 +14,7 @@ public class Movie {
     public float Rating; // out of 10
     public MovieAgeRating AgeRating; // G, PG13, PG16, PG18
     public Language MovieLanguage;
-    public String ImagePath;
+    public String ImagePath2;
     public String Trailer;
 
     public enum MovieGenre {
@@ -48,7 +48,7 @@ public class Movie {
         this.Rating = Rating;
         this.AgeRating = AgeRating;
         this.MovieLanguage = MovieLanguage;
-        this.ImagePath = ImagePath;
+        this.ImagePath2 = ImagePath;
         
     }
 }

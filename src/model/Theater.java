@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 public class Theater {
     public int TheaterId;
-    public String Name;
     
     public int NormalCapacity;
     public int VipCapacity;
@@ -18,11 +17,9 @@ public class Theater {
     public ArrayList<Seats> NormalSeats = new ArrayList<Seats>();
     public ArrayList<Seats> VipSeats = new ArrayList<Seats>();
 
-    public Theater(int Id, String Name, int NormalCapacity, int VipCapacity, int TheaterId, Boolean Available) {
+    public Theater(int Id, int NormalCapacity, int VipCapacity, Boolean Available) {
         this.TheaterId = Id;
-        this.Name = Name;
         this.NormalCapacity = NormalCapacity;
-        this.TheaterId = TheaterId;
         this.VipCapacity = VipCapacity;
         this.isAvailable = Available;
         this.TotalPlaces = NormalCapacity + VipCapacity;

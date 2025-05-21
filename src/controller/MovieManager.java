@@ -6,17 +6,19 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import javax.swing.JOptionPane;
 import model.*;
 
 public class MovieManager {
     
     public static ArrayList<Movie> movies;
+    public static int[] PromosId;
 
     public MovieManager(){
         
         movies = new ArrayList<>();
-
         
         // Create movies and broadcast
         Movie Movie1 = new Movie(0, "Avengers: Endgame", Movie.MovieGenre.Action, 3.02f,
@@ -163,6 +165,13 @@ public class MovieManager {
                 LocalDate.of(2017, 12, 20),
                 6.9f, Movie.MovieAgeRating.PG13, Movie.Language.VOSTFR, "Jumanji_Welcome_to_the_Jungle.png");
         
+        Movie Movie25 = new Movie(24, "Invincible", Movie.MovieGenre.Action, 1.45f,
+                "Based on the comic book series by Robert Kirkman, Cory Walker, and Ryan Ottley, Invincible follows the story of Mark Grayson, a teenager who inherits superpowers from his father, the most powerful superhero on the planet.",
+                "Robert Kirkman", "Steven Yeun, J.K. Simmons, Sandra Oh",
+                LocalDate.of(2021, 3, 26),
+                9.7f, Movie.MovieAgeRating.PG18, Movie.Language.VOSTFR, "img\\Films\\invincible-blue.png");
+
+        
                 
         AddMovie(Movie1);
         AddMovie(Movie2);
@@ -188,12 +197,26 @@ public class MovieManager {
         AddMovie(Movie22);
         AddMovie(Movie23);
         AddMovie(Movie24);
+        AddMovie(Movie25);
+
+        sortMoviesByName();
 
 
+    }
+
+    public void sortMoviesByName() {
+        Collections.sort(movies, new Comparator<Movie>() {
+                @Override
+                public int compare(Movie m1, Movie m2) {
+                return m1.Title.compareToIgnoreCase(m2.Title);
+                }
+        });
     }
     
     public void AddMovie(Movie movie) {
         movies.add(movie);
+        // Sort the movies after adding a new one
+        sortMoviesByName();
     }
 
     public void RemoveMovie(Movie movie) {
@@ -231,7 +254,7 @@ public class MovieManager {
         return 0;
     }
 
-public static boolean addMovieToDatabase(String title, Movie.MovieGenre genre, String description, float rating, 
+    public static boolean addMovieToDatabase(String title, Movie.MovieGenre genre, String description, float rating, 
                                                                                  Movie.MovieAgeRating ageRating, String imagePath, String trailerURL, 
                                                                                  LocalDate releaseDate, String director) {
         Movie movie = new Movie(0, title, genre, 0, description, director, "", releaseDate, rating, ageRating, Movie.Language.VOSTFR, imagePath);
@@ -750,5 +773,19 @@ public static boolean addMovieToDatabase(String title, Movie.MovieGenre genre, S
             e.printStackTrace();
         }
         return -1; // Not found
+    }
+
+    public int[] setRandomPromotion(){
+        //choose two random numbers 
+        int random1 = (int) (Math.random() * movies.size());
+        int random2 = (int) (Math.random() * movies.size());
+        //set the promotion to true for the two random movies
+
+        //return the two numbers
+        return new int[]{random1, random2};
+    }
+
+    public void setPromotion(int Id1, int Id2){
+        this.PromosId = new int[]{Id1, Id2};
     }
 }

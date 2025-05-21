@@ -4,10 +4,21 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import model.*;
 
 public class BookingManager {
 
+    
+    public MovieManager movieManager;
+    public TheaterManager theaterManager;
+    public BroadcastManager broadcastManager;
+    public ClientManager clientManager;
+
+    public ArrayList<Ticket> bookedTicket;
+
     public BookingManager() {
+        this.bookedTicket = new ArrayList<>();
     }
 
     public int getTicketPrice(Connection connection, int broadcastId, boolean isVIP) throws SQLException {
@@ -87,5 +98,12 @@ public class BookingManager {
                 return -1;
             }
         }
+    }
+
+    public void BookTicket(Client client, Broadcast broadcast, Ticket.TicketType Type, Seats seat) {
+        Ticket ticket = new Ticket(seat, Type, broadcast);
+        ticket.Buyer = client;
+        bookedTicket.add(ticket);
+        broadcast.tickets.remove(ticket);
     }
 }

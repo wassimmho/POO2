@@ -17,8 +17,8 @@ public class BroadcastManager {
         this.theaterManager = theaterManager;
         broadcasts = new ArrayList<>();
     
-        Broadcast Broadcast1 = new Broadcast(movieManager.movies.get(0), theaterManager.theaters.get(0), LocalDate.of(2025, 3, 1));
-        Broadcast Broadcast24 = new Broadcast(movieManager.movies.get(1), theaterManager.theaters.get(2), LocalDate.of(2025, 10, 20));
+        Broadcast Broadcast0 = new Broadcast(movieManager.movies.get(0), theaterManager.theaters.get(0), LocalDate.of(2025, 3, 1));
+        Broadcast Broadcast1 = new Broadcast(movieManager.movies.get(1), theaterManager.theaters.get(2), LocalDate.of(2025, 10, 20));
         Broadcast Broadcast2 = new Broadcast(movieManager.movies.get(2), theaterManager.theaters.get(1), LocalDate.of(2025, 3, 10));
         Broadcast Broadcast3 = new Broadcast(movieManager.movies.get(3), theaterManager.theaters.get(2), LocalDate.of(2025, 3, 20));
         Broadcast Broadcast4 = new Broadcast(movieManager.movies.get(4), theaterManager.theaters.get(3), LocalDate.of(2025, 5, 5));
@@ -41,7 +41,9 @@ public class BroadcastManager {
         Broadcast Broadcast21 = new Broadcast(movieManager.movies.get(21), theaterManager.theaters.get(6), LocalDate.of(2025, 9, 20));
         Broadcast Broadcast22 = new Broadcast(movieManager.movies.get(22), theaterManager.theaters.get(0), LocalDate.of(2025, 10, 1));
         Broadcast Broadcast23 = new Broadcast(movieManager.movies.get(23), theaterManager.theaters.get(1), LocalDate.of(2025, 10, 10));
+        Broadcast Broadcast24 = new Broadcast(movieManager.movies.get(24), theaterManager.theaters.get(2), LocalDate.of(2025, 10, 20));
 
+        addBroadcast(Broadcast0);
         addBroadcast(Broadcast1);
         addBroadcast(Broadcast2);
         addBroadcast(Broadcast3);
@@ -259,4 +261,23 @@ public class BroadcastManager {
         }
     }
     
+    
+    public Broadcast getBroadcastByMovieAndDate(Movie movie, LocalDate date) {
+        for (Broadcast broadcast : broadcasts) {
+            if (broadcast.movie.equals(movie) && broadcast.Date.equals(date)) {
+                return broadcast;
+            }
+        }
+        return null; // Return null if no broadcast is found for the given movie
+    }
+
+    public Theater getTheaterByMovieAndDate(Movie movie, LocalDate date) {
+        for (Broadcast broadcast : broadcasts) {
+            if (broadcast.movie.equals(movie) && broadcast.Date.equals(date)) {
+                return broadcast.Room;
+            }
+        }
+        return null; // Return null if no broadcast is found for the given movie
+    }
+
 }            
