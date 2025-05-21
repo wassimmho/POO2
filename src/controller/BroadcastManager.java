@@ -13,10 +13,11 @@ public class BroadcastManager {
     public ArrayList<Broadcast> broadcasts;
 
 
-    public BroadcastManager(TheaterManager theaterManager) {
-        this.theaterManager = theaterManager;
+    public BroadcastManager() {
         broadcasts = new ArrayList<>();
-    
+        movieManager = new MovieManager();
+        theaterManager = new TheaterManager();
+
         Broadcast Broadcast0 = new Broadcast(movieManager.movies.get(0), theaterManager.theaters.get(0), LocalDate.of(2025, 3, 1));
         Broadcast Broadcast1 = new Broadcast(movieManager.movies.get(1), theaterManager.theaters.get(2), LocalDate.of(2025, 10, 20));
         Broadcast Broadcast2 = new Broadcast(movieManager.movies.get(2), theaterManager.theaters.get(1), LocalDate.of(2025, 3, 10));
