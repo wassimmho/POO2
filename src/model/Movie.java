@@ -18,7 +18,7 @@ public class Movie {
     public String Trailer;
 
     public enum MovieGenre {
-        Action, Comedy, Drama, Horror, Science_Fiction, Thriller, Adventure, Fantasy, Mystery, Romance, Crime,
+        None, Action, Comedy, Drama, Horror, Science_Fiction, Thriller, Adventure, Fantasy, Mystery, Romance, Crime,
         Animation, Music, Documentary, Family, Sport, News, Travel, Game, History
 
     }
