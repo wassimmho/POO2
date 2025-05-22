@@ -943,7 +943,7 @@ public class CinemaApp extends JFrame implements ActionListener {
             cardPanel.add(signinbutton);
     
             JButton goToLoginButton = new JButton("Already have an account? Login");
-            goToLoginButton.setBounds(395, 95, 250, 30);
+            goToLoginButton.setBounds(400, 95, 275, 30);
             goToLoginButton.setForeground(Color.WHITE);
             goToLoginButton.setFont(new Font("Roboto", Font.BOLD, 14));
             goToLoginButton.setBorderPainted(false);
@@ -968,7 +968,7 @@ public class CinemaApp extends JFrame implements ActionListener {
 
 
             JButton ReturnButton = new JButton("RETURN");
-            ReturnButton.setBounds(595, 95, 250, 30);
+            ReturnButton.setBounds(620, 95, 250, 30);
             ReturnButton.setForeground(Color.RED);
             ReturnButton.setFont(new Font("Roboto", Font.BOLD, 14));
             ReturnButton.setBorderPainted(false);
