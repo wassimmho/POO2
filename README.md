@@ -38,8 +38,8 @@ Cinimatic is a comprehensive movie theater booking management system designed to
    - MySQL Server 5.7+
 
 ## Team members
-Mehdi Benazza  
-Mouzali Rayan  
-Mouhouche Wassim  
-Stambouli
-Djedi Fahd
+- Mehdi Benazza  
+- Mouzali Rayan  
+- Mouhouche Wassim  
+- Stambouli
+- Djedi Fahd
