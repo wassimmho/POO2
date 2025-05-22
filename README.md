@@ -13,7 +13,7 @@ Cinimatic is a comprehensive movie theater booking management system designed to
 ## Technologies Used
 
 <div align="center">
-  <img src="readmeimg/java.png" alt="Java" width="80"/>
+  <img src="readmeimg/image.png" alt="Java" width="90" height="80"/>
   <img src="readmeimg/mysql.png" alt="MySQL" width="80"/>
   <img src="readmeimg/figma.png" alt="Figma" width="80"/>
 </div>
