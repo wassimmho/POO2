@@ -23,6 +23,7 @@ import javax.swing.text.AbstractDocument;
 import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.DocumentFilter;
+import java.net.URI;
 
 public class CinemaApp extends JFrame implements ActionListener {
 
@@ -6651,7 +6652,14 @@ public class CinemaApp extends JFrame implements ActionListener {
         TrailerButton.setUI(new RoundButtonUI(new Color(0x000000)));
         TrailerButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
         TrailerButton.addActionListener(e -> {
-            // Handle trailer button click
+                try {
+                Desktop.getDesktop().browse(new URI(MovieManager.getMovieTrailerURL(movie.id)));
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(this,
+                    "Could not open YouTube:\n" + ex.getMessage(),
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
+            }
         });
 
         // Book Now button
