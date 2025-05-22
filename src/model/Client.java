@@ -10,8 +10,8 @@ public class Client extends Account{
     public int Age;
     public String Email;
     public String PhoneNumber;
-    public double cardNum;
-    public int CCVnbr;
+    public double CardNumber;
+    public int CcvNumber;
     public int Balance;
     public ArrayList<MovieGenre> Intrests = new ArrayList<>();
     

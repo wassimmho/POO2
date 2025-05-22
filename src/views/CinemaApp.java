@@ -100,6 +100,8 @@ public class CinemaApp extends JFrame implements ActionListener {
 
         BuyMoviePanel = CreateBuyMoviePanel(movieManager.movies.get(movieManager.GetMovieByName("Invincible")));
 
+        currentClient = ClientManager.clients.get(0);
+
         // Initialize components
         this.setTitle("MovieBooking App");
         ImageIcon AppLogo = new ImageIcon("Images/Logo.png");
@@ -182,7 +184,7 @@ public class CinemaApp extends JFrame implements ActionListener {
 
         // add the main panel to the JFrame ----------------------------------
         setContentPane(MainPanel);
-        MainCardLayout.show(MainPanel, "Admin");
+        MainCardLayout.show(MainPanel, "Client");
 
         // Revalidate and repaint to ensure the SettingsPanel is displayed
         this.revalidate();
@@ -5044,7 +5046,7 @@ public class CinemaApp extends JFrame implements ActionListener {
 
         IdPanel.add(NameInfo);
 
-        JTextField NameField = new JTextField("  Name");
+        JTextField NameField = new JTextField(currentClient.username);
         NameField.setBounds(375, 65, 250, 30);
         NameField.setFont(new Font("Segoe UI", Font.PLAIN, 18));
         NameField.setForeground(Color.white);
@@ -5053,7 +5055,7 @@ public class CinemaApp extends JFrame implements ActionListener {
         NameField.setBackground(new Color(0x151515));
         NameField.setOpaque(true);
 
-        TextfieldBehave(NameField, "  Name");
+        TextfieldBehave(NameField, currentClient.username);
 
         IdPanel.add(NameField);
 
@@ -5063,6 +5065,16 @@ public class CinemaApp extends JFrame implements ActionListener {
         SaveId.setBackground(new Color(0xCBCBCB));
         SaveId.setCursor(new Cursor(Cursor.HAND_CURSOR));
         SaveId.setUI(new RoundButtonUI(new Color(0x000000)));
+
+        SaveId.addActionListener(e -> {
+            String newName = NameField.getText();
+            if (!newName.isEmpty()) {
+                currentClient.username = newName;
+                JOptionPane.showMessageDialog(null, "Changes saved successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                JOptionPane.showMessageDialog(null, "Please enter a valid name.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        });
 
         SaveId.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
@@ -5118,7 +5130,7 @@ public class CinemaApp extends JFrame implements ActionListener {
 
         PersoPanel.add(PersonnalInfo);
 
-        JTextField FirstNameField = new JTextField("  First name");
+        JTextField FirstNameField = new JTextField(currentClient.FirstName);
         FirstNameField.setBounds(375, 65, 250, 30);
         FirstNameField.setFont(new Font("Segoe UI", Font.PLAIN, 18));
         FirstNameField.setForeground(Color.white);
@@ -5127,11 +5139,11 @@ public class CinemaApp extends JFrame implements ActionListener {
         FirstNameField.setBackground(new Color(0x151515));
         FirstNameField.setOpaque(true);
 
-        TextfieldBehave(FirstNameField, "  First name");
+        TextfieldBehave(FirstNameField, currentClient.FirstName);
 
         PersoPanel.add(FirstNameField);
 
-        JTextField LastNameField = new JTextField("  Last name");
+        JTextField LastNameField = new JTextField(currentClient.LastName);
         LastNameField.setBounds(375, 105, 250, 30);
         LastNameField.setFont(new Font("Segoe UI", Font.PLAIN, 18));
         LastNameField.setForeground(Color.white);
@@ -5140,11 +5152,11 @@ public class CinemaApp extends JFrame implements ActionListener {
         LastNameField.setBackground(new Color(0x151515));
         LastNameField.setOpaque(true);
 
-        TextfieldBehave(LastNameField, "  Last name");
+        TextfieldBehave(LastNameField, currentClient.LastName);
 
         PersoPanel.add(LastNameField);
 
-        JTextField EmailField = new JTextField("  email@gmail.com");
+        JTextField EmailField = new JTextField(currentClient.Email);
         EmailField.setBounds(375, 145, 250, 30);
         EmailField.setFont(new Font("Segoe UI", Font.PLAIN, 18));
         EmailField.setForeground(Color.white);
@@ -5153,11 +5165,11 @@ public class CinemaApp extends JFrame implements ActionListener {
         EmailField.setBackground(new Color(0x151515));
         EmailField.setOpaque(true);
 
-        TextfieldBehave(EmailField, "  emailemail@gmail.com");
+        TextfieldBehave(EmailField, currentClient.Email);
 
         PersoPanel.add(EmailField);
 
-        JTextField AgeField = new JTextField("  22");
+        JTextField AgeField = new JTextField(String.valueOf(currentClient.Age));
         AgeField.setBounds(375, 185, 250, 30);
         AgeField.setFont(new Font("Segoe UI", Font.PLAIN, 18));
         AgeField.setForeground(Color.white);
@@ -5166,11 +5178,11 @@ public class CinemaApp extends JFrame implements ActionListener {
         AgeField.setBackground(new Color(0x151515));
         AgeField.setOpaque(true);
 
-        TextfieldBehave(AgeField, "  22");
+        TextfieldBehave(AgeField, String.valueOf(currentClient.Age));
 
         PersoPanel.add(AgeField);
 
-        JTextField PhoneNumberField = new JTextField(" 05XX XX XX XX");
+        JTextField PhoneNumberField = new JTextField(currentClient.PhoneNumber);
         PhoneNumberField.setBounds(375, 225, 250, 30);
         PhoneNumberField.setFont(new Font("Segoe UI", Font.PLAIN, 18));
         PhoneNumberField.setForeground(Color.white);
@@ -5179,7 +5191,7 @@ public class CinemaApp extends JFrame implements ActionListener {
         PhoneNumberField.setBackground(new Color(0x151515));
         PhoneNumberField.setOpaque(true);
 
-        TextfieldBehave(PhoneNumberField, " 05XX XX XX XX");
+        TextfieldBehave(PhoneNumberField, currentClient.PhoneNumber);
 
         PersoPanel.add(PhoneNumberField);
 
@@ -5189,6 +5201,25 @@ public class CinemaApp extends JFrame implements ActionListener {
         SavePersonnal.setBackground(new Color(0xCBCBCB));
         SavePersonnal.setCursor(new Cursor(Cursor.HAND_CURSOR));
         SavePersonnal.setUI(new RoundButtonUI(new Color(0x000000)));
+
+        SavePersonnal.addActionListener(e -> {
+            String newFirstName = FirstNameField.getText();
+            String newLastName = LastNameField.getText();
+            String newEmail = EmailField.getText();
+            String newAge = AgeField.getText();
+            String newPhoneNumber = PhoneNumberField.getText();
+
+            if (!newFirstName.isEmpty() && !newLastName.isEmpty() && !newEmail.isEmpty() && !newAge.isEmpty() && !newPhoneNumber.isEmpty()) {
+                currentClient.FirstName = newFirstName;
+                currentClient.LastName = newLastName;
+                currentClient.Email = newEmail;
+                currentClient.Age = Integer.parseInt(newAge);
+                currentClient.PhoneNumber = newPhoneNumber;
+                JOptionPane.showMessageDialog(null, "Changes saved successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                JOptionPane.showMessageDialog(null, "Please fill in all fields.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        });
 
         SavePersonnal.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
@@ -5243,7 +5274,7 @@ public class CinemaApp extends JFrame implements ActionListener {
 
         PayPanel.add(PayInfo);
 
-        JTextField CardNumber = new JTextField("  Card number");
+        JTextField CardNumber = new JTextField(String.valueOf(currentClient.CardNumber));
         CardNumber.setBounds(375, 65, 250, 30);
         CardNumber.setFont(new Font("Segoe UI", Font.PLAIN, 18));
         CardNumber.setForeground(Color.white);
@@ -5252,11 +5283,12 @@ public class CinemaApp extends JFrame implements ActionListener {
         CardNumber.setBackground(new Color(0x151515));
         CardNumber.setOpaque(true);
 
-        TextfieldBehave(CardNumber, "  Card number");
+        TextfieldBehave(CardNumber, String.valueOf(currentClient.CardNumber));
+        setIntegerOnly(CardNumber);
 
         PayPanel.add(CardNumber);
 
-        JTextField CcvNumber = new JTextField("  Ccv number");
+        JTextField CcvNumber = new JTextField(String.valueOf(currentClient.CcvNumber));
         CcvNumber.setBounds(375, 105, 250, 30);
         CcvNumber.setFont(new Font("Segoe UI", Font.PLAIN, 18));
         CcvNumber.setForeground(Color.white);
@@ -5265,7 +5297,8 @@ public class CinemaApp extends JFrame implements ActionListener {
         CcvNumber.setBackground(new Color(0x151515));
         CcvNumber.setOpaque(true);
 
-        TextfieldBehave(CcvNumber, "  Ccv number");
+        TextfieldBehave(CcvNumber, String.valueOf(currentClient.CcvNumber));
+        setIntegerOnly(CcvNumber);
 
         PayPanel.add(CcvNumber);
 
@@ -5275,6 +5308,19 @@ public class CinemaApp extends JFrame implements ActionListener {
         SavePayement.setBackground(new Color(0xCBCBCB));
         SavePayement.setCursor(new Cursor(Cursor.HAND_CURSOR));
         SavePayement.setUI(new RoundButtonUI(new Color(0x000000)));
+
+        SavePayement.addActionListener(e -> {
+            int newCardNumber = Integer.parseInt(CardNumber.getText());
+            int newCcvNumber = Integer.parseInt(CcvNumber.getText());
+
+            if (newCardNumber > 0 && newCcvNumber > 0) {
+                currentClient.CardNumber = newCardNumber;
+                currentClient.CcvNumber = newCcvNumber;
+                JOptionPane.showMessageDialog(null, "Changes saved successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                JOptionPane.showMessageDialog(null, "Please fill in all fields.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        });
 
         SavePayement.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
@@ -5323,7 +5369,7 @@ public class CinemaApp extends JFrame implements ActionListener {
 
         SignPanel.add(SignInfo);
 
-        JTextField UsernameField = new JTextField("  username");
+        JTextField UsernameField = new JTextField(currentClient.username);
         UsernameField.setBounds(375, 65, 250, 30);
         UsernameField.setFont(new Font("Segoe UI", Font.PLAIN, 18));
         UsernameField.setForeground(Color.white);
@@ -5332,7 +5378,7 @@ public class CinemaApp extends JFrame implements ActionListener {
         UsernameField.setBackground(new Color(0x151515));
         UsernameField.setOpaque(true);
 
-        TextfieldBehave(UsernameField, "  username");
+        TextfieldBehave(UsernameField, currentClient.username);
 
         SignPanel.add(UsernameField);
 
@@ -5388,6 +5434,25 @@ public class CinemaApp extends JFrame implements ActionListener {
         SaveSignIn.setBackground(new Color(0xCBCBCB));
         SaveSignIn.setCursor(new Cursor(Cursor.HAND_CURSOR));
         SaveSignIn.setUI(new RoundButtonUI(new Color(0x000000)));
+
+        SaveSignIn.addActionListener(e -> {
+            String newUsername = UsernameField.getText();
+            String currentPassword = CurrentPassword.getText();
+            String newPassword = NewPassword.getText();
+            String confirmPassword = ConfirmPassword.getText();
+
+            if (!newUsername.isEmpty() && !currentPassword.isEmpty() && !newPassword.isEmpty() && !confirmPassword.isEmpty()) {
+                if (newPassword.equals(confirmPassword)) {
+                    currentClient.username = newUsername;
+                    currentClient.password = newPassword;
+                    JOptionPane.showMessageDialog(null, "Changes saved successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
+                } else {
+                    JOptionPane.showMessageDialog(null, "Passwords do not match.", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "Please fill in all fields.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        });
 
         SaveSignIn.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
@@ -6119,7 +6184,7 @@ public class CinemaApp extends JFrame implements ActionListener {
         ContentPanel.add(BuyMoviePanel, "buy movie");
         ContentPanel.add(BroadcastDashboard, "history");
         ContentPanel.add(scrollPane3, "fav movies");
-        ((CardLayout) ContentPanel.getLayout()).show(ContentPanel, "history");
+        ((CardLayout) ContentPanel.getLayout()).show(ContentPanel, "home");
         // -----------------------------------------------------------------------------------------------
 
         // ------------Left panel--------------------------------------------------------
