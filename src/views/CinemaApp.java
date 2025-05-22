@@ -4643,7 +4643,7 @@ public class CinemaApp extends JFrame implements ActionListener {
         cardContainer.add(theaterDashboard,"theater");
 
 
-        ((CardLayout) cardContainer.getLayout()).show(cardContainer, "home");
+        ((CardLayout) cardContainer.getLayout()).show(cardContainer, "movies");
 
 
         MiddlePanel.setLayout(null);

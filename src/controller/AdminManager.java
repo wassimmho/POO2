@@ -235,13 +235,14 @@ public class AdminManager {
 
 
         
-        public static boolean adminExists(String Email, String password) {
-            String sql = "SELECT COUNT(*) FROM admins WHERE  Email = ? AND Password = ?";
+        public static boolean adminExists(String usernameOrEmail, String password) {
+            String sql = "SELECT COUNT(*) FROM admins WHERE (Email = ? OR Name = ?) AND Password = ?";
 
             try (Connection conn = DatabaseConnection.connect();
                  PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
-                pstmt.setString(1, Email);
+                pstmt.setString(1, usernameOrEmail);
+                pstmt.setString(2, usernameOrEmail);
                 pstmt.setString(3, password);
 
                 ResultSet rs = pstmt.executeQuery();

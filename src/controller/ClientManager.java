@@ -323,14 +323,14 @@ public class ClientManager {
             }
         }
 
-        public static boolean userExists(String userOrEmail, String password) {
+        public static boolean userExists(String usernameOrEmail, String password) {
             String sql = "SELECT COUNT(*) FROM users WHERE (username = ? OR Email = ?) AND Password = ?";
 
             try (Connection conn = DatabaseConnection.connect();
                  PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
-                pstmt.setString(1, userOrEmail);
-                pstmt.setString(2, userOrEmail);
+                pstmt.setString(1, usernameOrEmail);
+                pstmt.setString(2, usernameOrEmail);
                 pstmt.setString(3, password);
 
                 ResultSet rs = pstmt.executeQuery();
@@ -364,7 +364,7 @@ public class ClientManager {
 
         
         public static ResultSet findUsersbyEmail(String email) {
-            String sql = "SELECT * FROM users WHERE Emaik = ? ";
+            String sql = "SELECT * FROM users WHERE Email = ? ";
 
             try (Connection conn = DatabaseConnection.connect();
                  PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -418,13 +418,14 @@ public class ClientManager {
 
 
         
-        public static int getuserid(String username){
-            String sql = "SELECT UserID FROM users WHERE username = ?";
+        public static int getuserid(String usernameOrEmail){
+            String sql = "SELECT UserID FROM users WHERE username = ? OR Email = ?";
     
             try (Connection conn = DatabaseConnection.connect();
                  PreparedStatement pstmt = conn.prepareStatement(sql)) {
     
-                pstmt.setString(1, username);
+                pstmt.setString(1, usernameOrEmail);
+                pstmt.setString(2, usernameOrEmail);
     
                 ResultSet rs = pstmt.executeQuery();
                 if (rs.next()) {
@@ -436,7 +437,6 @@ public class ClientManager {
             }
     
             return 0;
-
         }
         
         public static String getusersname(int userid) throws SQLException {
