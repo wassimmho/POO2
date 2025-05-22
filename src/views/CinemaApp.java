@@ -5078,6 +5078,7 @@ public class CinemaApp extends JFrame implements ActionListener {
             String newName = NameField.getText();
             if (!newName.isEmpty()) {
                 currentClient.username = newName;
+                ClientManager.updateClientUsername(currentClient.UserID, newName);
                 JOptionPane.showMessageDialog(null, "Changes saved successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
             } else {
                 JOptionPane.showMessageDialog(null, "Please enter a valid name.", "Error", JOptionPane.ERROR_MESSAGE);
@@ -5216,6 +5217,12 @@ public class CinemaApp extends JFrame implements ActionListener {
             String newEmail = EmailField.getText();
             String newAge = AgeField.getText();
             String newPhoneNumber = PhoneNumberField.getText();
+
+            ClientManager.updateClientFirstName(currentClient.UserID, newFirstName);
+            ClientManager.updateClientLastName(currentClient.UserID, newLastName);
+            ClientManager.updateClientEmail(currentClient.UserID, newEmail);
+            ClientManager.updateClientAge(currentClient.UserID, Integer.parseInt(newAge));
+            ClientManager.updateClientPhoneNumber(currentClient.UserID, newPhoneNumber);
 
             if (!newFirstName.isEmpty() && !newLastName.isEmpty() && !newEmail.isEmpty() && !newAge.isEmpty() && !newPhoneNumber.isEmpty()) {
                 currentClient.FirstName = newFirstName;
@@ -5448,6 +5455,18 @@ public class CinemaApp extends JFrame implements ActionListener {
             String currentPassword = CurrentPassword.getText();
             String newPassword = NewPassword.getText();
             String confirmPassword = ConfirmPassword.getText();
+
+            if (currentClient.password.equals(currentPassword)) {
+                ClientManager.updateClientPassword(currentClient.UserID, newPassword);
+            } else {
+                JOptionPane.showMessageDialog(null, "Current password is incorrect.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+            if (currentClient.username.equals(newUsername)) {
+                JOptionPane.showMessageDialog(null, "Username is already in use.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+            if (currentClient.password.equals(newPassword)) {
+                JOptionPane.showMessageDialog(null, "New password is already in use.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
 
             if (!newUsername.isEmpty() && !currentPassword.isEmpty() && !newPassword.isEmpty() && !confirmPassword.isEmpty()) {
                 if (newPassword.equals(confirmPassword)) {
