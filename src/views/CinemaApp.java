@@ -7014,7 +7014,7 @@ public class CinemaApp extends JFrame implements ActionListener {
     }
     
     
-        public JPanel createprofile(int userid) {
+    public JPanel createprofile(int userid) {
 
         System.out.println("Creating profile for USERID: " + userid); 
         Color bgcolor = new Color(0x121213);
