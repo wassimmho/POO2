@@ -5,6 +5,7 @@ import model.Movie.MovieGenre;
 
 public class Client extends Account{
 
+    public int UserID;
     public String FirstName;
     public String LastName;
     public int Age;
@@ -16,9 +17,9 @@ public class Client extends Account{
     public ArrayList<MovieGenre> Intrests = new ArrayList<>();
     
 
-    public Client(String firstName, String lastName,int Age, int Balance ,String email, String phoneNumber, String username, String password) {
-
+    public Client(int userID, String firstName, String lastName, int Age, int Balance, String email, String phoneNumber, String username, String password) {
         super(username, password);
+        this.UserID = userID;
         this.FirstName = firstName;
         this.Balance = Balance;
         this.Age = Age;

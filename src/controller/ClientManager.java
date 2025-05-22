@@ -11,11 +11,8 @@ public class ClientManager {
     public static ArrayList<Client> clients;
 
     public ClientManager() {
-        clients = new ArrayList<>();
-        //Create a default client
-        Client client1 = new Client("rayan", "mozali", 19, 
-            20000, "rayanmozali@gmail.com", "00000", "rayan_mz", "1234");
-        addClient(client1);
+        this.clients = new ArrayList<>();
+        reloadClientsFromDatabase();
     }
 
     public void addClient(Client client) {
@@ -566,6 +563,7 @@ public class ClientManager {
             ResultSet rs = pstmt.executeQuery()) {
             while (rs.next()) {
                 Client client = new Client(
+                    rs.getInt("UserID"),
                     rs.getString("Name"),
                     rs.getString("LastName"),
                     rs.getInt("Age"),

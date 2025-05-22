@@ -523,18 +523,26 @@ public class CinemaApp extends JFrame implements ActionListener {
                 }
     
                 if(ClientManager.userExists(username, password)){
-                    
-                    JOptionPane.showMessageDialog(null, "User logged in successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
                     USERID = ClientManager.getuserid(username);
-                    currentClient = ClientManager.clients.get(USERID);
-
-                    AccountPanel.repaint();
-                    AccountPanel.revalidate();
-
-                    MainCardLayout.show(MainPanel, "Home");
-                    passwordField.setText("");
-                    UserField.setText("");
-
+                    // Find the client in the ArrayList by matching UserID
+                    currentClient = null;
+                    for(Client client : clientManager.clients) {
+                        if(client.UserID == USERID) {
+                            currentClient = client;
+                            break;
+                        }
+                    }
+                    
+                    if(currentClient != null) {
+                        JOptionPane.showMessageDialog(null, "User logged in successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
+                        AccountPanel.repaint();
+                        AccountPanel.revalidate();
+                        MainCardLayout.show(MainPanel, "Client");
+                        passwordField.setText("");
+                        UserField.setText("");
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Error loading user data!", "Error", JOptionPane.ERROR_MESSAGE);
+                    }
                 }else if(AdminManager.adminExists(username, password)){
                     
                     JOptionPane.showMessageDialog(null, "User logged in successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
@@ -4039,7 +4047,7 @@ public class CinemaApp extends JFrame implements ActionListener {
     JSeparator separatorRght2Movie = new JSeparator();
     separatorRght2Movie.setOrientation(SwingConstants.HORIZONTAL);
     separatorRght2Movie.setBackground(Color.white);
-    separatorRght2Movie.setForeground(Color.white);
+    separatorRght2Movie.setForeground(Color.WHITE);
     separatorRght2Movie.setBounds(790, 400, 220, 1);
     MoviesDashboard.add(separatorRght2Movie);
 
