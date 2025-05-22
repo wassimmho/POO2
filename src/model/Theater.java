@@ -45,7 +45,7 @@ public class Theater {
             
             while (rs.next()) {
                 Seats seat = new Seats(rs.getInt("SeatNumber"), 
-                    Seats.SeatType.valueOf(rs.getString("SeatType")));
+                    rs.getBoolean("IsVip") ? Seats.SeatType.VIP : Seats.SeatType.REGULAR);
                 
                 if (seat.Type == Seats.SeatType.REGULAR) {
                     NormalSeats.add(seat);
@@ -70,14 +70,14 @@ public class Theater {
             pstmt.executeUpdate();
             
             // Then insert new seats
-            String insertSql = "INSERT INTO seats (TheaterID, SeatNumber, SeatType) VALUES (?, ?, ?)";
+            String insertSql = "INSERT INTO seats (TheaterID, SeatNumber, IsVip) VALUES (?, ?, ?)";
             try (PreparedStatement insertStmt = conn.prepareStatement(insertSql)) {
                 
                 // Insert normal seats
                 for (int i = 0; i < NormalCapacity; i++) {
                     insertStmt.setInt(1, this.TheaterId);
                     insertStmt.setInt(2, i + 1);
-                    insertStmt.setString(3, Seats.SeatType.REGULAR.toString());
+                    insertStmt.setBoolean(3, false); // Regular seat
                     insertStmt.executeUpdate();
                 }
                 
@@ -85,7 +85,7 @@ public class Theater {
                 for (int i = 0; i < VipCapacity; i++) {
                     insertStmt.setInt(1, this.TheaterId);
                     insertStmt.setInt(2, i + 1);
-                    insertStmt.setString(3, Seats.SeatType.VIP.toString());
+                    insertStmt.setBoolean(3, true); // VIP seat
                     insertStmt.executeUpdate();
                 }
             }

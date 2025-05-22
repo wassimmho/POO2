@@ -6932,6 +6932,10 @@ public class CinemaApp extends JFrame implements ActionListener {
                     JOptionPane.showMessageDialog(bookingFrame, "Not enough Regular seats available.", "Error", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
+                if(clientManager.clients.get(USERID).Balance < (numberVip * 1000 + numberRegular * 800)){
+                    JOptionPane.showMessageDialog(bookingFrame, "Not enough balance.", "Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
                 for(int j =0; j< numberVip; j++){
                     bookingManager.BookTicket(clientManager.clients.get(USERID),
                     broadcastManager.getBroadcastByMovieAndDate(movie, (LocalDate) BraodOptions.getSelectedItem()), 
