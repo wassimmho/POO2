@@ -6434,7 +6434,10 @@ public class CinemaApp extends JFrame implements ActionListener {
                     int film = i;
                     Movie movie = movieManager.movies.get(i);
                     // If search is empty or movie title contains search text
-                    if (searchText.isEmpty() || movie.Title.toLowerCase().contains(searchText)) {
+                    if (searchText.isEmpty() || movie.Title.toLowerCase().contains(searchText.toLowerCase()) 
+                        || movie.Director.toLowerCase().contains(searchText.toLowerCase()) 
+                        || movie.Cast.toLowerCase().contains(searchText.toLowerCase())) {
+
                         RoundedPanel moviePanel = new RoundedPanel(35);
                         moviePanel.setLayout(null);
                         moviePanel.setBackground(new Color(0x292929));
