@@ -74,7 +74,7 @@ public class MovieManager {
             pstmt.setFloat(4, movie.Rating);
             pstmt.setString(5, movie.AgeRating.toString());
             pstmt.setString(6, movie.ImagePath2);
-            pstmt.setString(7, movie.Trailer);
+            pstmt.setString(7, movie.Trailer != null ? movie.Trailer : "");
             pstmt.setDate(8, java.sql.Date.valueOf(movie.ReleaseDate));
             pstmt.setString(9, movie.Director);
 
@@ -183,8 +183,8 @@ public class MovieManager {
     }
 
     public static boolean addMovieToDatabase(String title, Movie.MovieGenre genre, String description, float rating, 
-                                                                                 Movie.MovieAgeRating ageRating, String imagePath, String trailerURL, 
-                                                                                 LocalDate releaseDate, String director) {
+                                           Movie.MovieAgeRating ageRating, String imagePath, String trailerURL, 
+                                           LocalDate releaseDate, String director) {
         Movie movie = new Movie(0, title, genre, 0, description, director, "", releaseDate, rating, ageRating, Movie.Language.VOSTFR, imagePath);
 
         if (isDuplicate(movie)) {
@@ -194,32 +194,32 @@ public class MovieManager {
 
         String sql = "INSERT INTO movies (Title, Genre, Description, Rating, AgeRating, ImagePath, TrailerURL, ReleaseDate, Director) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try (Connection conn = DatabaseConnection.connect();
-                 PreparedStatement pstmt = conn.prepareStatement(sql)) {
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
-                pstmt.setString(1, title);
-                pstmt.setString(2, genre.toString());
-                pstmt.setString(3, description);
-                pstmt.setFloat(4, rating);
-                pstmt.setString(5, ageRating.toString());
-                pstmt.setString(6, imagePath);
-                pstmt.setString(7, trailerURL);
-                pstmt.setDate(8, java.sql.Date.valueOf(releaseDate));
-                pstmt.setString(9, director);
+            pstmt.setString(1, title);
+            pstmt.setString(2, genre.toString());
+            pstmt.setString(3, description);
+            pstmt.setFloat(4, rating);
+            pstmt.setString(5, ageRating.toString());
+            pstmt.setString(6, imagePath);
+            pstmt.setString(7, trailerURL != null ? trailerURL : "");
+            pstmt.setDate(8, java.sql.Date.valueOf(releaseDate));
+            pstmt.setString(9, director);
 
-                int rowsInserted = pstmt.executeUpdate();
+            int rowsInserted = pstmt.executeUpdate();
 
-                if (rowsInserted > 0) {
-                        System.out.println("Movie added successfully!");
-                        return true;
-                }
+            if (rowsInserted > 0) {
+                System.out.println("Movie added successfully!");
+                return true;
+            }
 
         } catch (SQLException e) {
-                e.printStackTrace();
-                JOptionPane.showMessageDialog(null, "Error adding movie to the database!", "Error", JOptionPane.ERROR_MESSAGE);
-                return false;
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Error adding movie to the database!", "Error", JOptionPane.ERROR_MESSAGE);
+            return false;
         }
         return false;
-}
+    }
     
 
     public static void removeMovie(int movieID) {

@@ -48,16 +48,17 @@ public class AdminManager {
         return null;
     }
     
-    public static void addAdmin(String name, String email, String password, boolean status) {
-        String sql = "INSERT INTO admins (Name, Email, Password, Status) VALUES (?, ?, ?, ?)";
+    public static void addAdmin(String name, String lastname, String email, String password, boolean status) {
+        String sql = "INSERT INTO admins (Name, Lastname, Email, Password, Status) VALUES (?, ?, ?, ?, ?)";
         
         try (Connection conn = DatabaseConnection.connect();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             
             pstmt.setString(1, name);
-            pstmt.setString(2, email);
-            pstmt.setString(3, password);
-            pstmt.setBoolean(4, status); // Boolean is handled correctly
+            pstmt.setString(2, lastname);
+            pstmt.setString(3, email);
+            pstmt.setString(4, password);
+            pstmt.setBoolean(5, status);
             
             int rowsInserted = pstmt.executeUpdate();
             

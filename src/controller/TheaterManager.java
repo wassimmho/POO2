@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
 import model.*;
 
 public class TheaterManager {
@@ -13,36 +14,71 @@ public class TheaterManager {
     public ArrayList<Theater> theaters;
 
     public TheaterManager() {
-
         this.theaters = new ArrayList<>();
+        loadTheatersFromDatabase();
+    }
 
-        Theater Room1 = new Theater(0, 200, 40, true);
-        Theater Room2 = new Theater(1, 300, 60, true);
-        Theater Room3 = new Theater(2, 400, 80, true);
-        Theater Room4 = new Theater(3, 200, 40, true);
-        Theater Room5 = new Theater(4, 300, 60, true);
-        Theater Room6 = new Theater(5, 200, 40, true);
-        Theater Room7 = new Theater(6, 200, 40, true);
-
-        AddTheater(Room1);
-        AddTheater(Room2);
-        AddTheater(Room3);
-        AddTheater(Room4);
-        AddTheater(Room5);
-        AddTheater(Room6);
-        AddTheater(Room7);
+    private void loadTheatersFromDatabase() {
+        String sql = "SELECT * FROM theaters";
+        try (Connection conn = DatabaseConnection.connect();
+             PreparedStatement pstmt = conn.prepareStatement(sql);
+             ResultSet rs = pstmt.executeQuery()) {
+            
+            while (rs.next()) {
+                Theater theater = new Theater(
+                    rs.getInt("TheaterID"),
+                    rs.getInt("NormalSeats"),
+                    rs.getInt("VIPSeats"),
+                    true // Default isAvailable value
+                );
+                theaters.add(theater);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Error loading theaters from database: " + e.getMessage(), 
+                "Database Error", JOptionPane.ERROR_MESSAGE);
+        }
     }
 
     public void AddTheater(Theater theater) {
-        theaters.add(theater);
+        String sql = "INSERT INTO theaters (TheaterName, NormalSeats, VIPSeats) VALUES (?, ?, ?)";
+        
+        try (Connection conn = DatabaseConnection.connect();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            
+            pstmt.setString(1, "Room " + (theaters.size() + 1));
+            pstmt.setInt(2, theater.NormalCapacity);
+            pstmt.setInt(3, theater.VipCapacity);
+
+            int rowsInserted = pstmt.executeUpdate();
+            if (rowsInserted > 0) {
+                // Get the generated TheaterID
+                try (ResultSet generatedKeys = pstmt.getGeneratedKeys()) {
+                    if (generatedKeys.next()) {
+                        theater.TheaterId = generatedKeys.getInt(1);
+                    }
+                }
+                theaters.add(theater);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Error adding theater to database: " + e.getMessage(), 
+                "Database Error", JOptionPane.ERROR_MESSAGE);
+        }
     }
 
     public void setTheaterUnAvailable(int theaterId) {
-        theaters.get(theaterId).isAvailable = false;
+        // Only update the in-memory object since Available is not in database
+        if (theaterId >= 0 && theaterId < theaters.size()) {
+            theaters.get(theaterId).isAvailable = false;
+        }
     }
 
     public void setTheaterAvailable(int theaterId) {
-        theaters.get(theaterId).isAvailable = true;
+        // Only update the in-memory object since Available is not in database
+        if (theaterId >= 0 && theaterId < theaters.size()) {
+            theaters.get(theaterId).isAvailable = true;
+        }
     }
 
     public void DisplayTheater(){
@@ -57,6 +93,11 @@ public class TheaterManager {
             System.out.println("Vip Reserved Places: " + theater.VipReservedPlaces);
             System.out.println("---------------------------------");
         }
+    }
+
+    public void reloadTheatersFromDatabase() {
+        theaters.clear();
+        loadTheatersFromDatabase();
     }
 
     public static int numberoftheaters() {

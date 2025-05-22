@@ -5996,37 +5996,33 @@ public class CinemaApp extends JFrame implements ActionListener {
         int totalHeightBroad = broadcastManager.broadcasts.size() * 50; 
         contentPanelBroad.setPreferredSize(new Dimension(650, Math.max(500, totalHeightBroad)));
 
-        ArrayList<JCheckBox> checkBoxesBroadcast = new ArrayList<JCheckBox>();/*
+        ArrayList<JCheckBox> checkBoxesBroadcast = new ArrayList<JCheckBox>();
 
-                try (Connection conn = DatabaseConnection.connect();
-            Statement stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery(
-                "SELECT broadcasts.BroadcastID, movies.Title AS MovieTitle, theaters.TheaterName AS TheaterName, " +
-                "broadcasts.Language, broadcasts.BroadcastDate " +
-                "FROM broadcasts " +
-                "JOIN movies ON broadcasts.MovieID = movies.MovieID " +
-                "JOIN theaters ON broadcasts.TheaterID = theaters.TheaterID")) {
-
-            int rowIndex = 0;
-            while (rs.next()) {
+        ArrayList<Ticket> tickets = bookingManager.getTicketsByUserId(USERID);
+        ArrayList<Broadcast> broadcasts = new ArrayList<Broadcast>();
+        for (Ticket ticket : tickets) {
+            broadcasts.add(ticket.broadcast);
+        }
+        int rowIndex = 0;
+            for(Broadcast broadcast : broadcasts) {
                 JPanel BroadcastRow = new JPanel();
                 BroadcastRow.setLayout(null);
                 BroadcastRow.setBounds(0, rowIndex * 50, 700, 40);
                 BroadcastRow.setBackground(new Color(30, 30, 30));
 
-                JLabel MovieTitleLabel = new JLabel(rs.getString("MovieTitle"));
+                JLabel MovieTitleLabel = new JLabel(broadcast.movie.Title);
                 MovieTitleLabel.setBounds(170, 5, 200, 30);
                 MovieTitleLabel.setForeground(Color.white);
                 MovieTitleLabel.setFont(new Font("Bebas Neue", Font.PLAIN, 13));
                 BroadcastRow.add(MovieTitleLabel);
 
-                JLabel TheaterNameLabel = new JLabel(rs.getString("TheaterName"));
+                JLabel TheaterNameLabel = new JLabel(String.valueOf(broadcast.Room.TheaterId));
                 TheaterNameLabel.setBounds(390, 5, 200, 30);
                 TheaterNameLabel.setForeground(Color.white);
                 TheaterNameLabel.setFont(new Font("Bebas Neue", Font.PLAIN, 13));
                 BroadcastRow.add(TheaterNameLabel);
 
-                JLabel BroadcastDateLabel = new JLabel(rs.getDate("BroadcastDate").toString());
+                JLabel BroadcastDateLabel = new JLabel(broadcast.Date.toString());
                 BroadcastDateLabel.setBounds(610, 5, 200, 30);
                 BroadcastDateLabel.setForeground(Color.white);
                 BroadcastDateLabel.setFont(new Font("Bebas Neue", Font.PLAIN, 13));
@@ -6046,11 +6042,6 @@ public class CinemaApp extends JFrame implements ActionListener {
 
             // Update the preferred size of the content panel based on the number of rows
             contentPanelBroad.setPreferredSize(new Dimension(650, Math.max(500, rowIndex * 50)));
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Error fetching broadcast data from the database!", "Error", JOptionPane.ERROR_MESSAGE);
-        }*/
 
       
         JScrollPane scrollPanelBroadcast = new JScrollPane(contentPanelBroad);
@@ -6139,20 +6130,20 @@ public class CinemaApp extends JFrame implements ActionListener {
                     ((CardLayout) ContentPanel.getLayout()).show(ContentPanel, "buy movie");
                 }
             });
-            ImageIcon BannerIcon = resizedIcon(movieManager.movies.get(i).ImagePath2, 425, 250);
+            ImageIcon BannerIcon = resizedIcon(FavList.get(i).ImagePath2, 425, 250);
             JLabel BannerLabel = new JLabel(BannerIcon);
             BannerLabel.setBounds(0, 0, 425, 250);
 
             MovieBanner.add(BannerLabel);
 
-            JLabel MovieTitle = new JLabel(movieManager.movies.get(i).Title);
+            JLabel MovieTitle = new JLabel(FavList.get(i).Title);
             MovieTitle.setBounds(5, 260, 425, 40);
             MovieTitle.setFont(new Font("Inter", Font.BOLD, 20));
             MovieTitle.setForeground(Color.white);
 
             moviePanel.add(MovieTitle);
 
-            JLabel MovieDuration = new JLabel("<html>" + movieManager.movies.get(i).Description + "</html>");
+            JLabel MovieDuration = new JLabel("<html>" + FavList.get(i).Description + "</html>");
             MovieDuration.setBounds(5, 290, 425, 150);
             MovieDuration.setFont(new Font("Inter", Font.PLAIN, 14));
             MovieDuration.setForeground(Color.white);
@@ -6160,7 +6151,7 @@ public class CinemaApp extends JFrame implements ActionListener {
             moviePanel.add(MovieDuration);
 
             //author 
-            JLabel Author = new JLabel("By " + movieManager.movies.get(i).Director);
+            JLabel Author = new JLabel("By " + FavList.get(i).Director);
             Author.setBounds(5, 450, 425, 30);
             Author.setFont(new Font("Inter", Font.BOLD, 16));
             Author.setForeground(Color.white);
@@ -6434,9 +6425,7 @@ public class CinemaApp extends JFrame implements ActionListener {
                     int film = i;
                     Movie movie = movieManager.movies.get(i);
                     // If search is empty or movie title contains search text
-                    if (searchText.isEmpty() || movie.Title.toLowerCase().contains(searchText.toLowerCase()) 
-                        || movie.Director.toLowerCase().contains(searchText.toLowerCase()) 
-                        || movie.Cast.toLowerCase().contains(searchText.toLowerCase())) {
+                    if (searchText.isEmpty() || movie.Title.toLowerCase().contains(searchText.toLowerCase())) {
 
                         RoundedPanel moviePanel = new RoundedPanel(35);
                         moviePanel.setLayout(null);
@@ -6506,14 +6495,10 @@ public class CinemaApp extends JFrame implements ActionListener {
                     }
                 }
                 
+
                 int rows = (int) Math.ceil(matchingMovies / 2.0);
                 AllMovieList.setLayout(new GridLayout(rows, 2, 40, 20));
-
-                // Update the size of AllMovieList panel based on content
-                int width = 915;
-                if (matchingMovies == 1) {
-                    width = 450;
-                }
+                int width = (matchingMovies == 1) ? 450 : 915;
                 AllMovieList.setBounds(25, 70, width, rows * 500 + (rows - 1) * 20);
 
                 // Repaint and revalidate the panels

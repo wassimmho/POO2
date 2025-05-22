@@ -60,7 +60,7 @@ public class ClientManager {
             return false;
         }
 
-        String sql = "INSERT INTO users (username, LastName, Name, Email, Password, Age, Balance) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO users (username, LastName, Name, Email, Password, Age, Balance, PhoneNumber) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
         try (Connection conn = DatabaseConnection.connect();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -72,6 +72,7 @@ public class ClientManager {
             pstmt.setString(5, password);
             pstmt.setInt(6, age);
             pstmt.setInt(7, balance);
+            pstmt.setString(8, "None"); // Set default value for PhoneNumber
 
             int rowsInserted = pstmt.executeUpdate();
 

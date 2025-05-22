@@ -6,6 +6,8 @@ public class Ticket {
     public Broadcast broadcast;
 
     public Client Buyer;
+    public int TicketID;
+    public int Price;
 
     public enum TicketType{
         VIP, Normal
