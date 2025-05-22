@@ -1,18 +1,45 @@
-## Getting Started
+# Cinimatic - Movie Booking Management System
 
-Welcome to the VS Code Java world. Here is a guideline to help you get started to write Java code in Visual Studio Code.
+Cinimatic is a comprehensive movie theater booking management system designed to streamline theater operations, movie scheduling, and ticket sales. It provides both admin and customer interfaces for complete theater management.
 
-## Folder Structure
+## Features
 
-The workspace contains two folders by default, where:
+- **User Management**: Customer registration, authentication, and profiles
+- **Movie Management**: Add/edit/remove movies with details
+- **Theater Management**: Manage screening rooms and seating
+- **Booking System**: Seat selection and ticket purchasing
+- **Admin Dashboard**: Comprehensive analytics and controls
 
-- `src`: the folder to maintain sources
-- `lib`: the folder to maintain dependencies
+## Technologies Used
 
-Meanwhile, the compiled output files will be generated in the `bin` folder by default.
+<div align="center">
+  <img src="readmeimg/java.png" alt="Java" width="80"/>
+  <img src="readmeimg/mysql.png" alt="MySQL" width="80"/>
+  <img src="readmeimg/figma.png" alt="Figma" width="80"/>
+</div>
 
-> If you want to customize the folder structure, open `.vscode/settings.json` and update the related settings there.
+### Backend
+- Java 11+
+- JDBC for database connectivity
+- MySQL Database
 
-## Dependency Management
+### Frontend
+- Java Swing for GUI
+- Custom UI components
 
-The `JAVA PROJECTS` view allows you to manage your dependencies. More details can be found [here](https://github.com/microsoft/vscode-java-dependency#manage-dependencies).
+### Tools
+- Git (version control)
+- Figma (UI/UX design)
+
+## Installation
+
+1. **Prerequisites**:
+   - Java 
+   - MySQL Server 5.7+
+
+## Team members
+Mehdi Benazza  
+Mouzali Rayan  
+Mouhouche Wassim  
+Stambouli
+Djedi Fahd
