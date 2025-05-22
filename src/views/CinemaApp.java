@@ -47,6 +47,7 @@ public class CinemaApp extends JFrame implements ActionListener {
     public static Movie.MovieAgeRating ChosenAge;
     public static Broadcast CurrentBroadcast;
     public static Client currentClient;
+    public JTextField AdressInput;
 
     // log in elements : ------------------------------------------------
     public JPanel WelcomePanel;
@@ -185,7 +186,7 @@ public class CinemaApp extends JFrame implements ActionListener {
 
         // add the main panel to the JFrame ----------------------------------
         setContentPane(MainPanel);
-        MainCardLayout.show(MainPanel, "Client");
+        MainCardLayout.show(MainPanel, "Welcome");
 
         // Revalidate and repaint to ensure the SettingsPanel is displayed
         this.revalidate();
@@ -308,7 +309,7 @@ public class CinemaApp extends JFrame implements ActionListener {
         WelcomeElements.add(LogIn);
 
         JButton SignIn = new JButton("Sign in");
-        SignIn.setBounds(790, 430, 130, 45);
+        SignIn.setBounds(790, 430, 130, 40);
         SignIn.setBackground(Color.RED);
         SignIn.setForeground(Color.white);
         SignIn.setFont(new Font("Inter", Font.BOLD, 15));
@@ -331,9 +332,9 @@ public class CinemaApp extends JFrame implements ActionListener {
 
         WelcomeElements.add(SignIn);
 
-        JTextField AdressInput = new JTextField();
-        AdressInput.setBounds(285, 430, 500, 45);
-        AdressInput.setFont(new Font("Arial", Font.BOLD, 20));
+        AdressInput = new JTextField("Enter your email address");
+        AdressInput.setBounds(285, 430, 500, 40);
+        AdressInput.setFont(new Font("Arial", Font.PLAIN, 18));
         AdressInput.setBackground(new java.awt.Color(0xBBBBBB));
         AdressInput.setForeground(Color.BLACK);
         AdressInput.setCaretColor(Color.WHITE);
@@ -840,7 +841,7 @@ public class CinemaApp extends JFrame implements ActionListener {
             emailLabel.setFont(new Font("Roboto", Font.BOLD, 15));
             cardPanel.add(emailLabel);
     
-            JTextField emailField = new JTextField();
+            JTextField emailField = new JTextField(AdressInput.getText());
             emailField.setBounds(435, 317, 390, 39);
             emailField.setBorder(BorderFactory.createCompoundBorder(
                 BorderFactory.createLineBorder(Color.white, 1),
@@ -851,20 +852,7 @@ public class CinemaApp extends JFrame implements ActionListener {
             emailField.setCaretColor(Color.white);
             emailField.setText("Enter your email");
             emailField.setForeground(Color.GRAY);
-            emailField.addFocusListener(new java.awt.event.FocusAdapter() {
-                public void focusGained(java.awt.event.FocusEvent evt) {
-                    if (emailField.getText().equals("Enter your email")) {
-                        emailField.setText("");
-                        emailField.setForeground(Color.WHITE);
-                    }
-                }
-                public void focusLost(java.awt.event.FocusEvent evt) {
-                    if (emailField.getText().isEmpty()) {
-                        emailField.setText("Enter your email");
-                        emailField.setForeground(Color.GRAY);
-                    }
-                }
-            });
+            TextfieldBehave(emailField, AdressInput.getText());
             cardPanel.add(emailField);
     
     
